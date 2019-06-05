@@ -12,9 +12,18 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        controlsCreate()
+        
     }
 
-
+    func controlsCreate() {
+        let headerTitle = UILabel()
+        headerTitle.text = "GIT"
+        headerTitle.textAlignment = .right
+        headerTitle.textColor = UIColor.white
+        headerTitle.backgroundColor = UIColor.orange
+        self.view.addSubview(headerTitle)
+    }
+    
 }
 
