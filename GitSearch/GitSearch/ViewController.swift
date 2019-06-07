@@ -8,30 +8,30 @@
 
 import UIKit
 
-struct SearchInfo {
-    let total_count: String?
-    let incomplete_results: String?
-    let items: [item]?
+struct SearchInfo: Decodable {
+    let total_count: Int?
+    let incomplete_results: Bool?
+    let items: [Item]?
 }
 
-struct item {
-    let id: String?
+struct Item: Decodable {
+    let id: Int?
     let name: String?
-    let private: String?
-    let html_url: Stirng?
+    let html_url: String?
     let description: String?
     let created_at: String?
     let updated_at: String?
     let language: String?
-    let score: String?
-    let owner: [owner]?
+    let score: Double?
+    let owner: Owners?
 }
 
-struct owner {
+struct Owners: Decodable {
     let login: String?
-    let id: String?
+    let id: Int?
     let html_url: String?
 }
+
 class ViewController: UIViewController {
 
     fileprivate func oldVersionOfCode() {
@@ -61,24 +61,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         //oldVersionOfCode()
+        let outLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         
-        let outLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
-        self.view.addSubview(outLabel)
-        
+        outLabel.textColor = UIColor.black
+        outLabel.font = UIFont.boldSystemFont(ofSize: 34)
+
         let urlQuery = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc"
         guard let urlGit = URL(string: urlQuery) else { return }
-        
+ 
         URLSession.shared.dataTask(with: urlGit) { data, response, error in
-            if let response = response { outLabel.text = outLabel.text! + "/(response)" }
+            //if let response = response { print(response) }
             guard let data = data else { return }
-            
             do {
-                let gitRepositories = try JSONDecoder().decode(SearchInfo.self, from: data);
-                outLabel.text = outLabel.text! + " /(SearchInfo.total_count)"
-            } catch {
-                outLabel.text = outLabel.text! + "error"
+                let gitRepositories = try JSONDecoder().decode(SearchInfo.self, from: data)
+                //var textForLabel = gitRepositories.total_count!
+                outLabel.text = String(gitRepositories.total_count!)
+                //print(gitRepositories.total_count!)
+           } catch let errorLbl {
+                print(errorLbl)
             }
         }.resume()
+        outLabel.text = "test"
+        self.view.addSubview(outLabel)
+        //outLabel.sizeToFit()
+        print("done")
 
     }
 
