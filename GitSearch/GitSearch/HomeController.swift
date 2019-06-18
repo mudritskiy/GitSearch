@@ -32,7 +32,7 @@ struct Owners: Decodable {
     let html_url: String?
 }
 
-class HomeController: UICollectionViewController {
+class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     fileprivate func oldVersionOfCode() {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
@@ -99,10 +99,13 @@ class HomeController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
-        
+        cell.backgroundColor = UIColor.red
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 100)
+    }
     func controlsCreate() {
     }
     
