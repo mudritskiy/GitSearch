@@ -60,9 +60,8 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.backgroundColor = UIColor.gray
-        
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        collectionView?.backgroundColor = UIColor.white
+        collectionView?.register(subClass.self, forCellWithReuseIdentifier: "cellId")
         
         ///////////////////////////////////
         //oldVersionOfCode()
@@ -87,9 +86,9 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
             }
         }.resume()
         outLabel.text = "test"
-        self.view.addSubview(outLabel)
+        //self.view.addSubview(outLabel)
         //outLabel.sizeToFit()
-        print("done")
+        //print("done")
 
     }
 
@@ -99,15 +98,37 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
-        cell.backgroundColor = UIColor.red
+        cell.titleLabel
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 100)
     }
-    func controlsCreate() {
-    }
-    
+
 }
 
+class subClass: UICollectionViewCell {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+      
+        let titleLabel: UILabel = {
+            let label = UILabel()
+            label.text = "Repository title"
+            label.font = UIFont(name: "roboto-bold", size: 32.0)
+            label.textColor = UIColor.blue
+            label.sizeToFit()
+            return label
+        }()
+        
+        addSubview(titleLabel)
+        //backgroundColor = UIColor.red
+    
+    
+    
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
