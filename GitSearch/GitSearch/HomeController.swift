@@ -9,8 +9,8 @@
 import UIKit
 
 struct SearchInfo: Decodable {
-    let total_count: Int?
-    let incomplete_results: Bool?
+    let total_count: Int
+    let incomplete_results: Bool
     let items: [Item]?
 }
 
@@ -57,48 +57,58 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.view.addSubview(labelSearch)
     }
     
+    var gitRepositories: SearchInfo?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView?.backgroundColor = UIColor.white
-        collectionView?.register(subClass.self, forCellWithReuseIdentifier: "cellId")
+        collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
         
         ///////////////////////////////////
         //oldVersionOfCode()
-        let outLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        
-        outLabel.textColor = UIColor.black
-        outLabel.font = UIFont.boldSystemFont(ofSize: 34)
-
+ 
         let urlQuery = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc"
         guard let urlGit = URL(string: urlQuery) else { return }
  
         URLSession.shared.dataTask(with: urlGit) { data, response, error in
-            //if let response = response { print(response) }
+            if let response = response as? HTTPURLResponse {
+                if response.statusCode != 200 { print(response) }
+            }
             guard let data = data else { return }
             do {
                 let gitRepositories = try JSONDecoder().decode(SearchInfo.self, from: data)
                 //var textForLabel = gitRepositories.total_count!
-                outLabel.text = String(gitRepositories.total_count!)
+                print("1: \(gitRepositories.total_count)")
+                //print(gitRepositories.items?[0].name!!)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                //self.collectionView.reloadData()
                 //print(gitRepositories.total_count!)
            } catch let errorLbl {
                 print(errorLbl)
             }
         }.resume()
-        outLabel.text = "test"
-        //self.view.addSubview(outLabel)
-        //outLabel.sizeToFit()
-        //print("done")
-
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        guard let count = gitRepositories?.items?.count esle { return 0 }
+        return count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
-        cell.titleLabel
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CellClass
+        print("2: \(gitRepositories?.total_count)")
+       if let gitItems = gitRepositories?.items {
+            print("2: \(gitItems.count)")
+//            let item = gitItems[indexPath.row]
+//            print(item.name!)
+//            cell.title.text = item.name
+//            return cell
+            
+        }
+        //print(cell.title.text)
         return cell
     }
     
@@ -108,24 +118,20 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
 }
 
-class subClass: UICollectionViewCell {
+class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
+
+    var title: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "roboto-bold", size: 16.0)
+        label.textColor = UIColor.blue
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-      
-        let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = "Repository title"
-            label.font = UIFont(name: "roboto-bold", size: 32.0)
-            label.textColor = UIColor.blue
-            label.sizeToFit()
-            return label
-        }()
         
-        addSubview(titleLabel)
-        //backgroundColor = UIColor.red
-    
-    
-    
+        addSubview(title)
+        backgroundColor = UIColor.red
     }
     
     required init?(coder aDecoder: NSCoder) {
