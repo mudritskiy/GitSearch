@@ -8,30 +8,6 @@
 
 import UIKit
 
-struct SearchInfo: Decodable {
-    let total_count: Int
-    let incomplete_results: Bool
-    let items: [Item]?
-}
-
-struct Item: Decodable {
-    let id: Int?
-    let name: String?
-    let html_url: String?
-    let description: String?
-    let created_at: String?
-    let updated_at: String?
-    let language: String?
-    let score: Double?
-    let owner: Owners?
-}
-
-struct Owners: Decodable {
-    let login: String?
-    let id: Int?
-    let html_url: String?
-}
-
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     fileprivate func oldVersionOfCode() {
@@ -57,7 +33,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.view.addSubview(labelSearch)
     }
     
-    var gitRepositories: SearchInfo?
+    var gitRep: SearchInfo?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,9 +41,6 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
         
-        ///////////////////////////////////
-        //oldVersionOfCode()
- 
         let urlQuery = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc"
         guard let urlGit = URL(string: urlQuery) else { return }
  
@@ -77,15 +50,10 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
             }
             guard let data = data else { return }
             do {
-                let gitRepositories = try JSONDecoder().decode(SearchInfo.self, from: data)
-                //var textForLabel = gitRepositories.total_count!
-                print("1: \(gitRepositories.total_count)")
-                //print(gitRepositories.items?[0].name!!)
+                self.gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self.collectionView?.reloadData()
                 }
-                //self.collectionView.reloadData()
-                //print(gitRepositories.total_count!)
            } catch let errorLbl {
                 print(errorLbl)
             }
@@ -93,22 +61,18 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let count = gitRepositories?.items?.count esle { return 0 }
+        guard let count = gitRep?.items?.count else { return 0 }
         return count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CellClass
-        print("2: \(gitRepositories?.total_count)")
-       if let gitItems = gitRepositories?.items {
-            print("2: \(gitItems.count)")
-//            let item = gitItems[indexPath.row]
-//            print(item.name!)
-//            cell.title.text = item.name
-//            return cell
-            
+        if let gitInfo = self.gitRep {
+            if let gitItems = gitInfo.items {
+                cell.title.text = gitItems[indexPath.row].name!
+                cell.title.sizeToFit()
+            }
         }
-        //print(cell.title.text)
         return cell
     }
     
@@ -120,21 +84,46 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
 class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
 
-    var title: UILabel = {
+    let title: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "roboto-bold", size: 16.0)
-        label.textColor = UIColor.blue
+        label.font = UIFont(name: "arial", size: 16.0)
+        label.textColor = UIColor.black
         return label
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         addSubview(title)
-        backgroundColor = UIColor.red
+//        self.title.sizeThatFits(CGSize(width: frame.width, height: 100.0))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+class SearchInfo: Decodable {
+    let total_count: Int
+    let incomplete_results: Bool
+    let items: Array<Item>?
+    
+    struct Item: Decodable {
+        let id: Int?
+        let name: String?
+        let html_url: String?
+        let description: String?
+        let created_at: String?
+        let updated_at: String?
+        let language: String?
+        let score: Double?
+        let owner: Owners?
+    }
+    
+    struct Owners: Decodable {
+        let login: String?
+        let id: Int?
+        let html_url: String?
+    }
+    
+}
+
