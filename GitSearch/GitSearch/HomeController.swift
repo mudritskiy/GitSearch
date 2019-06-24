@@ -35,6 +35,25 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var gitRep: SearchInfo?
 
+    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
+        
+        guard let urlGit = URL(string: urlString) else { return }
+        
+        URLSession.shared.dataTask(with: urlGit) { data, response, error in
+            if error != nil { return }
+            if let response = response as? HTTPURLResponse {
+                if response.statusCode != 200 { print(response) }
+            }
+            guard let data = data else { return }
+            do {
+                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
+                completion(gitRep)
+            } catch let errorLbl {
+                print(errorLbl)
+            }
+            }.resume()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,23 +61,13 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
         
         let urlQuery = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc"
-        guard let urlGit = URL(string: urlQuery) else { return }
- 
-        URLSession.shared.dataTask(with: urlGit) { data, response, error in
-            if let response = response as? HTTPURLResponse {
-                if response.statusCode != 200 { print(response) }
+        fetchRepositoriesHeader(from: urlQuery) { gitRep in
+            self.gitRep = gitRep
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
             }
-            guard let data = data else { return }
-            do {
-                self.gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
-                DispatchQueue.main.async {
-                    self.collectionView?.reloadData()
-                }
-           } catch let errorLbl {
-                print(errorLbl)
-            }
-        }.resume()
-    }
+        }
+   }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let count = gitRep?.items?.count else { return 0 }
@@ -79,6 +88,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 100)
     }
+    
 
 }
 
