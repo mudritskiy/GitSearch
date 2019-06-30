@@ -79,14 +79,15 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         if let gitInfo = self.gitRep {
             if let gitItems = gitInfo.items {
                 cell.title.text = gitItems[indexPath.row].name!
-                cell.title.sizeToFit()
+                //cell.title.sizeToFit()
             }
         }
+        //NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-15-[v0]-15-|", options: [], metrics: nil, views: ["v0": cell]))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 100)
+        return CGSize(width: view.frame.width-60, height: 100)
     }
     
 
@@ -94,17 +95,58 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
 class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
 
-    let title: UILabel = {
-        let label = UILabel()
+    override var bounds: CGRect {
+        didSet {
+            setupShadow()
+        }
+    }
+    
+    private func setupShadow() {
+        self.layer.cornerRadius = 8
+        self.layer.shadowOffset = CGSize(width: 0, height: 3)
+        self.layer.shadowRadius = 3
+        self.layer.shadowOpacity = 0.3
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 8, height: 8)).cgPath
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = UIScreen.main.scale
+    }
+
+    let title: UITextView = {
+        let label = UITextView()
         label.font = UIFont(name: "arial", size: 16.0)
         label.textColor = UIColor.black
+        label.backgroundColor = UIColor.gray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    let subTitle: UITextView = {
+        let label = UITextView()
+        label.text = "test"
+        label.font = UIFont(name: "arial", size: 16.0)
+        label.textColor = UIColor.black
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(title)
+        addSubview(subTitle)
 //        self.title.sizeThatFits(CGSize(width: frame.width, height: 100.0))
+        
+        
+        let viewDictionary = ["v0": title, "v1": subTitle]
+        var verticalVisualFormat = "V:"
+        for element in viewDictionary.keys.sorted(by: >) {
+            NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-30-[\(element)]-30-|", options: [], metrics: nil, views: viewDictionary))
+            verticalVisualFormat += "[\(element)(50)]-"
+        }
+        verticalVisualFormat.remove(at: verticalVisualFormat.index(before: verticalVisualFormat.endIndex))
+        print(verticalVisualFormat)
+        
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: verticalVisualFormat, options: [], metrics: nil, views: viewDictionary))
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
