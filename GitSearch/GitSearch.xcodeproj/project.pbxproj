@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F121EB322CAB5AC001E24CD /* CellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F121EB222CAB5AC001E24CD /* CellController.swift */; };
 		6F9C6B5E22A70BBC001D9A83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9C6B5D22A70BBC001D9A83 /* AppDelegate.swift */; };
 		6F9C6B6022A70BBC001D9A83 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9C6B5F22A70BBC001D9A83 /* HomeController.swift */; };
 		6F9C6B6322A70BBC001D9A83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F9C6B6122A70BBC001D9A83 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F121EB222CAB5AC001E24CD /* CellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellController.swift; sourceTree = "<group>"; };
 		6F9C6B5A22A70BBC001D9A83 /* GitSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F9C6B5D22A70BBC001D9A83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6F9C6B5F22A70BBC001D9A83 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				6F9C6B6122A70BBC001D9A83 /* Main.storyboard */,
 				6F9C6B6422A70BC1001D9A83 /* Assets.xcassets */,
 				6F9C6B6622A70BC1001D9A83 /* LaunchScreen.storyboard */,
+				6F121EB222CAB5AC001E24CD /* CellController.swift */,
 				6F9C6B6922A70BC1001D9A83 /* Info.plist */,
 			);
 			path = GitSearch;
@@ -135,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F121EB322CAB5AC001E24CD /* CellController.swift in Sources */,
 				6F9C6B6022A70BBC001D9A83 /* HomeController.swift in Sources */,
 				6F9C6B5E22A70BBC001D9A83 /* AppDelegate.swift in Sources */,
 			);

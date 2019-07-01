@@ -90,7 +90,10 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return CGSize(width: view.frame.width-60, height: 100)
     }
     
-
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newVC = CellController()
+        navigationController?.pushViewController(newVC, animated: true)
+    }
 }
 
 class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
@@ -138,12 +141,11 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
         
         let viewDictionary = ["v0": title, "v1": subTitle]
         var verticalVisualFormat = "V:"
-        for element in viewDictionary.keys.sorted(by: >) {
+        for element in viewDictionary.keys.sorted(by: <) {
             NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-30-[\(element)]-30-|", options: [], metrics: nil, views: viewDictionary))
             verticalVisualFormat += "[\(element)(50)]-"
         }
         verticalVisualFormat.remove(at: verticalVisualFormat.index(before: verticalVisualFormat.endIndex))
-        print(verticalVisualFormat)
         
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: verticalVisualFormat, options: [], metrics: nil, views: viewDictionary))
         
