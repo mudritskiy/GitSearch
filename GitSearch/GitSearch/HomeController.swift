@@ -76,13 +76,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CellClass
-        if let gitInfo = self.gitRep {
-            if let gitItems = gitInfo.items {
-                cell.title.text = gitItems[indexPath.row].name!
-                //cell.title.sizeToFit()
-            }
-        }
-        //NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-15-[v0]-15-|", options: [], metrics: nil, views: ["v0": cell]))
+        cellProcessing(index: indexPath.row, cellInstance: cell)
         return cell
     }
     
@@ -91,8 +85,23 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newVC = CellController()
-        navigationController?.pushViewController(newVC, animated: true)
+        cellProcessing(index: indexPath.row)
+    }
+    
+    func cellProcessing(index: Int, cellInstance: CellClass? = nil) {
+        if let gitInfo = self.gitRep {
+            if let gitItems = gitInfo.items {
+                if let cell = cellInstance {
+                    // dwar information
+                    cell.title.text = gitItems[index].name!
+                } else {
+                    // open cell
+                    let newVC = CellController(cellInfo: gitItems[index])
+                    navigationController?.pushViewController(newVC, animated: true)
+                }
+            }
+        }
+
     }
 }
 
@@ -114,8 +123,8 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
         self.layer.rasterizationScale = UIScreen.main.scale
     }
 
-    let title: UITextView = {
-        let label = UITextView()
+    let title: UILabel = {
+        let label = UILabel()
         label.font = UIFont(name: "arial", size: 16.0)
         label.textColor = UIColor.black
         label.backgroundColor = UIColor.gray
@@ -123,8 +132,8 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
         return label
     }()
 
-    let subTitle: UITextView = {
-        let label = UITextView()
+    let subTitle: UILabel = {
+        let label = UILabel()
         label.text = "test"
         label.font = UIFont(name: "arial", size: 16.0)
         label.textColor = UIColor.black
@@ -136,8 +145,6 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
         super.init(frame: frame)
         addSubview(title)
         addSubview(subTitle)
-//        self.title.sizeThatFits(CGSize(width: frame.width, height: 100.0))
-        
         
         let viewDictionary = ["v0": title, "v1": subTitle]
         var verticalVisualFormat = "V:"
@@ -159,25 +166,25 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
 class SearchInfo: Decodable {
     let total_count: Int
     let incomplete_results: Bool
-    let items: Array<Item>?
+    let items: Array<SearchItem>?
     
-    struct Item: Decodable {
-        let id: Int?
-        let name: String?
-        let html_url: String?
-        let description: String?
-        let created_at: String?
-        let updated_at: String?
-        let language: String?
-        let score: Double?
-        let owner: Owners?
-    }
+}
+
+class SearchItem: Decodable {
+    let id: Int?
+    let name: String?
+    let html_url: String?
+    let description: String?
+    let created_at: String?
+    let updated_at: String?
+    let language: String?
+    let score: Double?
+    let owner: Owners?
     
     struct Owners: Decodable {
         let login: String?
         let id: Int?
         let html_url: String?
     }
-    
 }
 
