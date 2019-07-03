@@ -27,10 +27,6 @@ class CellDetailTableView: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! InfoCell
         let key = Array(repInfo.keys)[indexPath.row]
         cell.title.text = key + ": " + repInfo[key]!
-//
-//        for key in repInfo.keys {
-//            cell.title.text = repInfo[key]
-//        }
         return cell
     }
 }
@@ -43,7 +39,6 @@ class InfoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         addSubview(title)
-        //title.text = "TEST"
         title.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         
     }

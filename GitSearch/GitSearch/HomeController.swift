@@ -96,18 +96,15 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     cell.title.text = gitItems[index].name!
                 } else {
                     // open cell
-                    //let newVC = CellController(cellInfo: gitItems[index])
                     let newVC = CellDetailTableView() //CellDetail()
                     let mirror = Mirror(reflecting: gitItems[index])
                     for child in mirror.children  {
                         if child.label! != "owner" {
                             if let value = child.value as? String {
-                            //print("key: \(child.label!), value: \(value)")
                             newVC.repInfo[child.label!] = value
-                            }}
+                            }
+                        }
                     }
-//                    newVC.repInfo["name"] = gitItems[index].name!
-                    //CellDetail.cellInfo
                     navigationController?.pushViewController(newVC, animated: true)
                 }
             }
