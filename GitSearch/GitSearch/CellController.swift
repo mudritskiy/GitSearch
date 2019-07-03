@@ -52,12 +52,12 @@ class CellController: UIViewController {
 
         self.view.backgroundColor = UIColor.lightGray
         self.view.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-           ])
-        NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v0]-|", options: [], metrics: nil, views: ["v0": label])
-        NSLayoutConstraint.constraints(withVisualFormat: "V:|-[v0]-|", options: [], metrics: nil, views: ["v0": label])
+//        NSLayoutConstraint.activate([
+//            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+//           ])
+        NSLayoutConstraint.constraints(withVisualFormat: "H:|10-[v0]-10|", options: [], metrics: nil, views: ["v0": label])
+        NSLayoutConstraint.constraints(withVisualFormat: "V:|10-[v0]-10|", options: [], metrics: nil, views: ["v0": label])
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -96,7 +96,18 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     cell.title.text = gitItems[index].name!
                 } else {
                     // open cell
-                    let newVC = CellController(cellInfo: gitItems[index])
+                    //let newVC = CellController(cellInfo: gitItems[index])
+                    let newVC = CellDetailTableView() //CellDetail()
+                    let mirror = Mirror(reflecting: gitItems[index])
+                    for child in mirror.children  {
+                        if child.label! != "owner" {
+                            if let value = child.value as? String {
+                            //print("key: \(child.label!), value: \(value)")
+                            newVC.repInfo[child.label!] = value
+                            }}
+                    }
+//                    newVC.repInfo["name"] = gitItems[index].name!
+                    //CellDetail.cellInfo
                     navigationController?.pushViewController(newVC, animated: true)
                 }
             }
@@ -147,13 +158,13 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
         addSubview(subTitle)
         
         let viewDictionary = ["v0": title, "v1": subTitle]
-        var verticalVisualFormat = "V:"
+        var verticalVisualFormat = "V:|-"
         for element in viewDictionary.keys.sorted(by: <) {
             NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-30-[\(element)]-30-|", options: [], metrics: nil, views: viewDictionary))
             verticalVisualFormat += "[\(element)(50)]-"
         }
-        verticalVisualFormat.remove(at: verticalVisualFormat.index(before: verticalVisualFormat.endIndex))
-        
+        //verticalVisualFormat.remove(at: verticalVisualFormat.index(before: verticalVisualFormat.endIndex))
+        verticalVisualFormat += "|"
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: verticalVisualFormat, options: [], metrics: nil, views: viewDictionary))
         
     }
