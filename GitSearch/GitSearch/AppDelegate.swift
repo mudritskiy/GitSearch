@@ -17,11 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        let layout = UICollectionViewFlowLayout()
-        //let colMV = HomeController(collectionViewLayout: layout)
+//        let layout = UICollectionViewFlowLayout()
+//        let controllerInstance = HomeController(collectionViewLayout: layout)
+        let controllerInstance = SearchController()
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.rootViewController = UINavigationController(rootViewController: HomeController(collectionViewLayout: layout))
+        window?.rootViewController = UINavigationController(rootViewController: controllerInstance)
         
         return true
     }
