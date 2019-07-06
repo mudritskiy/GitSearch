@@ -46,12 +46,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
             if child.label! != "owner" {
                 if let value = child.value as? String {
                     result[child.label!] = value
-                } else {
-                    result[child.label!] = "test" //(value(forKey: "login") as! String)
-                }
+                } else {result[child.label!] = ""}
+            } else {
+                result[child.label!] = (child.value as! Owners).login
             }
         }
-    return result
+        return result
     }
     
     func cellProcessing(index: Int, cellInstance: CellClass? = nil) {
@@ -62,35 +62,21 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     // dwar information
                     
                     cell.title.text = gitItems[index].name!
-//                    var value: String
-//                    let itemsToShow = ["description", "language", "owner", "created_at"]
                     let item = strucToArray(resource: gitItems[index])
-//                    print(item)
-//                    for itemToShow in itemsToShow {
-//                        if itemToShow == "owner" {
-//                            value = mirror.children[itemToShow].login
-//                        } else {
-//
-//                        }
-                        cell.subTitle.text = """
-                        description: \(item["description"])
-                        language: \(item["language"])
-                        owner: \(item["owner"])
-                        created_at: \(item["created_at"])
-                        """
-//                    }
-                    //cell.subTitle.text =
-                    
-                    
-
+                    cell.subTitle.text = """
+                    owner: \(item["owner"]!)
+                    language: \(item["language"]!)
+                    created_at: \(item["created_at"]!)
+                    description: \(item["description"]!)
+                    """
                 } else {
                     // open cell
                     let newVC = CellDetailTableView() //CellDetail()
-//                    let mirror = Mirror(reflecting: gitItems[index])
+                    //let mirror = Mirror(reflecting: gitItems[index])
                     for child in mirror.children  {
                         if child.label! != "owner" {
                             if let value = child.value as? String {
-                            newVC.repInfo[child.label!] = value
+                                newVC.repInfo[child.label!] = value
                             }
                         }
                     }
@@ -98,7 +84,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 }
             }
         }
-
+        
     }
 }
 
@@ -178,10 +164,10 @@ class SearchItem: Decodable {
     let score: Double?
     let owner: Owners?
     
-    struct Owners: Decodable {
-        let login: String?
-        let id: Int?
-        let html_url: String?
-    }
 }
 
+struct Owners: Decodable {
+    let login: String?
+    let id: Int?
+    let html_url: String?
+}
