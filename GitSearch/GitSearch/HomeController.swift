@@ -12,38 +12,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
     var gitRep: SearchInfo?
 
-    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
-        
-        guard let urlGit = URL(string: urlString) else { return }
-        
-        URLSession.shared.dataTask(with: urlGit) { data, response, error in
-            if error != nil { return }
-            if let response = response as? HTTPURLResponse {
-                if response.statusCode != 200 { print(response) }
-            }
-            guard let data = data else { return }
-            do {
-                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
-                completion(gitRep)
-            } catch let errorLbl {
-                print(errorLbl)
-            }
-            }.resume()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
         
-        let urlQuery = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc"
-        fetchRepositoriesHeader(from: urlQuery) { gitRep in
-            self.gitRep = gitRep
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-            }
-        }
    }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -65,16 +39,54 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         cellProcessing(index: indexPath.row)
     }
     
+    func strucToArray(resource: SearchItem) -> Dictionary<String, String> {
+        var result = [String: String]()
+        let mirror = Mirror(reflecting: resource)
+        for child in mirror.children  {
+            if child.label! != "owner" {
+                if let value = child.value as? String {
+                    result[child.label!] = value
+                } else {
+                    result[child.label!] = "test" //(value(forKey: "login") as! String)
+                }
+            }
+        }
+    return result
+    }
+    
     func cellProcessing(index: Int, cellInstance: CellClass? = nil) {
         if let gitInfo = self.gitRep {
             if let gitItems = gitInfo.items {
+                let mirror = Mirror(reflecting: gitItems[index])
                 if let cell = cellInstance {
                     // dwar information
+                    
                     cell.title.text = gitItems[index].name!
+//                    var value: String
+//                    let itemsToShow = ["description", "language", "owner", "created_at"]
+                    let item = strucToArray(resource: gitItems[index])
+//                    print(item)
+//                    for itemToShow in itemsToShow {
+//                        if itemToShow == "owner" {
+//                            value = mirror.children[itemToShow].login
+//                        } else {
+//
+//                        }
+                        cell.subTitle.text = """
+                        description: \(item["description"])
+                        language: \(item["language"])
+                        owner: \(item["owner"])
+                        created_at: \(item["created_at"])
+                        """
+//                    }
+                    //cell.subTitle.text =
+                    
+                    
+
                 } else {
                     // open cell
                     let newVC = CellDetailTableView() //CellDetail()
-                    let mirror = Mirror(reflecting: gitItems[index])
+//                    let mirror = Mirror(reflecting: gitItems[index])
                     for child in mirror.children  {
                         if child.label! != "owner" {
                             if let value = child.value as? String {

@@ -10,11 +10,7 @@ import UIKit
 
 class SearchController: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view?.backgroundColor = UIColor.white
-        
+    fileprivate func setupSubviews() {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
         let borderTop = 100
         let viewWidth = Int(self.view.frame.size.width)
@@ -46,11 +42,46 @@ class SearchController: UIViewController {
         actionButton.setTitle("Search", for: .normal)
         actionButton.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
         view.addSubview(actionButton)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view?.backgroundColor = UIColor.white
+        
+        setupSubviews()
 
     }
     
+    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
+        
+        guard let urlGit = URL(string: urlString) else { return }
+        
+        let task = URLSession.shared.dataTask(with: urlGit) { data, response, error in
+            if error != nil { return }
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { return }
+            guard let mime = httpResponse.mimeType, mime == "application/json" else { return }
+            guard let data = data else { return }
+            do {
+                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
+                completion(gitRep)
+            } catch let errorLbl {
+                print(errorLbl)
+            }
+        }
+        task.resume()
+    }
+    
     @objc func buttonAction(_ sender: UIButton!) {
-        let newVC = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
-        navigationController?.pushViewController(newVC, animated: true)
+        
+        let urlQuery = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc"
+        fetchRepositoriesHeader(from: urlQuery) { gitRep in
+          DispatchQueue.main.async {
+            let newVC = HomeController(collectionViewLayout: UICollectionViewFlowLayout() )
+            newVC.gitRep = gitRep
+            self.navigationController?.pushViewController(newVC, animated: true)
+            }
+        }
+
     }
 }
