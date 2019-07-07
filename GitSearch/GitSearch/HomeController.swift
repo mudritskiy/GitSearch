@@ -11,6 +11,7 @@ import UIKit
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     var gitRep: SearchInfo?
+    var props = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,17 +43,39 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func strucToArray(resource: SearchItem) -> Dictionary<String, String> {
         var result = [String: String]()
         var childValue: String?
+        let propsFilled = props.count != 0
+        
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd,yyyy"
+        
         let mirror = Mirror(reflecting: resource)
         for child in mirror.children  {
-            if child.label! != "owner" {
-                if let value = child.value as? String {
+            let childKey = child.label!
+            if childKey != "owner" {
+                if let value = child.value as? Int {
+                    childValue = String(value)
+                }
+                else if let value = child.value as? Double {
+                    childValue = String(value)
+                }
+                else if let date: Date = dateFormatterGet.date(from: (child.value as? String)!) {
+                    childValue = dateFormatter.string(from: date)
+                }
+                else if let value = child.value as? String {
                     childValue = value
-                } else {childValue = ""}
+                }
+                else {childValue = ""}
             } else {
                 childValue = (child.value as! Owners).login!
             }
-            result[child.label!] = childValue
+            if !propsFilled {
+                props.append(childKey)
             }
+            result[childKey] = childValue
+        }
         return result
     }
     
@@ -65,13 +88,14 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
             cell.subTitle.text = """
             owner: \(item["owner"]!)
             language: \(item["language"]!)
-            created_at: \(item["created_at"]!)
+            created: \(item["created_at"]!)
             description: \(item["description"]!)
             """
         } else {
             // open cell
             let newVC = CellDetailTableView()
-            for (key, value) in item { newVC.repInfo[key] = value }
+            newVC.props = props
+            props.forEach { prop in newVC.repInfo[prop] = item[prop] }
             navigationController?.pushViewController(newVC, animated: true)
         }
     }
