@@ -10,6 +10,8 @@ import UIKit
 
 class SearchController: UIViewController {
     
+    let inputText = UITextView()
+    
     fileprivate func setupSubviews() {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
         let borderTop = 100
@@ -32,7 +34,7 @@ class SearchController: UIViewController {
         labelSearch.font = lableFont
         self.view.addSubview(labelSearch)
         
-        let inputText = UITextView(frame: CGRect(x: 10, y: borderTop+labelSeparator.height+20, width: viewWidth-10, height: 20))
+        inputText.frame = CGRect(x: 10, y: borderTop+labelSeparator.height+20, width: viewWidth-10, height: 20)
         inputText.backgroundColor = UIColor.lightGray
         view.addSubview(inputText)
         
@@ -74,7 +76,11 @@ class SearchController: UIViewController {
     
     @objc func buttonAction(_ sender: UIButton!) {
         
-        let urlQuery = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc"
+        guard let keyWord = inputText.text else {
+            return
+        }
+        
+        let urlQuery = "https://api.github.com/search/repositories?q="+keyWord+"&sort=stars&order=desc"
         fetchRepositoriesHeader(from: urlQuery) { gitRep in
           DispatchQueue.main.async {
             let newVC = HomeController(collectionViewLayout: UICollectionViewFlowLayout() )

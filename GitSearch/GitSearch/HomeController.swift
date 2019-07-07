@@ -41,50 +41,39 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     func strucToArray(resource: SearchItem) -> Dictionary<String, String> {
         var result = [String: String]()
+        var childValue: String?
         let mirror = Mirror(reflecting: resource)
         for child in mirror.children  {
             if child.label! != "owner" {
                 if let value = child.value as? String {
-                    result[child.label!] = value
-                } else {result[child.label!] = ""}
+                    childValue = value
+                } else {childValue = ""}
             } else {
-                result[child.label!] = (child.value as! Owners).login
+                childValue = (child.value as! Owners).login!
             }
-        }
+            result[child.label!] = childValue
+            }
         return result
     }
     
     func cellProcessing(index: Int, cellInstance: CellClass? = nil) {
-        if let gitInfo = self.gitRep {
-            if let gitItems = gitInfo.items {
-                let mirror = Mirror(reflecting: gitItems[index])
-                if let cell = cellInstance {
-                    // dwar information
-                    
-                    cell.title.text = gitItems[index].name!
-                    let item = strucToArray(resource: gitItems[index])
-                    cell.subTitle.text = """
-                    owner: \(item["owner"]!)
-                    language: \(item["language"]!)
-                    created_at: \(item["created_at"]!)
-                    description: \(item["description"]!)
-                    """
-                } else {
-                    // open cell
-                    let newVC = CellDetailTableView() //CellDetail()
-                    //let mirror = Mirror(reflecting: gitItems[index])
-                    for child in mirror.children  {
-                        if child.label! != "owner" {
-                            if let value = child.value as? String {
-                                newVC.repInfo[child.label!] = value
-                            }
-                        }
-                    }
-                    navigationController?.pushViewController(newVC, animated: true)
-                }
-            }
+        guard let gitItems = self.gitRep?.items else { return }
+        let item = strucToArray(resource: gitItems[index]) // why item's value are optional when type inside is non oprional String:String
+        if let cell = cellInstance {
+            // dwar information
+            cell.title.text = gitItems[index].name!
+            cell.subTitle.text = """
+            owner: \(item["owner"]!)
+            language: \(item["language"]!)
+            created_at: \(item["created_at"]!)
+            description: \(item["description"]!)
+            """
+        } else {
+            // open cell
+            let newVC = CellDetailTableView()
+            for (key, value) in item { newVC.repInfo[key] = value }
+            navigationController?.pushViewController(newVC, animated: true)
         }
-        
     }
 }
 
@@ -146,28 +135,3 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
     }
 }
 
-class SearchInfo: Decodable {
-    let total_count: Int
-    let incomplete_results: Bool
-    let items: Array<SearchItem>?
-    
-}
-
-class SearchItem: Decodable {
-    let id: Int?
-    let name: String?
-    let html_url: String?
-    let description: String?
-    let created_at: String?
-    let updated_at: String?
-    let language: String?
-    let score: Double?
-    let owner: Owners?
-    
-}
-
-struct Owners: Decodable {
-    let login: String?
-    let id: Int?
-    let html_url: String?
-}
