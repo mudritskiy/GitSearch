@@ -24,6 +24,7 @@ class CellDetailTableView: UITableViewController {
         tableView.register(InfoCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = repInfo["name"]
     }
@@ -43,13 +44,8 @@ class CellDetailTableView: UITableViewController {
 
 class InfoCell: UITableViewCell {
     
-//    let title = UILabel()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-//        addSubview(title)
-//        title.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 100)
         
     }
     

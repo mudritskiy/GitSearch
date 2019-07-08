@@ -19,6 +19,11 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
         
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = CGSize(width: view.frame.size.width-16, height: 20)
+        layout.itemSize = CGSize(width: view.frame.size.width-16, height: 200)
+        collectionView?.collectionViewLayout = layout
+        
    }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -32,9 +37,9 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width-60, height: 100)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: view.frame.size.width-16, height: 200)
+//    }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         cellProcessing(index: indexPath.row)
@@ -61,11 +66,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 else if let value = child.value as? Double {
                     childValue = String(value)
                 }
-                else if let date: Date = dateFormatterGet.date(from: (child.value as? String)!) {
-                    childValue = dateFormatter.string(from: date)
-                }
                 else if let value = child.value as? String {
-                    childValue = value
+                    if let date: Date = dateFormatterGet.date(from: value) {
+                        childValue = dateFormatter.string(from: date)
+                    } else {
+                        childValue = value
+                    }
                 }
                 else {childValue = ""}
             } else {
@@ -85,12 +91,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         if let cell = cellInstance {
             // dwar information
             cell.title.text = gitItems[index].name!
-            cell.subTitle.text = """
-            owner: \(item["owner"]!)
-            language: \(item["language"]!)
-            created: \(item["created_at"]!)
-            description: \(item["description"]!)
-            """
+//            cell.subTitle.text = """
+//            owner: \(item["owner"]!)
+//            language: \(item["language"]!)
+//            created: \(item["created_at"]!)
+//            description: \(item["description"]!)
+//            """
         } else {
             // open cell
             let newVC = CellDetailTableView()
@@ -105,7 +111,7 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
 
     override var bounds: CGRect {
         didSet {
-            setupShadow()
+//            setupShadow()
         }
     }
     
@@ -130,30 +136,61 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
 
     let subTitle: UILabel = {
         let label = UILabel()
-        label.text = "test"
-        label.font = UIFont(name: "arial", size: 16.0)
+        label.text = "A very common task in iOS is to provide auto sizing cells for UITableView components. In today's lesson we look at how to implement a custom cell that provides auto sizing using anchor constraints.  This technique is very easy and requires very little customization"
+        label.font = UIFont(name: "arial", size: 10.0)
         label.textColor = UIColor.black
+        label.backgroundColor = UIColor.orange
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         return label
+    }()
+
+    lazy var width: NSLayoutConstraint = {
+        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
+        width.isActive = true
+        return width
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.backgroundColor = UIColor.blue
+
         addSubview(title)
         addSubview(subTitle)
         
-        let viewDictionary = ["v0": title, "v1": subTitle]
-        var verticalVisualFormat = "V:|-"
-        for element in viewDictionary.keys.sorted(by: <) {
-            NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-30-[\(element)]-30-|", options: [], metrics: nil, views: viewDictionary))
-            verticalVisualFormat += "[\(element)(50)]-"
+        let constraints = [
+            title.topAnchor.constraint(equalTo: topAnchor),
+            title.leadingAnchor.constraint(equalTo: leadingAnchor),
+            title.widthAnchor.constraint(equalToConstant: frame.size.width),
+            
+            subTitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 8),
+            subTitle.leadingAnchor.constraint(equalTo: leadingAnchor),
+            subTitle.widthAnchor.constraint(equalToConstant: frame.size.width),
+        ]
+        NSLayoutConstraint.activate(constraints)
+
+        if let lastSubview = contentView.subviews.last {
+            NSLayoutConstraint.activate([subTitle.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 8)])
         }
-        //verticalVisualFormat.remove(at: verticalVisualFormat.index(before: verticalVisualFormat.endIndex))
-        verticalVisualFormat += "|"
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: verticalVisualFormat, options: [], metrics: nil, views: viewDictionary))
+
+//        let viewDictionary = ["v0": title, "v1": subTitle]
+//        var verticalVisualFormat = "V:|-"
+//        for element in viewDictionary.keys.sorted(by: <) {
+//            NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-30-[\(element)]-30-|", options: [], metrics: nil, views: viewDictionary))
+//            verticalVisualFormat += "[\(element)(50)]-"
+//        }
+//        //verticalVisualFormat.remove(at: verticalVisualFormat.index(before: verticalVisualFormat.endIndex))
+//        verticalVisualFormat += "|"
+//        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: verticalVisualFormat, options: [], metrics: nil, views: viewDictionary))
         
     }
     
+//    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+//        width.constant = bounds.size.width
+//        return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 100))
+//    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -36,6 +36,7 @@ class SearchController: UIViewController {
         
         inputText.frame = CGRect(x: 10, y: borderTop+labelSeparator.height+20, width: viewWidth-10, height: 20)
         inputText.backgroundColor = UIColor.lightGray
+        inputText.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         view.addSubview(inputText)
         
         let actionButton = UIButton(type: .system)
