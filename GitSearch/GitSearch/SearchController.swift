@@ -19,6 +19,16 @@ class SearchController: UIViewController {
         return textView
     }()
     
+    let actionButton: UIButton = {
+        let button = UIButton(type: .system)
+//        button.frame = CGRect(x: 10, y: borderTop+labelSeparator.height+60, width: 100, height: 20)
+        button.backgroundColor = UIColor.green
+        button.setTitle("Search", for: .normal)
+        button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
 //    let viewWidth = Int(self.view.frame.size.width)
 
     let labelGit: UILabel = {
@@ -50,12 +60,12 @@ class SearchController: UIViewController {
         let labelSeparator = (width: Int(viewWidth/3), height: 50)
         let borderTop = 100
 
-        let actionButton = UIButton(type: .system)
-        actionButton.frame = CGRect(x: 10, y: borderTop+labelSeparator.height+60, width: 100, height: 20)
-        actionButton.backgroundColor = UIColor.green
-        actionButton.setTitle("Search", for: .normal)
-        actionButton.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
-        view.addSubview(actionButton)
+//        let actionButton = UIButton(type: .system)
+//        actionButton.frame = CGRect(x: 10, y: borderTop+labelSeparator.height+60, width: 100, height: 20)
+//        actionButton.backgroundColor = UIColor.green
+//        actionButton.setTitle("Search", for: .normal)
+//        actionButton.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
+//        view.addSubview(actionButton)
     }
     
     override func viewDidLoad() {
@@ -67,6 +77,7 @@ class SearchController: UIViewController {
         view.addSubview(labelGit)
         view.addSubview(labelSearch)
         view.addSubview(inputText)
+        view.addSubview(actionButton)
         
 //        let borderTop = 100
         let viewWidth = Int(self.view.frame.size.width)
@@ -85,7 +96,12 @@ class SearchController: UIViewController {
             inputText.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: 50),
             inputText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             inputText.widthAnchor.constraint(equalToConstant: CGFloat(200)),
-            inputText.heightAnchor.constraint(equalToConstant: CGFloat(50))
+            inputText.heightAnchor.constraint(equalToConstant: CGFloat(50)),
+
+            actionButton.topAnchor.constraint(equalTo: inputText.bottomAnchor, constant: 20),
+            actionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            actionButton.widthAnchor.constraint(equalToConstant: CGFloat(100)),
+            actionButton.heightAnchor.constraint(equalToConstant: CGFloat(20))
         ]
         
         NSLayoutConstraint.activate(constraints)
