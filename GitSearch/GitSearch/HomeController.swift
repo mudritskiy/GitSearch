@@ -18,14 +18,20 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
+    
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "Search results"
         
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: view.frame.size.width-16, height: 20)
-        layout.itemSize = CGSize(width: view.frame.size.width-16, height: 200)
+        layout.estimatedItemSize = CGSize(width: view.frame.size.width-32, height: 120)
         collectionView?.collectionViewLayout = layout
         
    }
 
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let count = gitRep?.items?.count else { return 0 }
         return count
@@ -36,10 +42,6 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         cellProcessing(index: indexPath.row, cellInstance: cell)
         return cell
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: view.frame.size.width-16, height: 200)
-//    }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         cellProcessing(index: indexPath.row)
@@ -91,12 +93,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         if let cell = cellInstance {
             // dwar information
             cell.title.text = gitItems[index].name!
-//            cell.subTitle.text = """
-//            owner: \(item["owner"]!)
-//            language: \(item["language"]!)
-//            created: \(item["created_at"]!)
-//            description: \(item["description"]!)
-//            """
+            cell.subTitle.text = """
+            owner: \(item["owner"]!)
+            language: \(item["language"]!)
+            created: \(item["created_at"]!)
+            description: \(item["description"]!)
+            """
         } else {
             // open cell
             let newVC = CellDetailTableView()
@@ -109,27 +111,10 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
 class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
 
-    override var bounds: CGRect {
-        didSet {
-//            setupShadow()
-        }
-    }
-    
-    private func setupShadow() {
-        self.layer.cornerRadius = 8
-        self.layer.shadowOffset = CGSize(width: 0, height: 3)
-        self.layer.shadowRadius = 3
-        self.layer.shadowOpacity = 0.3
-        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 8, height: 8)).cgPath
-        self.layer.shouldRasterize = true
-        self.layer.rasterizationScale = UIScreen.main.scale
-    }
-
     let title: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "arial", size: 16.0)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = UIColor.black
-        label.backgroundColor = UIColor.gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -137,60 +122,65 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
     let subTitle: UILabel = {
         let label = UILabel()
         label.text = "A very common task in iOS is to provide auto sizing cells for UITableView components. In today's lesson we look at how to implement a custom cell that provides auto sizing using anchor constraints.  This technique is very easy and requires very little customization"
-        label.font = UIFont(name: "arial", size: 10.0)
-        label.textColor = UIColor.black
-        label.backgroundColor = UIColor.orange
+        label.font = UIFont.systemFont(ofSize: 11)
+        label.textColor = UIColor(red: 66/255, green: 85/255, blue: 99/255, alpha: 1.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label
     }()
 
-    lazy var width: NSLayoutConstraint = {
-        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
-        width.isActive = true
-        return width
+    let subTitleBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 232/255, green: 237/255, blue: 238/255, alpha: 1.0)
+        view.layer.cornerRadius = 5
+        view.layer.borderColor = UIColor(red: 118/255, green: 134/255, blue: 146/255, alpha: 1.0).cgColor
+        view.layer.borderWidth = 1
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.backgroundColor = UIColor.blue
+//        contentView.backgroundColor = UIColor.blue
 
         addSubview(title)
+        addSubview(subTitleBackground)
         addSubview(subTitle)
         
         let constraints = [
             title.topAnchor.constraint(equalTo: topAnchor),
-            title.leadingAnchor.constraint(equalTo: leadingAnchor),
-            title.widthAnchor.constraint(equalToConstant: frame.size.width),
+            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+
+            subTitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16),
+            subTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            subTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            subTitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 8),
-            subTitle.leadingAnchor.constraint(equalTo: leadingAnchor),
-            subTitle.widthAnchor.constraint(equalToConstant: frame.size.width),
+            subTitleBackground.topAnchor.constraint(equalTo: subTitle.topAnchor, constant: -8),
+            subTitleBackground.leadingAnchor.constraint(equalTo: subTitle.leadingAnchor, constant: -8),
+            subTitleBackground.trailingAnchor.constraint(equalTo: subTitle.trailingAnchor, constant: 8),
+            subTitleBackground.bottomAnchor.constraint(equalTo: bottomAnchor)
+
         ]
         NSLayoutConstraint.activate(constraints)
 
         if let lastSubview = contentView.subviews.last {
-            NSLayoutConstraint.activate([subTitle.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 8)])
+            NSLayoutConstraint.activate([subTitle.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 16)])
         }
-
-//        let viewDictionary = ["v0": title, "v1": subTitle]
-//        var verticalVisualFormat = "V:|-"
-//        for element in viewDictionary.keys.sorted(by: <) {
-//            NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-30-[\(element)]-30-|", options: [], metrics: nil, views: viewDictionary))
-//            verticalVisualFormat += "[\(element)(50)]-"
-//        }
-//        //verticalVisualFormat.remove(at: verticalVisualFormat.index(before: verticalVisualFormat.endIndex))
-//        verticalVisualFormat += "|"
-//        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: verticalVisualFormat, options: [], metrics: nil, views: viewDictionary))
         
     }
     
-//    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-//        width.constant = bounds.size.width
-//        return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 100))
-//    }
-
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        setNeedsLayout()
+        layoutIfNeeded()
+        let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
+        var newFrame = layoutAttributes.frame
+        newFrame.size.height = ceil(size.height)
+        layoutAttributes.frame = newFrame
+        return layoutAttributes
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
