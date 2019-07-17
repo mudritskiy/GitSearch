@@ -134,7 +134,7 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
         view.backgroundColor = UIColor(red: 232/255, green: 237/255, blue: 238/255, alpha: 1.0)
         view.layer.cornerRadius = 5
         view.layer.borderColor = UIColor(red: 118/255, green: 134/255, blue: 146/255, alpha: 1.0).cgColor
-        view.layer.borderWidth = 1
+//        view.layer.borderWidth = 1
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

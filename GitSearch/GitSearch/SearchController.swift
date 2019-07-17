@@ -8,29 +8,8 @@
 
 import UIKit
 
-class SearchController: UIViewController {
+class SearchController: UIViewController, UITextFieldDelegate {
     
-    let inputText: UITextView = {
-        let textView = UITextView()
-//        textView.frame = CGRect(x: 10, y: borderTop+labelSeparator.height+20, width: viewWidth-10, height: 20)
-        textView.backgroundColor = UIColor.lightGray
-        textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
-    
-    let actionButton: UIButton = {
-        let button = UIButton(type: .system)
-//        button.frame = CGRect(x: 10, y: borderTop+labelSeparator.height+60, width: 100, height: 20)
-        button.backgroundColor = UIColor.green
-        button.setTitle("Search", for: .normal)
-        button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-//    let viewWidth = Int(self.view.frame.size.width)
-
     let labelGit: UILabel = {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
         let label = UILabel()
@@ -49,37 +28,46 @@ class SearchController: UIViewController {
         label.text = "SEARCH"
         label.textAlignment = .left
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor(red:0.41, green:0.56, blue:0.81, alpha:1.0) // blue
+//        label.backgroundColor = UIColor(red:0.41, green:0.56, blue:0.81, alpha:1.0) // blue
+        label.backgroundColor = UIColor(red: 0/255, green: 159/255, blue: 214/255, alpha: 1.0)
         label.font = lableFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    fileprivate func setupSubviews() {
-        let viewWidth = Int(self.view.frame.size.width)
-        let labelSeparator = (width: Int(viewWidth/3), height: 50)
-        let borderTop = 100
-
-//        let actionButton = UIButton(type: .system)
-//        actionButton.frame = CGRect(x: 10, y: borderTop+labelSeparator.height+60, width: 100, height: 20)
-//        actionButton.backgroundColor = UIColor.green
-//        actionButton.setTitle("Search", for: .normal)
-//        actionButton.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
-//        view.addSubview(actionButton)
-    }
+    let inputText: PadeedText = {
+        let textView = PadeedText()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.layer.borderColor = UIColor.lightGray.cgColor
+        textView.layer.cornerRadius = 5
+        textView.layer.borderWidth = 1
+        textView.keyboardType = .default
+        textView.placeholder = "Enter keyword"
+        textView.borderStyle = .roundedRect
+        textView.clearButtonMode = .whileEditing
+        return textView
+    }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view?.backgroundColor = UIColor.white
-        navigationController?.navigationBar.prefersLargeTitles = false
-        
+    let actionButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = UIColor(red: 238/255, green: 238/255, blue: 238/255, alpha: 1.0)
+        button.layer.cornerRadius = 5
+        button.setTitle("Search", for: .normal)
+        button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    fileprivate func setupSubviews() {
+
         view.addSubview(labelGit)
         view.addSubview(labelSearch)
         view.addSubview(inputText)
         view.addSubview(actionButton)
         
-//        let borderTop = 100
+        inputText.delegate = self
+        inputText.becomeFirstResponder()
+        
         let viewWidth = Int(self.view.frame.size.width)
         let margins = view.layoutMarginsGuide
         let constraints = [
@@ -95,19 +83,32 @@ class SearchController: UIViewController {
             
             inputText.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: 50),
             inputText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            inputText.widthAnchor.constraint(equalToConstant: CGFloat(200)),
+            inputText.widthAnchor.constraint(equalToConstant: CGFloat(300)),
             inputText.heightAnchor.constraint(equalToConstant: CGFloat(50)),
-
+            
             actionButton.topAnchor.constraint(equalTo: inputText.bottomAnchor, constant: 20),
             actionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            actionButton.widthAnchor.constraint(equalToConstant: CGFloat(100)),
-            actionButton.heightAnchor.constraint(equalToConstant: CGFloat(20))
+            actionButton.widthAnchor.constraint(equalToConstant: CGFloat(300)),
+            actionButton.heightAnchor.constraint(equalToConstant: CGFloat(50))
         ]
         
         NSLayoutConstraint.activate(constraints)
         
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view?.backgroundColor = UIColor.white
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
         setupSubviews()
-
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
     }
     
     func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
@@ -129,20 +130,82 @@ class SearchController: UIViewController {
         task.resume()
     }
     
+    func postAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {alert.dismiss(animated: true, completion: nil)})
+    }
+    
+    func showHideSpinner(spinner child: SpinnerVC, _ show: Bool = true) {
+        if show {
+            addChild(child)
+            child.view.frame = view.frame
+            view.addSubview(child.view)
+            child.didMove(toParent: self)
+        } else {
+            child.willMove(toParent: self)
+            child.view.removeFromSuperview()
+            child.removeFromParent()
+        }
+    }
+    
     @objc func buttonAction(_ sender: UIButton!) {
         
-        guard let keyWord = inputText.text else {
+        guard let keyWord = inputText.text else { return }
+        
+        if keyWord.isEmpty {
+            postAlert(title: "No keyword", message: "Please, enter some keyword")
             return
         }
         
+        let child = SpinnerVC()
+        showHideSpinner(spinner: child)
+
         let urlQuery = "https://api.github.com/search/repositories?q="+keyWord+"&sort=stars&order=desc"
         fetchRepositoriesHeader(from: urlQuery) { gitRep in
-          DispatchQueue.main.async {
-            let newVC = HomeController(collectionViewLayout: UICollectionViewFlowLayout() )
-            newVC.gitRep = gitRep
-            self.navigationController?.pushViewController(newVC, animated: true)
+            DispatchQueue.main.async {
+                self.showHideSpinner(spinner: child, false)
+                if gitRep.total_count == 0 {
+                    self.postAlert(title: "No data found", message: "Please, try another  keyword")
+                } else {
+                    let newVC = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
+                    newVC.gitRep = gitRep
+                    self.navigationController?.pushViewController(newVC, animated: true)
+                }
             }
         }
 
+    }
+    
+}
+
+class PadeedText: UITextField {
+    
+    let padding = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.origin.x + 10, y: bounds.origin.y, width: bounds.width + 10, height: bounds.height)
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.origin.x + 10, y: bounds.origin.y, width: bounds.width + 10, height: bounds.height)
+    }
+}
+
+class SpinnerVC: UIViewController {
+    var spinner = UIActivityIndicatorView(style: .whiteLarge)
+    
+    override func loadView() {
+        view = UIView()
+        view.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        view.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
     }
 }
