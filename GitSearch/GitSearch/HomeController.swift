@@ -9,16 +9,16 @@
 import UIKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
+    
     var gitRep: SearchInfo?
     var props = [String]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
-    
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Search results"
         
@@ -26,8 +26,8 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         layout.estimatedItemSize = CGSize(width: view.frame.size.width-32, height: 120)
         collectionView?.collectionViewLayout = layout
         
-   }
-
+    }
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -110,40 +110,33 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
 }
 
 class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
-
+    
     let title: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = UIColor.black
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     let subTitle: UILabel = {
         let label = UILabel()
-        label.text = "A very common task in iOS is to provide auto sizing cells for UITableView components. In today's lesson we look at how to implement a custom cell that provides auto sizing using anchor constraints.  This technique is very easy and requires very little customization"
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 11)
         label.textColor = UIColor(red: 66/255, green: 85/255, blue: 99/255, alpha: 1.0)
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label
     }()
-
+    
     let subTitleBackground: UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(red: 232/255, green: 237/255, blue: 238/255, alpha: 1.0)
         view.layer.cornerRadius = 5
-        view.layer.borderColor = UIColor(red: 118/255, green: 134/255, blue: 146/255, alpha: 1.0).cgColor
-//        view.layer.borderWidth = 1
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.backgroundColor = UIColor.blue
-
+    
+    fileprivate func setupSubviews() {
         addSubview(title)
         addSubview(subTitleBackground)
         addSubview(subTitle)
@@ -152,7 +145,7 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
             title.topAnchor.constraint(equalTo: topAnchor),
             title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-
+            
             subTitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16),
             subTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             subTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -161,14 +154,18 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
             subTitleBackground.leadingAnchor.constraint(equalTo: subTitle.leadingAnchor, constant: -8),
             subTitleBackground.trailingAnchor.constraint(equalTo: subTitle.trailingAnchor, constant: 8),
             subTitleBackground.bottomAnchor.constraint(equalTo: bottomAnchor)
-
         ]
         NSLayoutConstraint.activate(constraints)
-
+        
         if let lastSubview = contentView.subviews.last {
             NSLayoutConstraint.activate([subTitle.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 16)])
         }
-        
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        setupSubviews()
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
