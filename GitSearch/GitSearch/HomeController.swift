@@ -20,7 +20,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
         
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: view.frame.size.width-32, height: 400)
+        layout.estimatedItemSize = CGSize(width: view.frame.size.width-32, height: 120)
         collectionView?.collectionViewLayout = layout
         
     }
