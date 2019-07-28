@@ -19,15 +19,17 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(CellClass.self, forCellWithReuseIdentifier: "cellId")
         
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Search results"
-        
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: view.frame.size.width-32, height: 120)
+        layout.estimatedItemSize = CGSize(width: view.frame.size.width-32, height: 400)
         collectionView?.collectionViewLayout = layout
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "Search results"
+    }
+
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -137,34 +139,32 @@ class CellClass: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
     }()
     
     fileprivate func setupSubviews() {
-        addSubview(title)
-        addSubview(subTitleBackground)
-        addSubview(subTitle)
+        contentView.addSubview(title)
+        contentView.addSubview(subTitleBackground)
+        contentView.addSubview(subTitle)
         
         let constraints = [
-            title.topAnchor.constraint(equalTo: topAnchor),
-            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            title.topAnchor.constraint(equalTo: contentView.topAnchor),
+            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            //title.heightAnchor.constraint(equalToConstant: 16),
             
             subTitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16),
-            subTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            subTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            subTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            subTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             subTitleBackground.topAnchor.constraint(equalTo: subTitle.topAnchor, constant: -8),
             subTitleBackground.leadingAnchor.constraint(equalTo: subTitle.leadingAnchor, constant: -8),
             subTitleBackground.trailingAnchor.constraint(equalTo: subTitle.trailingAnchor, constant: 8),
-            subTitleBackground.bottomAnchor.constraint(equalTo: bottomAnchor)
+            subTitleBackground.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: 8)
         ]
         NSLayoutConstraint.activate(constraints)
         
-        if let lastSubview = contentView.subviews.last {
-            NSLayoutConstraint.activate([subTitle.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 16)])
-        }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+//        contentView.translatesAutoresizingMaskIntoConstraints = false
         setupSubviews()
     }
     

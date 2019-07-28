@@ -72,7 +72,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         inputText.delegate = self
 //        inputText.becomeFirstResponder()
         
-        labelGitWidth = Int(self.view.frame.size.width)
+        labelGitWidth = Int(super.view.frame.size.width)
 
         let constraints = [
             labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -113,13 +113,10 @@ class SearchController: UIViewController, UITextFieldDelegate {
         super.touchesBegan(touches, with: event)
     }
     
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-//        let viewWidth = Int(self.view.frame.size.width)
-//        NSLayoutConstraint.deactivate([labelGit.widthAnchor.constraint(equalToConstant: CGFloat(labelGitWidth/3))])
-//        labelGitWidth = Int(self.view.frame.size.width)
-//        NSLayoutConstraint.activate([labelGit.widthAnchor.constraint(equalToConstant: CGFloat(labelGitWidth/3))])
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
-
+    
     func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
         
         guard let urlGit = URL(string: urlString) else { return }
