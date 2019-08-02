@@ -36,8 +36,8 @@ class SearchController: UIViewController, UITextFieldDelegate {
         return label
     }()
 
-    let inputText: PadeedText = {
-        let textView = PadeedText()
+    let inputText: PaddedText = {
+        let textView = PaddedText()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.layer.borderColor = UIColor.lightGray.cgColor
         textView.layer.cornerRadius = 5
@@ -142,7 +142,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {alert.dismiss(animated: true, completion: nil)})
     }
     
-    func showHideSpinner(spinner child: SpinnerVC, _ show: Bool = true) {
+    func showHideSpinner(spinner child: SpinnerViewController, _ show: Bool = true) {
         if show {
             addChild(child)
             child.view.frame = view.frame
@@ -164,7 +164,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        let child = SpinnerVC()
+        let child = SpinnerViewController()
         showHideSpinner(spinner: child)
         
         let keys = keyWords.components(separatedBy: " ")
@@ -178,7 +178,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
                 if gitRep.total_count == 0 {
                     self.postAlert(title: "No data found", message: "Please, try another  keyword")
                 } else {
-                    let newVC = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
+                    let newVC = SearchResultViewController(collectionViewLayout: UICollectionViewFlowLayout())
                     newVC.gitRep = gitRep
                     self.navigationController?.pushViewController(newVC, animated: true)
                 }
@@ -189,31 +189,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     
 }
 
-class PadeedText: UITextField {
-    
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return CGRect(x: bounds.origin.x + 10, y: bounds.origin.y, width: bounds.width + 10, height: bounds.height)
-    }
-    
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return CGRect(x: bounds.origin.x + 10, y: bounds.origin.y, width: bounds.width + 10, height: bounds.height)
-    }
-}
 
-class SpinnerVC: UIViewController {
-    var spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
-    
-    override func loadView() {
-        view = UIView()
-//        view.backgroundColor = UIColor(white: 0, alpha: 0.3)
-        
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.startAnimating()
-        view.addSubview(spinner)
-        
-        NSLayoutConstraint.activate([
-            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
-    }
-}
+
+
+

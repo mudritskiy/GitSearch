@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CellDetailTableView: UITableViewController {
+class RepoInfoViewController: UITableViewController {
     
     private let cellId = "id"
     var repInfo = [String: String]()
@@ -17,7 +17,7 @@ class CellDetailTableView: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        tableView.register(InfoCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(RepoInfoCellView.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
@@ -34,20 +34,11 @@ class CellDetailTableView: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let key = props[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! InfoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCellView
         cell.textLabel?.text = key.replacingOccurrences(of: "_", with: " ") + ": " + repInfo[key]!
         cell.textLabel?.numberOfLines = 0
         return cell
     }
 }
 
-class InfoCell: UITableViewCell {
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
+
