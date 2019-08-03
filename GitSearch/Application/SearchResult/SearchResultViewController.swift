@@ -16,6 +16,9 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.title = "Search results"
+
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: "cellId")
         
@@ -25,11 +28,6 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Search results"
-    }
-
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
