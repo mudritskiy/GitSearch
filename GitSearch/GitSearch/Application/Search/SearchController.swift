@@ -103,7 +103,11 @@ class SearchController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         view?.backgroundColor = UIColor.white
+        
         setupSubviews()
     }
     
@@ -111,10 +115,6 @@ class SearchController: UIViewController, UITextFieldDelegate {
         
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
