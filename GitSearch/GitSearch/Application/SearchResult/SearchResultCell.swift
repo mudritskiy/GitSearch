@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchResultCellView: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
+class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
     
     let title: UILabel = {
         let label = UILabel()

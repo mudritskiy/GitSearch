@@ -17,7 +17,7 @@ class RepoInfoViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        tableView.register(RepoInfoCellView.self, forCellReuseIdentifier: cellId)
+        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
@@ -34,7 +34,7 @@ class RepoInfoViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let key = props[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCellView
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
         cell.textLabel?.text = key.replacingOccurrences(of: "_", with: " ") + ": " + repInfo[key]!
         cell.textLabel?.numberOfLines = 0
         return cell

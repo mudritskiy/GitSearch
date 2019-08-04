@@ -17,7 +17,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         super.viewDidLoad()
         
         collectionView?.backgroundColor = UIColor.white
-        collectionView?.register(SearchResultCellView.self, forCellWithReuseIdentifier: "cellId")
+        collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: "cellId")
         
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: view.frame.size.width-32, height: 120)
@@ -40,7 +40,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! SearchResultCellView
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! SearchResultCell
         cellProcessing(index: indexPath.row, cellInstance: cell)
         return cell
     }
@@ -89,7 +89,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         return result
     }
     
-    func cellProcessing(index: Int, cellInstance: SearchResultCellView? = nil) {
+    func cellProcessing(index: Int, cellInstance: SearchResultCell? = nil) {
         guard let gitItems = self.gitRep?.items else { return }
         let item = strucToArray(resource: gitItems[index]) // why item's value are optional when type inside is non oprional String:String
         if let cell = cellInstance {

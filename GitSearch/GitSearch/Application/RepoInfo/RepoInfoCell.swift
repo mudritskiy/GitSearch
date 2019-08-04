@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RepoInfoCellView: UITableViewCell {
+class RepoInfoCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
