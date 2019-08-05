@@ -93,21 +93,29 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         guard let gitItems = self.gitRep?.items else { return }
         let item = strucToArray(resource: gitItems[index]) // why item's value are optional when type inside is non oprional String:String
         if let cell = cellInstance {
-            // dwar information
-            cell.title.text = gitItems[index].name!
-            cell.subTitle.text = """
-            owner: \(item["owner"]!)
-            language: \(item["language"]!)
-            created: \(item["created_at"]!)
-            description: \(item["description"]!)
-            """
+            showCellShortInfo(cell: cell, name: gitItems[index].name!, item: item)
         } else {
-            // open cell
-            let newVC = RepoInfoViewController()
-            newVC.props = props
-            props.forEach { prop in newVC.repInfo[prop] = item[prop] }
-            navigationController?.pushViewController(newVC, animated: true)
+            openCellInfo(item: item)
         }
+    }
+    
+    func showCellShortInfo(cell: SearchResultCell, name: String, item: [String:String]) {
+        cell.title.text = name
+        cell.subTitle.text = """
+        owner: \(item["owner"]!)
+        language: \(item["language"]!)
+        created: \(item["created_at"]!)
+        description: \(item["description"]!)
+        """
+    }
+    
+    func openCellInfo(item: [String:String]) {
+        let newVC = RepoInfoViewController()
+        newVC.props = props
+        props.forEach { prop in
+            newVC.repInfo[prop] = item[prop]
+        }
+        navigationController?.pushViewController(newVC, animated: true)
     }
 }
 
