@@ -40,20 +40,24 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
         contentView.addSubview(subTitleBackground)
         contentView.addSubview(subTitle)
         
+        let viewBorderSize: CGFloat = 16
+        let backgroundBorderSize: CGFloat = 8
+        
         let constraints = [
             title.topAnchor.constraint(equalTo: contentView.topAnchor),
-            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            //title.heightAnchor.constraint(equalToConstant: 16),
+            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: viewBorderSize),
+            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -viewBorderSize),
+            title.heightAnchor.constraint(equalToConstant: 25),
             
-            subTitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16),
-            subTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            subTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            subTitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: viewBorderSize),
+            subTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: viewBorderSize),
+            subTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -viewBorderSize),
+            subTitle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -viewBorderSize),
             
-            subTitleBackground.topAnchor.constraint(equalTo: subTitle.topAnchor, constant: -8),
-            subTitleBackground.leadingAnchor.constraint(equalTo: subTitle.leadingAnchor, constant: -8),
-            subTitleBackground.trailingAnchor.constraint(equalTo: subTitle.trailingAnchor, constant: 8),
-            subTitleBackground.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: 8)
+            subTitleBackground.topAnchor.constraint(equalTo: subTitle.topAnchor, constant: -backgroundBorderSize),
+            subTitleBackground.leadingAnchor.constraint(equalTo: subTitle.leadingAnchor, constant: -backgroundBorderSize),
+            subTitleBackground.trailingAnchor.constraint(equalTo: subTitle.trailingAnchor, constant: backgroundBorderSize),
+            subTitleBackground.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: backgroundBorderSize)
         ]
         NSLayoutConstraint.activate(constraints)
         
@@ -61,7 +65,6 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //        contentView.translatesAutoresizingMaskIntoConstraints = false
         setupSubviews()
     }
     
