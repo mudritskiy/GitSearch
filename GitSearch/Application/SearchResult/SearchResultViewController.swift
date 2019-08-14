@@ -16,7 +16,8 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.backgroundColor = UIColor.white
+        collectionView?.backgroundColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1.0)
+//        collectionView?.backgroundColor = UIColor.white
         collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: "cellId")
         
         let layout = UICollectionViewFlowLayout()
