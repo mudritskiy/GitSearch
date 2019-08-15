@@ -35,8 +35,16 @@ class RepoInfoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let key = props[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
-        cell.textLabel?.text = key.replacingOccurrences(of: "_", with: " ") + ": " + repInfo[key]!
-        cell.textLabel?.numberOfLines = 0
+        
+        cell.title.text = key.replacingOccurrences(of: "_", with: " ")
+        cell.propertyValue.text = repInfo[key]!
+        cell.propertyValue.correctFontSize()
+        
+        let totalRow = tableView.numberOfRows(inSection: 0) - 1
+        if indexPath.row == totalRow {
+            cell.removeSeparator()
+        }
+        
         return cell
     }
 }
