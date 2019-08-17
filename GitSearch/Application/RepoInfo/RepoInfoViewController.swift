@@ -42,7 +42,7 @@ class RepoInfoViewController: UITableViewController {
         
         let totalRow = tableView.numberOfRows(inSection: 0) - 1
         if indexPath.row == totalRow {
-            cell.removeSeparator()
+            cell.isSeparatorShown = false
         }
         
         return cell
