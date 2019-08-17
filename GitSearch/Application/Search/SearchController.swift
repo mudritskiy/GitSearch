@@ -72,12 +72,10 @@ class SearchController: UIViewController, UITextFieldDelegate {
         inputText.delegate = self
 //        inputText.becomeFirstResponder()
         
-        labelGitWidth = Int(super.view.frame.size.width)
-
         let constraints = [
             labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             labelGit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            labelGit.widthAnchor.constraint(equalToConstant: CGFloat(labelGitWidth/3)),
+            labelGit.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             labelGit.heightAnchor.constraint(equalToConstant: CGFloat(50)),
             
             labelSearch.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
