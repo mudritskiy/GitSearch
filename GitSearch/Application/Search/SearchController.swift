@@ -18,7 +18,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         label.text = "GIT"
         label.textAlignment = .right
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor(red:0.98, green:0.56, blue:0.04, alpha:1.0) // orange
+        label.backgroundColor = UIColor(red: 241/255, green: 104/255, blue: 88/255, alpha: 1.0)
         label.font = lableFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -30,40 +30,49 @@ class SearchController: UIViewController, UITextFieldDelegate {
         label.text = "SEARCH"
         label.textAlignment = .left
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor(red: 0/255, green: 159/255, blue: 214/255, alpha: 1.0)
+        label.backgroundColor = UIColor(red: 108/255, green: 94/255, blue: 82/255, alpha: 1.0)
         label.font = lableFont
         label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let aboutLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Search information about any repository in github by keyword"
         return label
     }()
 
     let inputText: PaddedText = {
         let textView = PaddedText()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.layer.borderColor = UIColor.lightGray.cgColor
-        textView.layer.cornerRadius = 5
+        textView.layer.borderColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1.0).cgColor
+        textView.layer.cornerRadius = 20
         textView.layer.borderWidth = 1
+        textView.backgroundColor = UIColor.white
         textView.keyboardType = .default
         textView.placeholder = "Enter keyword"
-        textView.borderStyle = .roundedRect
+        textView.borderStyle = .none
         textView.clearButtonMode = .whileEditing
         return textView
     }()
     
     let actionButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
-        button.backgroundColor = UIColor(red: 0/255, green: 134/255, blue: 214/255, alpha: 1.0)
-        button.layer.cornerRadius = 5
-        button.layer.borderColor = UIColor(red: 0/255, green: 154/255, blue: 244/255, alpha: 1.0).cgColor
-        button.layer.borderWidth = 1
+        button.backgroundColor = UIColor(red: 241/255, green: 104/255, blue: 88/255, alpha: 1.0)
+        button.layer.cornerRadius = 20
+//        button.layer.borderColor = UIColor(red: 0/255, green: 154/255, blue: 244/255, alpha: 1.0).cgColor
+//        button.layer.borderWidth = 1
         button.setTitle("Search", for: .normal)
         button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     fileprivate func setupSubviews() {
 
+        view.backgroundColor = UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1.0)
+        
         view.addSubview(labelGit)
         view.addSubview(labelSearch)
         view.addSubview(inputText)
@@ -72,25 +81,27 @@ class SearchController: UIViewController, UITextFieldDelegate {
         inputText.delegate = self
 //        inputText.becomeFirstResponder()
         
+        let indentSize: CGFloat = 50
+        
         let constraints = [
-            labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            labelGit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            labelGit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: indentSize),
             labelGit.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             labelGit.heightAnchor.constraint(equalToConstant: CGFloat(50)),
             
-            labelSearch.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            labelSearch.leadingAnchor.constraint(equalTo: labelGit.trailingAnchor),
-            labelSearch.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            labelSearch.topAnchor.constraint(equalTo: labelGit.topAnchor, constant: 5),
+            labelSearch.leadingAnchor.constraint(equalTo: labelGit.trailingAnchor, constant: 2),
+            labelSearch.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -indentSize),
             labelSearch.heightAnchor.constraint(equalToConstant: CGFloat(50)),
             
             inputText.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: 50),
             inputText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
-            inputText.trailingAnchor.constraint(equalTo: actionButton.leadingAnchor, constant: -10),
+            inputText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
             inputText.heightAnchor.constraint(equalToConstant: CGFloat(40)),
             
-            actionButton.topAnchor.constraint(equalTo: inputText.topAnchor),
-            actionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
-            actionButton.widthAnchor.constraint(equalToConstant: CGFloat(70)),
+            actionButton.topAnchor.constraint(equalTo: inputText.bottomAnchor, constant: 20),
+            actionButton.leadingAnchor.constraint(equalTo: inputText.leadingAnchor),
+            actionButton.trailingAnchor.constraint(equalTo: inputText.trailingAnchor),
             actionButton.heightAnchor.constraint(equalToConstant: CGFloat(40))
         ]
         
