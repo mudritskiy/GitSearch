@@ -27,7 +27,7 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
         return label
     }()
     
-    let subTitleBackground: UIView = {
+    let cellBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.white
@@ -38,7 +38,7 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
         return view
     }()
     
-    let subTitleBackground2: UIView = {
+    let cellLeftMark: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(red: 147/255, green: 52/255, blue: 105/255, alpha: 1.0)
@@ -51,16 +51,16 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
     }
     
     fileprivate func setupSubviews() {
-        contentView.addSubview(subTitleBackground2)
-        contentView.addSubview(subTitleBackground)
+        contentView.addSubview(cellLeftMark)
+        contentView.addSubview(cellBackground)
         contentView.addSubview(title)
         contentView.addSubview(subTitle)
 
         let viewBorderSize: CGFloat = 10
         let backgroundBorderSize: CGFloat = 5
         
-        roundCorners(viewToRound: subTitleBackground, cornerRadius: Double(backgroundBorderSize), cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
-        roundCorners(viewToRound: subTitleBackground2, cornerRadius: Double(backgroundBorderSize), cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
+        roundCorners(viewToRound: cellBackground, cornerRadius: Double(backgroundBorderSize), cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
+        roundCorners(viewToRound: cellLeftMark, cornerRadius: Double(backgroundBorderSize), cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
 
         let constraints = [
             title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: viewBorderSize*2),
@@ -73,15 +73,15 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
             subTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -viewBorderSize),
             subTitle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            subTitleBackground.topAnchor.constraint(equalTo: title.topAnchor, constant: -backgroundBorderSize),
-            subTitleBackground.leadingAnchor.constraint(equalTo: subTitle.leadingAnchor, constant: -backgroundBorderSize),
-            subTitleBackground.trailingAnchor.constraint(equalTo: subTitle.trailingAnchor, constant: backgroundBorderSize),
-            subTitleBackground.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: backgroundBorderSize),
+            cellBackground.topAnchor.constraint(equalTo: title.topAnchor, constant: -backgroundBorderSize),
+            cellBackground.leadingAnchor.constraint(equalTo: subTitle.leadingAnchor, constant: -backgroundBorderSize),
+            cellBackground.trailingAnchor.constraint(equalTo: subTitle.trailingAnchor, constant: backgroundBorderSize),
+            cellBackground.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: backgroundBorderSize),
 
-            subTitleBackground2.topAnchor.constraint(equalTo: title.topAnchor, constant: -backgroundBorderSize),
-            subTitleBackground2.leadingAnchor.constraint(equalTo: subTitleBackground.leadingAnchor, constant: -backgroundBorderSize),
-            subTitleBackground2.trailingAnchor.constraint(equalTo: subTitleBackground.leadingAnchor),
-            subTitleBackground2.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: backgroundBorderSize)
+            cellLeftMark.topAnchor.constraint(equalTo: title.topAnchor, constant: -backgroundBorderSize),
+            cellLeftMark.leadingAnchor.constraint(equalTo: cellBackground.leadingAnchor, constant: -backgroundBorderSize),
+            cellLeftMark.trailingAnchor.constraint(equalTo: cellBackground.leadingAnchor),
+            cellLeftMark.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: backgroundBorderSize)
         ]
         NSLayoutConstraint.activate(constraints)
         
