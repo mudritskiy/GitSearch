@@ -10,17 +10,11 @@ import UIKit
 
 class RepoInfoCell: UITableViewCell {
     
-    var isSeparatorShown: Bool = true {
-        didSet {
-            separator.isHidden = !isSeparatorShown
-        }
-    }
-    
     let title: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0)
+        label.textColor = #colorLiteral(red: 0.3921568627, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
         return label
     }()
     
@@ -35,7 +29,7 @@ class RepoInfoCell: UITableViewCell {
     let separator: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+        view.backgroundColor = #colorLiteral(red: 0.8823529412, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
         return view
         }()
     
@@ -74,13 +68,5 @@ class RepoInfoCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension UILabel {
-    func correctFontSize() {
-        if self.text?.count ?? 0 > 20 {
-            self.font = self.font.withSize(13)
-        }
     }
 }

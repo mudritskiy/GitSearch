@@ -10,7 +10,8 @@ import UIKit
 
 class RepoInfoViewController: UITableViewController {
     
-    private let cellId = "id"
+    private let cellId = "common"
+    private let cellDescription = "description"
     var repInfo = [String: String]()
     var props = [String]()
 
@@ -18,6 +19,7 @@ class RepoInfoViewController: UITableViewController {
         super.viewDidLoad()
     
         tableView.register(RepoInfoCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(RepoInfoDescriptionCell.self, forCellReuseIdentifier: cellDescription)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
@@ -34,19 +36,15 @@ class RepoInfoViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let key = props[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
-        
-        cell.title.text = key.replacingOccurrences(of: "_", with: " ")
-        cell.propertyValue.text = repInfo[key]!
-        cell.propertyValue.correctFontSize()
-        
-        let totalRow = tableView.numberOfRows(inSection: 0) - 1
-        if indexPath.row == totalRow {
-            cell.isSeparatorShown = false
+        if key == cellDescription {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellDescription, for: indexPath) as! RepoInfoDescriptionCell
+            cell.propertyValue.text = repInfo[key]!
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
+            cell.title.text = key.replacingOccurrences(of: "_", with: " ")
+            cell.propertyValue.text = repInfo[key]!
+            return cell
         }
-        
-        return cell
     }
 }
-
-
