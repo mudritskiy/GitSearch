@@ -18,3 +18,4 @@ class PaddedText: UITextField {
         return CGRect(x: bounds.origin.x + 20, y: bounds.origin.y, width: bounds.width + 20, height: bounds.height)
     }
 }
+
