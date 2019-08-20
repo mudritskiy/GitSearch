@@ -23,10 +23,11 @@ class RepoInfoViewController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
-        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = repInfo["name"]
 
-        if let indexName = props.firstIndex(of: "name") { props.remove(at: indexName) }
+        if let indexName = props.firstIndex(of: "name") {
+            props.remove(at: indexName)
+        }
         
     }
     
