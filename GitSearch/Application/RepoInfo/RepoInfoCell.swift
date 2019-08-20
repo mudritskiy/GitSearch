@@ -50,7 +50,7 @@ class RepoInfoCell: UITableViewCell {
             propertyValue.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
             propertyValue.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize),
             propertyValue.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize*2),
-            propertyValue.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -separatorHeight),
+            propertyValue.bottomAnchor.constraint(equalTo: separator.topAnchor),
 
             separator.heightAnchor.constraint(equalToConstant: separatorHeight),
             separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize - borderSizeShift),
