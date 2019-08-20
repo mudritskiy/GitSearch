@@ -22,7 +22,7 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 10)
-        label.textColor = UIColor(red: 66/255, green: 85/255, blue: 99/255, alpha: 1.0)
+        label.textColor = #colorLiteral(red: 0.2588235294, green: 0.3333333333, blue: 0.3882352941, alpha: 1)
         label.numberOfLines = 0
         return label
     }()
@@ -30,10 +30,10 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
     let cellBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         view.layer.shadowRadius = 2
         view.layer.shadowOffset = CGSize(width: 0, height: 1)
-        view.layer.shadowColor = UIColor(red: 180/255, green: 180/255, blue: 180/255, alpha: 1.0).cgColor
+        view.layer.shadowColor = #colorLiteral(red: 0.7058823529, green: 0.7058823529, blue: 0.7058823529, alpha: 1).cgColor
         view.layer.shadowOpacity = 0.5
         return view
     }()
@@ -41,7 +41,7 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
     let cellLeftMark: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 147/255, green: 52/255, blue: 105/255, alpha: 1.0)
+        view.backgroundColor = #colorLiteral(red: 0.5764705882, green: 0.2039215686, blue: 0.4117647059, alpha: 1)
         return view
     }()
 
