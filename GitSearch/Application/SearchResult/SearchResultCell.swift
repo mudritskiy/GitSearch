@@ -50,6 +50,16 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
         viewToRound.layer.maskedCorners = cornerMask
     }
     
+    func fillInfo(item: [String:String]) {
+        self.title.text = item["name"]!
+        self.subTitle.text = """
+        owner: \(item["owner"]!)
+        language: \(item["language"]!)
+        created: \(item["created_at"]!)
+        description: \(item["description"]!)
+        """
+    }
+
     fileprivate func setupSubviews() {
         contentView.addSubview(cellLeftMark)
         contentView.addSubview(cellBackground)

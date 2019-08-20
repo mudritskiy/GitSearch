@@ -72,12 +72,10 @@ class SearchController: UIViewController, UITextFieldDelegate {
         inputText.delegate = self
 //        inputText.becomeFirstResponder()
         
-        labelGitWidth = Int(super.view.frame.size.width)
-
         let constraints = [
             labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             labelGit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            labelGit.widthAnchor.constraint(equalToConstant: CGFloat(labelGitWidth/3)),
+            labelGit.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             labelGit.heightAnchor.constraint(equalToConstant: CGFloat(50)),
             
             labelSearch.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -103,7 +101,11 @@ class SearchController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         view?.backgroundColor = UIColor.white
+        
         setupSubviews()
     }
     
@@ -111,10 +113,6 @@ class SearchController: UIViewController, UITextFieldDelegate {
         
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {

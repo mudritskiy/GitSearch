@@ -17,14 +17,15 @@ class RepoInfoViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
-        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = repInfo["name"]
 
-        if let indexName = props.firstIndex(of: "name") { props.remove(at: indexName) }
+        if let indexName = props.firstIndex(of: "name") {
+            props.remove(at: indexName)
+        }
         
     }
     
@@ -34,7 +35,7 @@ class RepoInfoViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let key = props[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         cell.textLabel?.text = key.replacingOccurrences(of: "_", with: " ") + ": " + repInfo[key]!
         cell.textLabel?.numberOfLines = 0
         return cell
