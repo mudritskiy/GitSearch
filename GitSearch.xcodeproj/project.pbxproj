@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6F121EBB22CD0BCC001E24CD /* RepoInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F121EBA22CD0BCC001E24CD /* RepoInfoViewController.swift */; };
 		6F121EBD22CDA95C001E24CD /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F121EBC22CDA95C001E24CD /* SearchController.swift */; };
+		6F954CD1230DD67C0034E110 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F954CD0230DD67C0034E110 /* Constants.swift */; };
 		6F9C6B5E22A70BBC001D9A83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9C6B5D22A70BBC001D9A83 /* AppDelegate.swift */; };
 		6F9C6B6022A70BBC001D9A83 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9C6B5F22A70BBC001D9A83 /* SearchResultViewController.swift */; };
 		6F9C6B6522A70BC1001D9A83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F9C6B6422A70BC1001D9A83 /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		6F121EBA22CD0BCC001E24CD /* RepoInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoInfoViewController.swift; sourceTree = "<group>"; };
 		6F121EBC22CDA95C001E24CD /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		6F954CD0230DD67C0034E110 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6F9C6B5A22A70BBC001D9A83 /* GitSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F9C6B5D22A70BBC001D9A83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6F9C6B5F22A70BBC001D9A83 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 		6FAEBC7522F4F14500B2414D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6F954CD0230DD67C0034E110 /* Constants.swift */,
 				6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */,
 				6FAEBC7822F4F1E100B2414D /* SearchItem.swift */,
 				6FAEBC7E22F4F46100B2414D /* PaddedText.swift */,
@@ -213,6 +216,7 @@
 				6F121EBD22CDA95C001E24CD /* SearchController.swift in Sources */,
 				6FF77250230988D900D71AA0 /* PaddedLabel.swift in Sources */,
 				6FAEBC8222F4F55600B2414D /* SearchResultCell.swift in Sources */,
+				6F954CD1230DD67C0034E110 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

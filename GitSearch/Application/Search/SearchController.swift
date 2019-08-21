@@ -18,7 +18,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         label.text = "GIT"
         label.textAlignment = .right
         label.textColor = UIColor.white
-        label.layer.backgroundColor = UIColor(red: 241/255, green: 104/255, blue: 88/255, alpha: 1.0).cgColor
+        label.layer.backgroundColor = Constants.ColorScheme.mainRed.cgColor
         label.font = lableFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -30,7 +30,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         label.text = "SEARCH"
         label.textAlignment = .left
         label.textColor = UIColor.white
-        label.layer.backgroundColor = UIColor(red: 108/255, green: 94/255, blue: 82/255, alpha: 1.0).cgColor
+        label.layer.backgroundColor = Constants.ColorScheme.mainBrown.cgColor
         label.font = lableFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -45,7 +45,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     let inputText: PaddedText = {
         let textView = PaddedText()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.layer.borderColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1.0).cgColor
+        textView.layer.borderColor = Constants.ColorScheme.borderGrey.cgColor
         textView.layer.cornerRadius = 20
         textView.layer.borderWidth = 1
         textView.backgroundColor = UIColor.white
@@ -58,7 +58,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     
     let actionButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
-        button.backgroundColor = UIColor(red: 241/255, green: 104/255, blue: 88/255, alpha: 1.0)
+        button.backgroundColor = Constants.ColorScheme.mainRed
         button.layer.cornerRadius = 20
         button.setTitle("Search", for: .normal)
         button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
@@ -75,7 +75,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
 
     fileprivate func setupSubviews() {
 
-        view.backgroundColor = UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1.0)
+        view.backgroundColor = Constants.ColorScheme.backgroundGrey
         
         view.addSubview(labelGit)
         view.addSubview(labelSearch)
@@ -84,32 +84,31 @@ class SearchController: UIViewController, UITextFieldDelegate {
         
         inputText.delegate = self
         
-        let titleSize: CGFloat = 40
-//        let backgroundBorderSize: CGFloat = 25
-        roundCorners(viewToRound: labelGit, cornerRadius: Double(titleSize)/2, cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
-        roundCorners(viewToRound: labelSearch, cornerRadius: Double(titleSize)/2, cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
+        let heightSize: CGFloat = 40
+        roundCorners(viewToRound: labelGit, cornerRadius: Double(heightSize)/2, cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
+        roundCorners(viewToRound: labelSearch, cornerRadius: Double(heightSize)/2, cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
 
 
         let constraints = [
             labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            labelGit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: titleSize),
+            labelGit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
             labelGit.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            labelGit.heightAnchor.constraint(equalToConstant: titleSize),
+            labelGit.heightAnchor.constraint(equalToConstant: heightSize),
             
             labelSearch.topAnchor.constraint(equalTo: labelGit.topAnchor, constant: 0),
             labelSearch.leadingAnchor.constraint(equalTo: labelGit.trailingAnchor, constant: 1),
-            labelSearch.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -titleSize),
-            labelSearch.heightAnchor.constraint(equalToConstant: titleSize),
+            labelSearch.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
+            labelSearch.heightAnchor.constraint(equalToConstant: heightSize),
             
             inputText.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: 50),
-            inputText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
-            inputText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
-            inputText.heightAnchor.constraint(equalToConstant: CGFloat(40)),
+            inputText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
+            inputText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
+            inputText.heightAnchor.constraint(equalToConstant: heightSize),
             
             actionButton.topAnchor.constraint(equalTo: inputText.bottomAnchor, constant: 20),
             actionButton.leadingAnchor.constraint(equalTo: inputText.leadingAnchor),
             actionButton.trailingAnchor.constraint(equalTo: inputText.trailingAnchor),
-            actionButton.heightAnchor.constraint(equalToConstant: CGFloat(40))
+            actionButton.heightAnchor.constraint(equalToConstant: heightSize)
         ]
         
         NSLayoutConstraint.activate(constraints)
