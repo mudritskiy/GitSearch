@@ -37,8 +37,13 @@ class SearchController: UIViewController, UITextFieldDelegate {
     }()
     
     let aboutLabel: UILabel = {
-        let label = UILabel()
+        let label = PaddedLabel()
         label.text = "Search information about any repository in github by keyword"
+        label.textAlignment = .left
+        label.textColor = Constants.ColorScheme.mainBrown
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -79,6 +84,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         
         view.addSubview(labelGit)
         view.addSubview(labelSearch)
+        view.addSubview(aboutLabel)
         view.addSubview(inputText)
         view.addSubview(actionButton)
         
@@ -100,7 +106,11 @@ class SearchController: UIViewController, UITextFieldDelegate {
             labelSearch.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
             labelSearch.heightAnchor.constraint(equalToConstant: heightSize),
             
-            inputText.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: 50),
+            aboutLabel.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: heightSize),
+            aboutLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
+            aboutLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
+
+            inputText.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: heightSize),
             inputText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
             inputText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
             inputText.heightAnchor.constraint(equalToConstant: heightSize),
