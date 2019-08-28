@@ -115,25 +115,6 @@ class SearchController: UIViewController, UITextFieldDelegate {
         super.touchesBegan(touches, with: event)
     }
     
-    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
-        
-        guard let urlGit = URL(string: urlString) else { return }
-        
-        let task = URLSession.shared.dataTask(with: urlGit) { data, response, error in
-            if error != nil { return }
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { return }
-            guard let mime = httpResponse.mimeType, mime == "application/json" else { return }
-            guard let data = data else { return }
-            do {
-                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
-                completion(gitRep)
-            } catch let errorLbl {
-                print(errorLbl)
-            }
-        }
-        task.resume()
-    }
-    
     func postAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
@@ -166,19 +147,22 @@ class SearchController: UIViewController, UITextFieldDelegate {
         showHideSpinner(spinner: child)
         
         let keys = keyWords.components(separatedBy: " ")
-//        keys.forEach({key in keys[keys.firstIndex(of: key)!] = "topic:"+key})
         let keysSequence = keys.joined(separator: "+")
-
-        let urlQuery = "https://api.github.com/search/repositories?q="+keysSequence+"&sort=stars&order=desc"
-        fetchRepositoriesHeader(from: urlQuery) { gitRep in
+        
+        SearchServices.shared.getRepositories(keysSequence: keysSequence) { res in
             DispatchQueue.main.async {
                 self.showHideSpinner(spinner: child, false)
-                if gitRep.total_count == 0 {
-                    self.postAlert(title: "No data found", message: "Please, try another  keyword")
-                } else {
-                    let newVC = SearchResultViewController(collectionViewLayout: UICollectionViewFlowLayout())
-                    newVC.gitRep = gitRep
-                    self.navigationController?.pushViewController(newVC, animated: true)
+                switch res {
+                case .success(let gitRep):
+                    if gitRep!.total_count == 0 {
+                        self.postAlert(title: "No data found", message: "Please, try another  keyword")
+                    } else {
+                        let newVC = SearchResultViewController(collectionViewLayout: UICollectionViewFlowLayout())
+                        newVC.gitRep = gitRep
+                        self.navigationController?.pushViewController(newVC, animated: true)
+                    }
+                case .failure(let err):
+                    print(err)
                 }
             }
         }

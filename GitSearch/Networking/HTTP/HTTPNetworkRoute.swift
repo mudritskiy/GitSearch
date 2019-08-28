@@ -1,5 +1,5 @@
 //
-//  PostService.swift
+//  HTTPNetworkRoutes.swift
 //  GitSearch
 //
 //  Created by Vldmr on 8/26/19.
@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+public enum HTTPNetworkRoute: String {
+    case searchRepositories = "/search/repositories"
+}
