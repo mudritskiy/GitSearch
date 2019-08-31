@@ -13,10 +13,20 @@ public typealias HTTPHeaders = [String: Any]?
 
 struct HTTPNetworkRequest {
     
+    static var urlComponents: URLComponents = {
+        var url = URLComponents()
+        url.scheme = "https"
+        url.host = "api.github.com"
+        return url
+    }()
+    
     static func configureHTTPRequest(from route: HTTPNetworkRoute, with parameters: HTTPParameters, includes headers: HTTPHeaders, contains body: Data?, and method: HTTPMethod) throws -> URLRequest {
         
-        guard let url = URL(string: "https://api.github.com\(route.rawValue)") else { throw HTTPNetworkError.missingURL}
-        
+        urlComponents.path = route.rawValue
+        guard let url = urlComponents.url else {
+            throw HTTPNetworkError.missingURL
+        }
+
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10.0)
         
         request.httpMethod = method.rawValue
