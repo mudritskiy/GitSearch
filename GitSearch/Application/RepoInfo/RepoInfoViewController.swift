@@ -40,6 +40,18 @@ class RepoInfoViewController: UITableViewController {
         cell.textLabel?.numberOfLines = 0
         return cell
     }
+    
+    init(properties: [String], item: Dictionary<String, String>) {
+        super.init(nibName: nil, bundle: nil)
+        props = properties
+        properties.forEach { prop in
+            repInfo[prop] = item[prop]
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 
