@@ -39,12 +39,12 @@ class RepoInfoViewController: UITableViewController {
         let key = props[indexPath.row]
         if key == cellDescription {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellDescription, for: indexPath) as! RepoInfoDescriptionCell
-            cell.propertyValue.text = repInfo[key]!
+            cell.propertyValue.text = repInfo[key]
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
             cell.title.text = key.replacingOccurrences(of: "_", with: " ")
-            cell.propertyValue.text = repInfo[key]!
+            cell.propertyValue.text = repInfo[key]
             return cell
         }
     }
