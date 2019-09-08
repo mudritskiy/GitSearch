@@ -37,7 +37,7 @@ struct SearchServices{
                         completion(Result.failure(HTTPNetworkError.decodingFailed))
                     }
                 }
-                }.resume()
+            }.resume()
         }catch{
             completion(Result.failure(HTTPNetworkError.badRequest))
         }
