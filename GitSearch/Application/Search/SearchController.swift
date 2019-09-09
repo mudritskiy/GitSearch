@@ -18,7 +18,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         label.text = "GIT"
         label.textAlignment = .right
         label.textColor = UIColor.white
-        label.layer.backgroundColor = Constants.ColorScheme.mainRed.cgColor
+        label.layer.backgroundColor = UIColor.mainTitle.cgColor
         label.font = lableFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -30,7 +30,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         label.text = "SEARCH"
         label.textAlignment = .left
         label.textColor = UIColor.white
-        label.layer.backgroundColor = Constants.ColorScheme.mainBrown.cgColor
+        label.layer.backgroundColor = UIColor.secondaryTitle.cgColor
         label.font = lableFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -40,7 +40,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         let label = PaddedLabel()
         label.text = "Search information about any repository in github by keyword"
         label.textAlignment = .left
-        label.textColor = Constants.ColorScheme.mainBrown
+        label.textColor = UIColor.secondaryTitle
         label.font = UIFont.systemFont(ofSize: 13)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     let inputText: PaddedText = {
         let textView = PaddedText()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.layer.borderColor = Constants.ColorScheme.borderGrey.cgColor
+        textView.layer.borderColor = UIColor.secondaryTint.cgColor
         textView.layer.cornerRadius = 20
         textView.layer.borderWidth = 1
         textView.backgroundColor = UIColor.white
@@ -63,7 +63,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     
     let actionButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
-        button.backgroundColor = Constants.ColorScheme.mainRed
+        button.backgroundColor = UIColor.mainTitle
         button.layer.cornerRadius = 20
         button.setTitle("Search", for: .normal)
         button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
@@ -80,7 +80,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
 
     fileprivate func setupSubviews() {
 
-        view.backgroundColor = Constants.ColorScheme.backgroundGrey
+        view.backgroundColor = UIColor.mainTint
         
         view.addSubview(labelGit)
         view.addSubview(labelSearch)
