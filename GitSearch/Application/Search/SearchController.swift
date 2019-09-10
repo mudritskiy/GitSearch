@@ -128,7 +128,11 @@ class SearchController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         view?.backgroundColor = UIColor.white
+        
         setupSubviews()
     }
     
