@@ -10,14 +10,16 @@ import UIKit
 
 class RepoInfoViewController: UITableViewController {
     
-    private let cellId = "id"
+    private let cellId = "common"
+    private let cellDescription = "description"
     private var repInfo = [String: String]()
     private var props = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(RepoInfoDescriptionCell.self, forCellReuseIdentifier: cellDescription)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
@@ -35,10 +37,16 @@ class RepoInfoViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let key = props[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        cell.textLabel?.text = key.replacingOccurrences(of: "_", with: " ") + ": " + repInfo[key]!
-        cell.textLabel?.numberOfLines = 0
-        return cell
+        if key == cellDescription {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellDescription, for: indexPath) as! RepoInfoDescriptionCell
+            cell.propertyValue.text = repInfo[key]
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
+            cell.title.text = key.replacingOccurrences(of: "_", with: " ")
+            cell.propertyValue.text = repInfo[key]
+            return cell
+        }
     }
     
     init(properties: [String], item: Dictionary<String, String>) {
@@ -53,5 +61,3 @@ class RepoInfoViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-

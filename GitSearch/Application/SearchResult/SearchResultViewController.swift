@@ -19,7 +19,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = "Search results"
 
-        collectionView?.backgroundColor = UIColor.white
+        collectionView?.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
         collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: "cellId")
         
         let layout = UICollectionViewFlowLayout()
