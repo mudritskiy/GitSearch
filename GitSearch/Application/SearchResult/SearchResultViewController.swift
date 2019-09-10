@@ -10,8 +10,8 @@ import UIKit
 
 class SearchResultViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    fileprivate var gitRep: SearchInfo
-    fileprivate var props = [String]()
+    private var gitRep: SearchInfo
+    private var props = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

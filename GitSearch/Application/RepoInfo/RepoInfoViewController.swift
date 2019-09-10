@@ -10,9 +10,9 @@ import UIKit
 
 class RepoInfoViewController: UITableViewController {
     
-    fileprivate let cellId = "id"
-    fileprivate var repInfo = [String: String]()
-    fileprivate var props = [String]()
+    private let cellId = "id"
+    private var repInfo = [String: String]()
+    private var props = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
