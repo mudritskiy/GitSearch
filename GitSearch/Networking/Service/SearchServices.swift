@@ -22,9 +22,9 @@ struct SearchServices{
             "order": "desc"
         ]
 
-        do{
+        do {
             let request = try HTTPNetworkRequest.configureHTTPRequest(from: .searchRepositories, with: parameters, includes: nil, contains: nil, and: .get)
-            searchSession.dataTask(with: request) { (data, res, err) in
+            let task = searchSession.dataTask(with: request) { (data, res, err) in
                 
                 if let response = res as? HTTPURLResponse, let unwrappedData = data {
                     let result = HTTPNetworkResponse.handleNetworkResponse(for: response)
@@ -37,8 +37,10 @@ struct SearchServices{
                         completion(Result.failure(HTTPNetworkError.decodingFailed))
                     }
                 }
-            }.resume()
-        }catch{
+            }
+            task.resume()
+            
+        } catch {
             completion(Result.failure(HTTPNetworkError.badRequest))
         }
     }

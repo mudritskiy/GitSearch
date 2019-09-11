@@ -27,7 +27,7 @@ struct HTTPNetworkRequest {
             throw HTTPNetworkError.missingURL
         }
 
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10.0)
+        var request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30.0)
         
         request.httpMethod = method.rawValue
         request.httpBody = body
