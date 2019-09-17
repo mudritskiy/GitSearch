@@ -14,7 +14,7 @@ struct SearchServices{
     
     let searchSession = URLSession(configuration: .default)
     
-    func getRepositories(keysSequence: String, _ completion: @escaping (Result<SearchInfo?>) -> ()) {
+    func getRepositories(keysSequence: String, _ completion: @escaping (Result<SearchInfo?, HTTPNetworkError>) -> ()) {
 
         let parameters = [
             "q": keysSequence,
