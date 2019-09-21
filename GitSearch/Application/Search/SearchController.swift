@@ -162,7 +162,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
                         self.navigationController?.pushViewController(newVC, animated: true)
                     }
                 case .failure(let err):
-                    print(err)
+                    print("Error found : \(err)")
                 }
             }
         }

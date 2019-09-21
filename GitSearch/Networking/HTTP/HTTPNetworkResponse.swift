@@ -15,11 +15,16 @@ struct HTTPNetworkResponse {
         guard let res = response else { return Result.failure(HTTPNetworkError.unwrappingError)}
 
         switch res.statusCode {
-        case 200...299: return Result.success(HTTPNetworkError.success.rawValue)
-        case 401: return Result.failure(HTTPNetworkError.authenticationError)
-        case 400...499: return Result.failure(HTTPNetworkError.badRequest)
-        case 500...599: return Result.failure(HTTPNetworkError.serverSideError)
-        default: return Result.failure(HTTPNetworkError.failed)
+        case 200...299:
+            return Result.success(HTTPNetworkError.success.localizedDescription)
+        case 401:
+            return Result.failure(HTTPNetworkError.authenticationError)
+        case 400...499:
+            return Result.failure(HTTPNetworkError.badRequest)
+        case 500...599:
+            return Result.failure(HTTPNetworkError.serverSideError)
+        default:
+            return Result.failure(HTTPNetworkError.failed)
         }
     }
 }
