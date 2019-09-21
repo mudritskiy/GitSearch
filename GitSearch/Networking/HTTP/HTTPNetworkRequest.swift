@@ -8,8 +8,8 @@
 
 import Foundation
 
-public typealias HTTPParameters = [String: Any]?
-public typealias HTTPHeaders = [String: Any]?
+public typealias HTTPParameters = [String: Any]
+public typealias HTTPHeaders = [String: Any]
 
 struct HTTPNetworkRequest {
     
@@ -20,7 +20,7 @@ struct HTTPNetworkRequest {
         return url
     }()
     
-    static func configureHTTPRequest(from route: HTTPNetworkRoute, with parameters: HTTPParameters, includes headers: HTTPHeaders, contains body: Data?, and method: HTTPMethod) throws -> URLRequest {
+    static func configureHTTPRequest(from route: HTTPNetworkRoute, with parameters: HTTPParameters?, includes headers: HTTPHeaders?, contains body: Data?, and method: HTTPMethod) throws -> URLRequest {
         
         urlComponents.path = route.rawValue
         guard let url = urlComponents.url else {
@@ -36,11 +36,12 @@ struct HTTPNetworkRequest {
     }
     
     static func configureParametersAndHeaders(parameters: HTTPParameters?, headers: HTTPHeaders?, request: inout URLRequest) throws {
-        
         do {
-            if let headers = headers, let parameters = parameters {
-                try URLEncoder.encodeParameters(for: &request, with: parameters)
+            if let headers = headers {
                 try URLEncoder.setHeaders(for: &request, with: headers)
+            }
+            if let parameters = parameters {
+                try URLEncoder.encodeParameters(for: &request, with: parameters)
             }
         } catch {
             throw HTTPNetworkError.encodingFailed

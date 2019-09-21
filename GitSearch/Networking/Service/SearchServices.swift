@@ -33,8 +33,8 @@ struct SearchServices{
                         let result = try? JSONDecoder().decode(SearchInfo.self, from: unwrappedData)
                         completion(Result.success(result))
                         
-                    case .failure:
-                        completion(Result.failure(HTTPNetworkError.decodingFailed))
+                    case .failure(let err):
+                        completion(Result.failure(err))
                     }
                 }
             }

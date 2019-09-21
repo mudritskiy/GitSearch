@@ -162,7 +162,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
                         self.navigationController?.pushViewController(newVC, animated: true)
                     }
                 case .failure(let err):
-                    print("Error found : \(err)")
+                    self.postAlert(title: "Error found", message: err.localizedDescription)
                 }
             }
         }
