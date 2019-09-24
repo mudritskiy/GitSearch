@@ -12,8 +12,8 @@ class RepoInfoViewController: UITableViewController {
     
     private let cellId = "common"
     private let cellDescription = "description"
-    var repInfo = [String: String]()
-    var props = [String]()
+    private var repInfo = [String: String]()
+    private var props = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,5 +47,17 @@ class RepoInfoViewController: UITableViewController {
             cell.propertyValue.text = repInfo[key]
             return cell
         }
+    }
+    
+    init(properties: [String], item: Dictionary<String, String>) {
+        super.init(nibName: nil, bundle: nil)
+        props = properties
+        properties.forEach { prop in
+            repInfo[prop] = item[prop]
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

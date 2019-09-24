@@ -157,8 +157,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
                     if gitRep!.total_count == 0 {
                         self.postAlert(title: "No data found", message: "Please, try another  keyword")
                     } else {
-                        let newVC = SearchResultViewController(collectionViewLayout: UICollectionViewFlowLayout())
-                        newVC.gitRep = gitRep
+                        let newVC = SearchResultViewController(data: gitRep!)
                         self.navigationController?.pushViewController(newVC, animated: true)
                     }
                 case .failure(let err):
