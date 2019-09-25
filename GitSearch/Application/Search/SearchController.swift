@@ -154,7 +154,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
                 self.showHideSpinner(spinner: child, false)
                 switch res {
                 case .success(let gitRep):
-                    if gitRep!.total_count == 0 {
+                    if gitRep?.total_count == 0 {
                         self.postAlert(title: "No data found", message: "Please, try another  keyword")
                     } else {
                         let newVC = SearchResultViewController(data: gitRep!)

@@ -12,8 +12,13 @@ public struct URLEncoder {
     
     static func encodeParameters(for urlRequest: inout URLRequest, with parameters: HTTPParameters?) throws {
         guard let url = urlRequest.url else { throw HTTPNetworkError.missingURL }
-        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), let parameters = parameters else { return }
-        if parameters.isEmpty { return }
+        guard
+            var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
+            let parameters = parameters,
+            !parameters.isEmpty
+        else {
+            return
+        }
 
         urlComponents.queryItems = [URLQueryItem]()
         for (key,value) in parameters {
