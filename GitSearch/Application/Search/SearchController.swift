@@ -12,26 +12,37 @@ class SearchController: UIViewController, UITextFieldDelegate {
     
     fileprivate var labelGitWidth = 0
     
-    let labelGit: UILabel = {
+    let labelGit: PaddedLabel = {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
-        let label = UILabel()
+        let label = PaddedLabel()
         label.text = "main_title_git".localized(tableName: "SearchView")
         label.textAlignment = .right
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor(red:0.98, green:0.56, blue:0.04, alpha:1.0) // orange
+        label.layer.backgroundColor = UIColor.mainTitle.cgColor
         label.font = lableFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let labelSearch: UILabel = {
+    let labelSearch: PaddedLabel = {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
-        let label = UILabel()
+        let label = PaddedLabel()
         label.text = "main_title_search".localized(tableName: "SearchView")
         label.textAlignment = .left
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor(red: 0/255, green: 159/255, blue: 214/255, alpha: 1.0)
+        label.layer.backgroundColor = UIColor.secondaryTitle.cgColor
         label.font = lableFont
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let aboutLabel: UILabel = {
+        let label = PaddedLabel()
+        label.text = "about_information".localized(tableName: "SearchView")
+        label.textAlignment = .left
+        label.textColor = UIColor.secondaryTitle
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -39,58 +50,75 @@ class SearchController: UIViewController, UITextFieldDelegate {
     let inputText: PaddedText = {
         let textView = PaddedText()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.layer.borderColor = UIColor.lightGray.cgColor
-        textView.layer.cornerRadius = 5
+        textView.layer.borderColor = UIColor.secondaryTint.cgColor
+        textView.layer.cornerRadius = 20
         textView.layer.borderWidth = 1
+        textView.backgroundColor = UIColor.white
         textView.keyboardType = .default
         textView.placeholder = "enter_keyword".localized(tableName: "SearchView")
-        textView.borderStyle = .roundedRect
+        textView.borderStyle = .none
         textView.clearButtonMode = .whileEditing
         return textView
     }()
     
     let actionButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
-        button.backgroundColor = UIColor(red: 0/255, green: 134/255, blue: 214/255, alpha: 1.0)
-        button.layer.cornerRadius = 5
-        button.layer.borderColor = UIColor(red: 0/255, green: 154/255, blue: 244/255, alpha: 1.0).cgColor
-        button.layer.borderWidth = 1
+        button.backgroundColor = UIColor.mainTitle
+        button.layer.cornerRadius = 20
         button.setTitle("search_button_title".localized(tableName: "SearchView"), for: .normal)
         button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
+    // muts be global `cause used in several places
+    func roundCorners(viewToRound: UIView, cornerRadius: Double, cornerMask: CACornerMask) {
+        viewToRound.layer.cornerRadius = CGFloat(cornerRadius)
+        viewToRound.layer.maskedCorners = cornerMask
+    }
+
     fileprivate func setupSubviews() {
 
+        view.backgroundColor = UIColor.mainTint
+        
         view.addSubview(labelGit)
         view.addSubview(labelSearch)
+        view.addSubview(aboutLabel)
         view.addSubview(inputText)
         view.addSubview(actionButton)
         
         inputText.delegate = self
         
+        let heightSize: CGFloat = 40
+        roundCorners(viewToRound: labelGit, cornerRadius: Double(heightSize)/2, cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
+        roundCorners(viewToRound: labelSearch, cornerRadius: Double(heightSize)/2, cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
+
+
         let constraints = [
-            labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            labelGit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            labelGit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
             labelGit.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            labelGit.heightAnchor.constraint(equalToConstant: CGFloat(50)),
+            labelGit.heightAnchor.constraint(equalToConstant: heightSize),
             
-            labelSearch.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            labelSearch.leadingAnchor.constraint(equalTo: labelGit.trailingAnchor),
-            labelSearch.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            labelSearch.heightAnchor.constraint(equalToConstant: CGFloat(50)),
+            labelSearch.topAnchor.constraint(equalTo: labelGit.topAnchor, constant: 0),
+            labelSearch.leadingAnchor.constraint(equalTo: labelGit.trailingAnchor, constant: 1),
+            labelSearch.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
+            labelSearch.heightAnchor.constraint(equalToConstant: heightSize),
             
-            inputText.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: 50),
-            inputText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
-            inputText.trailingAnchor.constraint(equalTo: actionButton.leadingAnchor, constant: -10),
-            inputText.heightAnchor.constraint(equalToConstant: CGFloat(40)),
+            aboutLabel.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: heightSize),
+            aboutLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
+            aboutLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
+
+            inputText.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: heightSize),
+            inputText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
+            inputText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
+            inputText.heightAnchor.constraint(equalToConstant: heightSize),
             
-            actionButton.topAnchor.constraint(equalTo: inputText.topAnchor),
-            actionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
-            actionButton.widthAnchor.constraint(equalToConstant: CGFloat(70)),
-            actionButton.heightAnchor.constraint(equalToConstant: CGFloat(40))
+            actionButton.topAnchor.constraint(equalTo: inputText.bottomAnchor, constant: 20),
+            actionButton.leadingAnchor.constraint(equalTo: inputText.leadingAnchor),
+            actionButton.trailingAnchor.constraint(equalTo: inputText.trailingAnchor),
+            actionButton.heightAnchor.constraint(equalToConstant: heightSize)
         ]
         
         NSLayoutConstraint.activate(constraints)
@@ -112,6 +140,35 @@ class SearchController: UIViewController, UITextFieldDelegate {
         
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
+        
+        guard let urlGit = URL(string: urlString) else { return }
+        
+        let task = URLSession.shared.dataTask(with: urlGit) { data, response, error in
+            if error != nil { return }
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { return }
+            guard let mime = httpResponse.mimeType, mime == "application/json" else { return }
+            guard let data = data else { return }
+            do {
+                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
+                completion(gitRep)
+            } catch let errorLbl {
+                print(errorLbl)
+            }
+        }
+        task.resume()
     }
     
     func postAlert(title: String, message: String) {
