@@ -15,7 +15,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     let labelGit: UILabel = {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
         let label = UILabel()
-        label.text = "GIT"
+        label.text = "main_title_git".localized(tableName: "SearchView")
         label.textAlignment = .right
         label.textColor = UIColor.white
         label.backgroundColor = UIColor(red:0.98, green:0.56, blue:0.04, alpha:1.0) // orange
@@ -27,7 +27,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     let labelSearch: UILabel = {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
         let label = UILabel()
-        label.text = "SEARCH"
+        label.text = "main_title_search".localized(tableName: "SearchView")
         label.textAlignment = .left
         label.textColor = UIColor.white
         label.backgroundColor = UIColor(red: 0/255, green: 159/255, blue: 214/255, alpha: 1.0)
@@ -43,7 +43,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         textView.layer.cornerRadius = 5
         textView.layer.borderWidth = 1
         textView.keyboardType = .default
-        textView.placeholder = "Enter keyword"
+        textView.placeholder = "enter_keyword".localized(tableName: "SearchView")
         textView.borderStyle = .roundedRect
         textView.clearButtonMode = .whileEditing
         return textView
@@ -55,7 +55,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         button.layer.cornerRadius = 5
         button.layer.borderColor = UIColor(red: 0/255, green: 154/255, blue: 244/255, alpha: 1.0).cgColor
         button.layer.borderWidth = 1
-        button.setTitle("Search", for: .normal)
+        button.setTitle("search_button_title".localized(tableName: "SearchView"), for: .normal)
         button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -70,7 +70,6 @@ class SearchController: UIViewController, UITextFieldDelegate {
         view.addSubview(actionButton)
         
         inputText.delegate = self
-//        inputText.becomeFirstResponder()
         
         let constraints = [
             labelGit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -139,7 +138,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         guard let keyWords = inputText.text else { return }
         
         if keyWords.isEmpty {
-            postAlert(title: "No keyword", message: "Please, enter some keyword")
+            postAlert(title: SearchUserAlerts.noKeyword.localized, message: SearchUserAlerts.noKeywordMessage.localized)
             return
         }
         
@@ -155,13 +154,13 @@ class SearchController: UIViewController, UITextFieldDelegate {
                 switch res {
                 case .success(let gitRep):
                     if gitRep?.total_count == 0 {
-                        self.postAlert(title: "No data found", message: "Please, try another  keyword")
+                        self.postAlert(title: SearchUserAlerts.noDataFound.localized, message: SearchUserAlerts.noDataFoundMessage.localized)
                     } else {
                         let newVC = SearchResultViewController(data: gitRep!)
                         self.navigationController?.pushViewController(newVC, animated: true)
                     }
                 case .failure(let err):
-                    self.postAlert(title: "Error found", message: err.localizedDescription)
+                    self.postAlert(title: SearchUserAlerts.errorFound.localized, message: err.localized)
                 }
             }
         }
@@ -169,8 +168,3 @@ class SearchController: UIViewController, UITextFieldDelegate {
     }
     
 }
-
-
-
-
-

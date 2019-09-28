@@ -9,7 +9,7 @@
 import Foundation
 
 // The enumeration defines possible errrors to encounter during Network Request
-public enum HTTPNetworkError: String, Error {
+public enum HTTPNetworkError: String, Error, Localizable {
     
     case parametersNil = "PARAMETERS_NIL"
     case headersNil = "HEADERS_NIL"
@@ -28,12 +28,7 @@ public enum HTTPNetworkError: String, Error {
     case failed = "FAILED"
     case serverSideError = "SERVER_SIDE_ERROR"
 
-}
-
-extension HTTPNetworkError: LocalizedError {
-
-    public var localizedDescription: String {
-        return self.rawValue.localized(tableName: "Errors")
+    var tableName: String {
+        return "Errors"
     }
-    
 }
