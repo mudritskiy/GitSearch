@@ -1,0 +1,25 @@
+/* 
+  Errors.strings
+  GitSearch
+
+  Created by Vldmr on 9/28/19.
+  Copyright © 2019 mudritskiy. All rights reserved.
+*/
+
+// Network errors
+"PARAMETERS_NIL"        = "Parameters are Nil";
+"HEADERS_NIL"           = "Headers are Nil";
+"ENCODING_FAILED"       = "Parameter Encoding failed";
+"DECODING_FAILED"       = "Unable to Decode the data";
+"MISSING_URL"           = "The URL is nil";
+"COULD_NOT_PARSE"       = "Unable to parse the JSON response";
+"NO_DATA"               = "The data from API is Nil";
+"FRAGMENT_RESPONSE"     = "The API's response's body has fragments";
+"UNWRAPPING_ERROR"      = "Unable to unwrape the data";
+"DATA_TASK_FAILED"      = "The Data Task object failed";
+"SUCCESS"               = "Successful Network Request";
+"AUTHENTICATION_ERROR"  = "You must be Authenticated";
+"BAD_REQUEST"           = "Bad Request";
+"PAGE_NOT_FOUND"        = "Page/Route rquested not found.";
+"FAILED"                = "Network Request failed";
+"SERVER_SIDE_ERROR"     = "Server error";

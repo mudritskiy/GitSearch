@@ -11,59 +11,29 @@ import Foundation
 // The enumeration defines possible errrors to encounter during Network Request
 public enum HTTPNetworkError: String, Error {
     
-    case parametersNil
-    case headersNil
-    case encodingFailed
-    case decodingFailed
-    case missingURL
-    case couldNotParse
-    case noData
-    case fragmentResponse
-    case unwrappingError
-    case dataTaskFailed
-    case success
-    case authenticationError
-    case badRequest
-    case pageNotFound
-    case failed
-    case serverSideError
+    case parametersNil = "PARAMETERS_NIL"
+    case headersNil = "HEADERS_NIL"
+    case encodingFailed = "ENCODING_FAILED"
+    case decodingFailed = "DECODING_FAILED"
+    case missingURL = "MISSING_URL"
+    case couldNotParse = "COULD_NOT_PARSE"
+    case noData = "NO_DATA"
+    case fragmentResponse = "FRAGMENT_RESPONSE"
+    case unwrappingError = "UNWRAPPING_ERROR"
+    case dataTaskFailed = "DATA_TASK_FAILED"
+    case success = "SUCCESS"
+    case authenticationError = "AUTHENTICATION_ERROR"
+    case badRequest = "BAD_REQUEST"
+    case pageNotFound = "PAGE_NOT_FOUND"
+    case failed = "FAILED"
+    case serverSideError = "SERVER_SIDE_ERROR"
+
 }
 
 extension HTTPNetworkError: LocalizedError {
+
     public var localizedDescription: String {
-        switch self {
-        case .parametersNil:
-            return NSLocalizedString("Parameters are nil.", comment: "")
-        case .headersNil:
-            return NSLocalizedString("Headers are Nil", comment: "")
-        case .encodingFailed:
-            return NSLocalizedString("Parameter Encoding failed.", comment: "")
-        case .decodingFailed:
-            return NSLocalizedString("Unable to Decode the data.", comment: "")
-        case .missingURL:
-            return NSLocalizedString("The URL is nil.", comment: "")
-        case .couldNotParse:
-            return NSLocalizedString("Unable to parse the JSON response.", comment: "")
-        case .noData:
-            return NSLocalizedString("The data from API is Nil.", comment: "")
-        case .fragmentResponse:
-            return NSLocalizedString("The API's response's body has fragments.", comment: "")
-        case .unwrappingError:
-            return NSLocalizedString("Unable to unwrape the data.", comment: "")
-        case .dataTaskFailed:
-            return NSLocalizedString("The Data Task object failed.", comment: "")
-        case .success:
-            return NSLocalizedString("Successful Network Request", comment: "")
-        case .authenticationError:
-            return NSLocalizedString("You must be Authenticated", comment: "")
-        case .badRequest:
-            return NSLocalizedString("Bad Request", comment: "")
-        case .pageNotFound:
-            return NSLocalizedString("Page/Route rquested not found.", comment: "")
-        case .failed:
-            return NSLocalizedString("Network Request failed", comment: "")
-        case .serverSideError:
-            return NSLocalizedString("Server error", comment: "")
-        }
+        return self.rawValue.localized(tableName: "Errors")
     }
+    
 }
