@@ -6,16 +6,17 @@
 //  Copyright © 2019 mudritskiy. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class SearchController: UIViewController, UITextFieldDelegate {
     
-    fileprivate var labelGitWidth = 0
+    private var labelGitWidth = 0
     
     let labelGit: PaddedLabel = {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
         let label = PaddedLabel()
-        label.text = "main_title_git".localized(tableName: "SearchView")
+        label.text = NSLocalizedString("main.title-git", value: "GIT", comment: "Application title's left part. Don't need to be translate!")
         label.textAlignment = .right
         label.textColor = UIColor.white
         label.layer.backgroundColor = UIColor.mainTitle.cgColor
@@ -27,7 +28,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     let labelSearch: PaddedLabel = {
         let lableFont = UIFont.boldSystemFont(ofSize: 34)
         let label = PaddedLabel()
-        label.text = "main_title_search".localized(tableName: "SearchView")
+        label.text = NSLocalizedString("main.title-search", value: "SEARCH", comment: "Application title's right part. Don't need to be translate!")
         label.textAlignment = .left
         label.textColor = UIColor.white
         label.layer.backgroundColor = UIColor.secondaryTitle.cgColor
@@ -38,7 +39,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     
     let aboutLabel: UILabel = {
         let label = PaddedLabel()
-        label.text = "about_information".localized(tableName: "SearchView")
+        label.text = NSLocalizedString("main.about", value: "Search information about any repository in github by keyword", comment: "About this application")
         label.textAlignment = .left
         label.textColor = UIColor.secondaryTitle
         label.font = UIFont.systemFont(ofSize: 13)
@@ -55,7 +56,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         textView.layer.borderWidth = 1
         textView.backgroundColor = UIColor.white
         textView.keyboardType = .default
-        textView.placeholder = "enter_keyword".localized(tableName: "SearchView")
+        textView.placeholder = NSLocalizedString("main.enter-keyword", value: "Enter keyword", comment: "Enter keyword for search repositories")
         textView.borderStyle = .none
         textView.clearButtonMode = .whileEditing
         return textView
@@ -65,7 +66,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.backgroundColor = UIColor.mainTitle
         button.layer.cornerRadius = 20
-        button.setTitle("search_button_title".localized(tableName: "SearchView"), for: .normal)
+        button.setTitle(NSLocalizedString("main.search-button-title", value: "Search", comment: "Start repositories search"), for: .normal)
         button.addTarget(self, action: #selector(SearchController.buttonAction(_:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -195,7 +196,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         guard let keyWords = inputText.text else { return }
         
         if keyWords.isEmpty {
-            postAlert(title: SearchUserAlerts.noKeyword.localized, message: SearchUserAlerts.noKeywordMessage.localized)
+            postAlert(title: SearchUserAlerts.noKeyword.title, message: SearchUserAlerts.noKeyword.message)
             return
         }
         
@@ -211,13 +212,13 @@ class SearchController: UIViewController, UITextFieldDelegate {
                 switch res {
                 case .success(let gitRep):
                     if gitRep?.total_count == 0 {
-                        self.postAlert(title: SearchUserAlerts.noDataFound.localized, message: SearchUserAlerts.noDataFoundMessage.localized)
+                        self.postAlert(title: SearchUserAlerts.noDataFound.title, message: SearchUserAlerts.noDataFound.message)
                     } else {
                         let newVC = SearchResultViewController(data: gitRep!)
                         self.navigationController?.pushViewController(newVC, animated: true)
                     }
                 case .failure(let err):
-                    self.postAlert(title: SearchUserAlerts.errorFound.localized, message: err.localized)
+                    self.postAlert(title: SearchUserAlerts.errorFound.title, message: err.localizedDescription)
                 }
             }
         }
