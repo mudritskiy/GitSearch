@@ -177,6 +177,7 @@
 				TargetAttributes = {
 					6F9C6B5922A70BBC001D9A83 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -364,7 +365,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = vldmr.GitSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -382,7 +383,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = vldmr.GitSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

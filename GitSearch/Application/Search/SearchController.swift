@@ -10,19 +10,19 @@ import UIKit
 
 class SearchController: UIViewController, UITextFieldDelegate {
     
-    var shareView = SearchControllerView()
+    var shareView: SearchControllerView!
 
-    override func loadView() {
-        view = shareView
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        shareView = SearchControllerView(frame: self.view.bounds)
+        self.view.addSubview(shareView)
+        shareView.setNeedsUpdateConstraints()
         
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        view?.backgroundColor = UIColor.white
+//        view?.backgroundColor = UIColor.white
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
