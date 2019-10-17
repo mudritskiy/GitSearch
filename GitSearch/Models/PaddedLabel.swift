@@ -15,4 +15,23 @@ class PaddedLabel: UILabel {
         super.drawText(in: rect.inset(by: insets))
     }
     
+    init(_ text: String, font: UIFont, aligment: NSTextAlignment = NSTextAlignment.left , color: UIColor = UIColor.white , backgroundColor: UIColor? = nil) {
+        super.init(frame: .zero)
+        
+        if let backgroundColor = backgroundColor {
+            self.layer.backgroundColor = backgroundColor.cgColor
+        }
+        
+        self.text = text
+        self.textAlignment = aligment
+        self.textColor = color
+        self.font = font
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.numberOfLines = 0
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

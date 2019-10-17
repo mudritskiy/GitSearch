@@ -21,12 +21,9 @@ class SearchController: UIViewController, UITextFieldDelegate {
         
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-//        view?.backgroundColor = UIColor.white
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
     }

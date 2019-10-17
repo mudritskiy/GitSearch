@@ -38,12 +38,12 @@
 		6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInfo.swift; sourceTree = "<group>"; };
 		6FAEBC7822F4F1E100B2414D /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		6FAEBC7A22F4F33800B2414D /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
-		6FAEBC7E22F4F46100B2414D /* PaddedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedText.swift; sourceTree = "<group>"; };
+		6FAEBC7E22F4F46100B2414D /* PaddedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PaddedText.swift; path = ../../Models/PaddedText.swift; sourceTree = "<group>"; };
 		6FAEBC8122F4F55600B2414D /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		6FAEBC8422F4F64F00B2414D /* RepoInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoInfoCell.swift; sourceTree = "<group>"; };
 		6FCF091523409F43009314F1 /* SearchControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControllerView.swift; sourceTree = "<group>"; };
 		6FF7724D2309533100D71AA0 /* RepoInfoDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoInfoDescriptionCell.swift; sourceTree = "<group>"; };
-		6FF7724F230988D900D71AA0 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
+		6FF7724F230988D900D71AA0 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PaddedLabel.swift; path = ../../Models/PaddedLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +101,6 @@
 				6F954CD0230DD67C0034E110 /* Constants.swift */,
 				6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */,
 				6FAEBC7822F4F1E100B2414D /* SearchItem.swift */,
-				6FAEBC7E22F4F46100B2414D /* PaddedText.swift */,
-				6FF7724F230988D900D71AA0 /* PaddedLabel.swift */,
 				6FAEBC7A22F4F33800B2414D /* SpinnerViewController.swift */,
 				6F51DF592326E1D600D6605A /* ColorScheme.swift */,
 			);
@@ -122,6 +120,8 @@
 			children = (
 				6F121EBC22CDA95C001E24CD /* SearchController.swift */,
 				6FCF091523409F43009314F1 /* SearchControllerView.swift */,
+				6FAEBC7E22F4F46100B2414D /* PaddedText.swift */,
+				6FF7724F230988D900D71AA0 /* PaddedLabel.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";

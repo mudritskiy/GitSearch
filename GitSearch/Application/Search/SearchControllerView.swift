@@ -13,54 +13,10 @@ class SearchControllerView: UIView, UITextFieldDelegate {
     private var constraintsList = [NSLayoutConstraint]()
     private let heightSize: CGFloat = 40
     
-    let labelGit: PaddedLabel = {
-        let lableFont = UIFont.boldSystemFont(ofSize: 34)
-        let label = PaddedLabel()
-        label.text = "GIT"
-        label.textAlignment = .right
-        label.textColor = UIColor.white
-        label.layer.backgroundColor = UIColor.mainTitle.cgColor
-        label.font = lableFont
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    let labelSearch: PaddedLabel = {
-        let lableFont = UIFont.boldSystemFont(ofSize: 34)
-        let label = PaddedLabel()
-        label.text = "SEARCH"
-        label.textAlignment = .left
-        label.textColor = UIColor.white
-        label.layer.backgroundColor = UIColor.secondaryTitle.cgColor
-        label.font = lableFont
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    let aboutLabel: UILabel = {
-        let label = PaddedLabel()
-        label.text = "Search information about any repository in github by keyword"
-        label.textAlignment = .left
-        label.textColor = UIColor.secondaryTitle
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    let inputText: PaddedText = {
-        let textView = PaddedText()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.layer.borderColor = UIColor.secondaryTint.cgColor
-        textView.layer.cornerRadius = 20
-        textView.layer.borderWidth = 1
-        textView.backgroundColor = UIColor.white
-        textView.keyboardType = .default
-        textView.placeholder = "Enter keyword"
-        textView.borderStyle = .none
-        textView.clearButtonMode = .whileEditing
-        return textView
-    }()
+    let labelGit = PaddedLabel("GIT", font: .boldSystemFont(ofSize: 34), aligment: .right, backgroundColor: .mainTitle)
+    let labelSearch = PaddedLabel("SEARCH", font: .boldSystemFont(ofSize: 34), backgroundColor: .secondaryTitle)
+    let labelAbout = PaddedLabel("Search information about any repository in github by keyword", font: .systemFont(ofSize: 13), color: .secondaryTitle)
+    let inputText = PaddedText("Enter keyword")
 
     let actionButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
@@ -99,9 +55,14 @@ private extension SearchControllerView {
 
     func setupUI() {
         
+//        let stackView = UIStackView(arrangedSubviews: [labelGit, labelSearch, labelAbout, inputText, actionButton])
+//        stackView.axis = .vertical
+//        stackView.distribution = .fill
+//        self.addSubview(stackView)
+        
         self.addSubview(labelGit)
         self.addSubview(labelSearch)
-        self.addSubview(aboutLabel)
+        self.addSubview(labelAbout)
         self.addSubview(inputText)
         self.addSubview(actionButton)
         
@@ -127,11 +88,11 @@ private extension SearchControllerView {
                 labelSearch.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
                 labelSearch.heightAnchor.constraint(equalToConstant: heightSize),
                 
-                aboutLabel.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: heightSize),
-                aboutLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
-                aboutLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
+                labelAbout.topAnchor.constraint(equalTo: labelGit.bottomAnchor, constant: heightSize),
+                labelAbout.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
+                labelAbout.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
                 
-                inputText.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: heightSize),
+                inputText.topAnchor.constraint(equalTo: labelAbout.bottomAnchor, constant: heightSize),
                 inputText.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: heightSize),
                 inputText.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -heightSize),
                 inputText.heightAnchor.constraint(equalToConstant: heightSize),

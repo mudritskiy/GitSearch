@@ -19,6 +19,23 @@ class PaddedText: UITextField {
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: insets)
     }
+    
+    init(_ placeholder: String) {
+        super.init(frame: .zero)
+        self.placeholder = placeholder
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 20
+        self.layer.borderColor = UIColor.secondaryTint.cgColor
+        self.backgroundColor = UIColor.white
+        self.keyboardType = .default
+        self.borderStyle = .none
+        self.clearButtonMode = .whileEditing
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 
