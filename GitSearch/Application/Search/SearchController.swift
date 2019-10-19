@@ -14,7 +14,8 @@ class SearchController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        view.backgroundColor = UIColor.mainTint
+
         childView = SearchControllerView(frame: self.view.bounds)
         self.view.addSubview(childView)
         childView.setNeedsUpdateConstraints()

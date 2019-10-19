@@ -35,7 +35,6 @@ class SearchControllerView: UIView, UITextFieldDelegate {
 private extension SearchControllerView {
     
     func setupUI() {
-        self.backgroundColor = UIColor.mainTint
         let arrangedSubviews = setupSubviews()
         arrangedSubviews.forEach{self.addSubview($0)}
     }
