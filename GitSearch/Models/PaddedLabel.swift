@@ -15,12 +15,8 @@ class PaddedLabel: UILabel {
         super.drawText(in: rect.inset(by: insets))
     }
     
-    init(_ text: String, font: UIFont, aligment: NSTextAlignment = NSTextAlignment.left , color: UIColor = UIColor.white , backgroundColor: UIColor? = nil) {
+    init(_ text: String, font: UIFont, aligment: NSTextAlignment = NSTextAlignment.left , color: UIColor = UIColor.white , backgroundColor: UIColor? = nil, cornerRadius: Double? = nil, cornerMask: CACornerMask? = nil) {
         super.init(frame: .zero)
-        
-        if let backgroundColor = backgroundColor {
-            self.layer.backgroundColor = backgroundColor.cgColor
-        }
         
         self.text = text
         self.textAlignment = aligment
@@ -28,6 +24,15 @@ class PaddedLabel: UILabel {
         self.font = font
         self.translatesAutoresizingMaskIntoConstraints = false
         self.numberOfLines = 0
+
+        if let backgroundColor = backgroundColor {
+            self.layer.backgroundColor = backgroundColor.cgColor
+        }
+        
+        if let cornerRadius = cornerRadius, let cornerMask = cornerMask {
+            self.roundCorners(cornerRadius: cornerRadius, cornerMask: cornerMask)
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

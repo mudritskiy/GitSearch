@@ -11,10 +11,12 @@ import UIKit
 class SearchControllerView: UIView, UITextFieldDelegate {
     
     private var constraintsList = [NSLayoutConstraint]()
+    private var shouldSetConstraints = true
     private let heightSize: CGFloat = 40
     
-    let labelGit = PaddedLabel("GIT", font: .boldSystemFont(ofSize: 34), aligment: .right, backgroundColor: .mainTitle)
-    let labelSearch = PaddedLabel("SEARCH", font: .boldSystemFont(ofSize: 34), backgroundColor: .secondaryTitle)
+    let labelGit = PaddedLabel("GIT", font: .boldSystemFont(ofSize: 34), aligment: .right, backgroundColor: .mainTitle, cornerRadius: Double(Constants.commonHalfHeight), cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
+    let labelSearch = PaddedLabel("SEARCH", font: .boldSystemFont(ofSize: 34), backgroundColor: .secondaryTitle, cornerRadius: Double(Constants.commonHalfHeight), cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
+    
     let labelAbout = PaddedLabel("Search information about any repository in github by keyword", font: .systemFont(ofSize: 13), color: .secondaryTitle)
     let inputText = PaddedText("Enter keyword")
 
@@ -54,27 +56,38 @@ private extension SearchControllerView {
     }
 
     func setupUI() {
-        
-//        let stackView = UIStackView(arrangedSubviews: [labelGit, labelSearch, labelAbout, inputText, actionButton])
-//        stackView.axis = .vertical
-//        stackView.distribution = .fill
-//        self.addSubview(stackView)
-        
-        self.addSubview(labelGit)
-        self.addSubview(labelSearch)
-        self.addSubview(labelAbout)
-        self.addSubview(inputText)
-        self.addSubview(actionButton)
+        let arrangedSubviews = [labelGit, labelSearch, labelAbout, inputText, actionButton]
+        arrangedSubviews.forEach{self.addSubview($0)}
         
         self.inputText.delegate = self as UITextFieldDelegate
         self.backgroundColor = UIColor.mainTint
-
-        roundCorners(viewToRound: labelGit, cornerRadius: Double(heightSize)/2, cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
-        roundCorners(viewToRound: labelSearch, cornerRadius: Double(heightSize)/2, cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
     }
     
     func setupLayout() {
         
+//        if shouldSetConstraints {
+//            shouldSetConstraints = false
+//        labelGit.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3).isActive = true
+//        labelGit.anchor(top: self.safeAreaLayoutGuide.topAnchor, leading: self.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil,
+//                        padding: .init(top: 50, left: Constants.commonHeight, bottom: 0, right: 0),
+//                        size: .init(width: 0, height: Constants.commonHeight))
+//
+//        labelSearch.anchor(top: labelGit.topAnchor, leading: labelGit.trailingAnchor, bottom: nil, trailing: self.safeAreaLayoutGuide.trailingAnchor,
+//                           padding: .init(top: 0, left: 1, bottom: 0, right: -Constants.commonHeight),
+//                           size: .init(width: 0, height: Constants.commonHeight))
+//
+//        labelAbout.anchor(top: labelGit.bottomAnchor, leading: self.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: self.safeAreaLayoutGuide.trailingAnchor,
+//                          padding: .init(top: Constants.commonHeight, left: Constants.commonHeight, bottom: 0, right: -Constants.commonHeight))
+//
+//        inputText.anchor(top: labelAbout.bottomAnchor, leading: self.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: self.safeAreaLayoutGuide.trailingAnchor,
+//                         padding: .init(top: Constants.commonHeight, left: Constants.commonHeight, bottom: 0, right: -Constants.commonHeight),
+//                         size: .init(width: 0, height: Constants.commonHeight))
+//
+//        actionButton.anchor(top: inputText.bottomAnchor, leading: inputText.leadingAnchor, bottom: nil, trailing: inputText.trailingAnchor,
+//                            padding: .init(top: 20, left: 0, bottom: 0, right: 0),
+//                            size: .init(width: 0, height: Constants.commonHeight))
+//
+//        }
         if constraintsList.count == 0 {
             
             constraintsList = [
