@@ -30,7 +30,6 @@ class PaddedText: UITextField {
         self.keyboardType = .default
         self.borderStyle = .none
         self.clearButtonMode = .whileEditing
-        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -22,7 +22,6 @@ class PaddedLabel: UILabel {
         self.textAlignment = aligment
         self.textColor = color
         self.font = font
-        self.translatesAutoresizingMaskIntoConstraints = false
         self.numberOfLines = 0
 
         if let backgroundColor = backgroundColor {

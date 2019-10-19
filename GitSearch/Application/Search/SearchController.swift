@@ -10,15 +10,17 @@ import UIKit
 
 class SearchController: UIViewController, UITextFieldDelegate {
     
-    var shareView: SearchControllerView!
+    var childView: SearchControllerView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        shareView = SearchControllerView(frame: self.view.bounds)
-        self.view.addSubview(shareView)
-        shareView.setNeedsUpdateConstraints()
-        
+        childView = SearchControllerView(frame: self.view.bounds)
+        self.view.addSubview(childView)
+        childView.setNeedsUpdateConstraints()
+        childView.actionButton.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+        childView.inputText.delegate = self as UITextFieldDelegate
+
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.prefersLargeTitles = true
     }
@@ -36,6 +38,15 @@ class SearchController: UIViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        childView.setNeedsUpdateConstraints()
+    }
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        childView.setNeedsUpdateConstraints()
     }
     
     func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
@@ -78,7 +89,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
     
     @objc func buttonAction(_ sender: UIButton!) {
         
-        guard let keyWords = shareView.inputText.text else { return }
+        guard let keyWords = childView.inputText.text else { return }
         
         if keyWords.isEmpty {
             postAlert(title: "No keyword", message: "Please, enter some keyword")

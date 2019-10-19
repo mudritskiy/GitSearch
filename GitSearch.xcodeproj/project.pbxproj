@@ -104,7 +104,6 @@
 				6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */,
 				6FAEBC7822F4F1E100B2414D /* SearchItem.swift */,
 				6FAEBC7A22F4F33800B2414D /* SpinnerViewController.swift */,
-				6F51DF592326E1D600D6605A /* ColorScheme.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -152,6 +151,7 @@
 			children = (
 				6FD498F1235AF0DA0004816C /* UIView+Misc.swift */,
 				6F954CD0230DD67C0034E110 /* Constants.swift */,
+				6F51DF592326E1D600D6605A /* ColorScheme.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";

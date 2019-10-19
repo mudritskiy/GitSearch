@@ -19,6 +19,8 @@ extension UIView {
                 padding: UIEdgeInsets = UIEdgeInsets.zero,
                 size: CGSize = CGSize.zero) {
         
+        translatesAutoresizingMaskIntoConstraints = false
+
         if let top = top {
             topAnchor.constraint(equalTo: top, constant: padding.top).isActive = true
         }
@@ -43,6 +45,17 @@ extension UIView {
             heightAnchor.constraint(equalToConstant: size.height).isActive = true
         }
         
+    }
+    
+    func anchor(to layoutGuide: UILayoutGuide) {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
+            topAnchor.constraint(equalTo: layoutGuide.topAnchor),
+            trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
+            bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
+            ])
     }
 
 }
