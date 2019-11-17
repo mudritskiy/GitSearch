@@ -73,6 +73,17 @@ class SearchController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
+    let loginButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.layer.cornerRadius = 20
+        button.setTitle(NSLocalizedString("main.login-button-login-state", value: "Login", comment: "Login button when user NOT Authorized"), for: .normal)
+//        button.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.setTitleColor(.mainTitle, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     // muts be global `cause used in several places
     func roundCorners(viewToRound: UIView, cornerRadius: Double, cornerMask: CACornerMask) {
         viewToRound.layer.cornerRadius = CGFloat(cornerRadius)
@@ -88,6 +99,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         view.addSubview(aboutLabel)
         view.addSubview(inputText)
         view.addSubview(actionButton)
+        view.addSubview(loginButton)
         
         inputText.delegate = self
         
@@ -119,7 +131,13 @@ class SearchController: UIViewController, UITextFieldDelegate {
             actionButton.topAnchor.constraint(equalTo: inputText.bottomAnchor, constant: 20),
             actionButton.leadingAnchor.constraint(equalTo: inputText.leadingAnchor),
             actionButton.trailingAnchor.constraint(equalTo: inputText.trailingAnchor),
-            actionButton.heightAnchor.constraint(equalToConstant: heightSize)
+            actionButton.heightAnchor.constraint(equalToConstant: heightSize),
+            
+            loginButton.topAnchor.constraint(equalTo: actionButton.bottomAnchor, constant: 20),
+            loginButton.leadingAnchor.constraint(equalTo: inputText.leadingAnchor),
+            loginButton.trailingAnchor.constraint(equalTo: inputText.trailingAnchor),
+            loginButton.heightAnchor.constraint(equalToConstant: heightSize)
+
         ]
         
         NSLayoutConstraint.activate(constraints)
@@ -223,6 +241,13 @@ class SearchController: UIViewController, UITextFieldDelegate {
             }
         }
 
+    }
+    
+    @objc func loginAction(_ sender: UIButton!) {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+//        if AppDelegate.tokens
     }
     
 }

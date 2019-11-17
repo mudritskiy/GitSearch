@@ -13,7 +13,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    let authServer = AuthorizationServer()
+    
+    // TODO: store this using the keystore
+    var tokens: Tokens? = nil
+    var profile: Profile? = nil
+    
+    func logout() {
+        tokens = nil
+        profile = nil
+        authServer.reset()
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         

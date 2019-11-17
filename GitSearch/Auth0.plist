@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   Auth0.plist
+   GitSearch
+
+   Created by Vldmr on 11/6/19.
+   Copyright (c) 2019 mudritskiy. All rights reserved.
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>ClientId</key>
+        <string>l2g0AnHyRsxuHUNCd37ts1ZKZSX8XRBb</string>
+        <key>Domain</key>
+        <string>mudrik.eu.auth0.com</string>
+    </dict>
+</plist>
