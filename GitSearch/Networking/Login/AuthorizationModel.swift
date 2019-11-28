@@ -10,6 +10,7 @@ import Foundation
 
 let domain = "https://mudrik.eu.auth0.com"
 let clientId = "l2g0AnHyRsxuHUNCd37ts1ZKZSX8XRBb"
+let callbackUrl = "vldmr.GitSearch://mudrik.eu.auth0.com/ios/vldmr.GitSearch/callback"
 
 struct Tokens {
     var accessToken: String

@@ -19,6 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var tokens: Tokens? = nil
     var profile: Profile? = nil
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        return authServer.parseAuthorizeRedirectUrl(url: url)
+    }
+    
     func logout() {
         tokens = nil
         profile = nil
