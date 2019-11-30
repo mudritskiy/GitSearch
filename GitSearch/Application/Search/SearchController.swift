@@ -76,8 +76,8 @@ class SearchController: UIViewController, UITextFieldDelegate {
     let loginButton: UIButton = {
         let button = UIButton(type: .custom)
         button.layer.cornerRadius = 20
-        button.setTitle(NSLocalizedString("main.login-button-login-state", value: "Login", comment: "Login button when user NOT Authorized"), for: .normal)
-//        button.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
+//        button.setTitle(loginState.login.localized, for: .normal)
+        button.addTarget(self, action: #selector(SearchController.buttonLogin(_:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.mainTitle, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -152,7 +152,10 @@ class SearchController: UIViewController, UITextFieldDelegate {
         
         view?.backgroundColor = UIColor.white
         
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive(_:)), name: NSNotification.Name.NSExtensionHostDidBecomeActive, object: nil)
+        
         setupSubviews()
+        updateLoginInfo()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -164,11 +167,16 @@ class SearchController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        updateLoginInfo()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    @objc func applicationDidBecomeActive(_ notification: NSNotification) {
+        updateLoginInfo()
     }
     
     func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
@@ -243,11 +251,75 @@ class SearchController: UIViewController, UITextFieldDelegate {
 
     }
     
-    @objc func loginAction(_ sender: UIButton!) {
+    @objc func buttonLogin(_ sender: UIButton!) {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-//        if AppDelegate.tokens
+        if appDelegate.tokens == nil {
+            appDelegate.authServer.authorize(viewController: self, handler: { (success) in
+                if !success {
+                    // TODO: handle error
+                }
+            })
+        } else {
+            appDelegate.logout()
+        }
+        updateLoginInfo()
     }
     
 }
+
+private extension SearchController {
+    
+    enum loginState: String {
+        case login
+        case loginInProgress
+        case logout
+        
+        public var localized: String {
+            switch self {
+            case .login:
+                return NSLocalizedString("main.login-button-login-state", value: "Login", comment: "Login button when user NOT authorized")
+            case .loginInProgress:
+                return NSLocalizedString("main.login-button-login-in-progress-state", value: "Logining...", comment: "Login button when user authorization in progress")
+            case .logout:
+                return NSLocalizedString("main.login-button-logout-state", value: "Login", comment: "Login button when user authorized")
+            }
+        }
+    }
+    
+    func updateLoginInfo() {
+        DispatchQueue.main.async {
+            let loginButtonTitle: String
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            if appDelegate.tokens == nil {
+                loginButtonTitle = (appDelegate.authServer.receivedCode == nil ? loginState.login : loginState.loginInProgress).localized
+            } else {
+                loginButtonTitle = appDelegate.profile?.name == nil ? loginState.logout.localized : (appDelegate.profile!.name! + "(" + loginState.logout.localized + ")")
+            }
+            self.loginButton.setTitle(loginButtonTitle, for: .normal)
+        }
+    }
+    
+    func checkState() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        if appDelegate.authServer.receivedCode == nil || appDelegate.authServer.receivedState == nil {
+            return
+        }
+        
+        appDelegate.authServer.getToken() { (tokens) in
+            appDelegate.tokens = tokens
+            if tokens != nil {
+                appDelegate.authServer.getProfile(accessToken: tokens!.accessToken, handler: { (profile) in
+                    appDelegate.profile = profile
+                    })
+            } else {
+                // TODO: Show user alert
+                appDelegate.logout()
+            }
+            self.updateLoginInfo()
+        }
+    }
+}
+
