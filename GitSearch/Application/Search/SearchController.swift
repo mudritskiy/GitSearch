@@ -252,18 +252,39 @@ class SearchController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func buttonLogin(_ sender: UIButton!) {
+
+        SearchServices.shared.getLimit()
+//        SearchServices.shared.getToken()
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.tokens == nil {
-            appDelegate.authServer.authorize(viewController: self, handler: { (success) in
-                if !success {
-                    // TODO: handle error
-                }
-            })
-        } else {
-            appDelegate.logout()
-        }
-        updateLoginInfo()
+//            { res in
+//            DispatchQueue.main.async {
+//                self.showHideSpinner(spinner: child, false)
+//                switch res {
+//                case .success(let gitRep):
+//                    print("ok")
+////                    if gitRep.total_count == 0 {
+////                        self.postAlert(title: SearchUserAlerts.noDataFound.title, message: SearchUserAlerts.noDataFound.message)
+////                    } else {
+////                        let newVC = SearchResultViewController(data: gitRep)
+////                        self.navigationController?.pushViewController(newVC, animated: true)
+////                    }
+//                case .failure(let err):
+//                    self.postAlert(title: SearchUserAlerts.errorFound.title, message: err.localizedDescription)
+//                }
+//            }
+//        }
+    
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        if appDelegate.tokens == nil {
+//            appDelegate.authServer.authorize(viewController: self, handler: { (success) in
+//                if !success {
+//                    // TODO: handle error
+//                }
+//            })
+//        } else {
+//            appDelegate.logout()
+//        }
+//        updateLoginInfo()
     }
     
 }

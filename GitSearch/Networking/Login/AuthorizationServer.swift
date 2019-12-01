@@ -44,7 +44,7 @@ class AuthorizationServer {
             URLQueryItem(name: "respone_type", value: "code"),
             URLQueryItem(name: "client_id", value: clientId),
             URLQueryItem(name: "redirect_uri", value: callbackUrl),
-            URLQueryItem(name: "scope", value: "id_token profile"),
+            URLQueryItem(name: "scope", value: "user"), //"id_token profile"),
             URLQueryItem(name: "code_challenge_method", value: "S256"),
             URLQueryItem(name: "code_challenge", value: challenge),
             URLQueryItem(name: "state", value: savedState)
@@ -86,7 +86,7 @@ class AuthorizationServer {
             return
         }
         
-        let urlComp = URLComponents(string: domain + "/oauth/token")!
+        let urlComp = URLComponents(string: domain + "/access_token" )! //"/oauth/token")!
         
         let body = [
             "grant_type": "authorization_code",

@@ -10,4 +10,6 @@ import Foundation
 
 public enum HTTPNetworkRoute: String {
     case searchRepositories = "/search/repositories"
+    case auth = "/authorizations/"
+    case rateLimit = "/rate_limit"
 }
