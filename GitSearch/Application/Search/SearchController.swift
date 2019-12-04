@@ -76,19 +76,6 @@ class SearchController: UIViewController, UITextFieldDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {alert.dismiss(animated: true, completion: nil)})
     }
     
-    func showHideSpinner(spinner child: SpinnerViewController, _ show: Bool = true) {
-        if show {
-            addChild(child)
-            child.view.frame = view.frame
-            view.addSubview(child.view)
-            child.didMove(toParent: self)
-        } else {
-            child.willMove(toParent: self)
-            child.view.removeFromSuperview()
-            child.removeFromParent()
-        }
-    }
-    
     @objc func buttonAction(_ sender: UIButton!) {
         
         guard let keyWords = childView.inputText.text else { return }
@@ -98,15 +85,15 @@ class SearchController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        let child = SpinnerViewController()
-        showHideSpinner(spinner: child)
+        let spinner = SpinnerViewController()
+        spinner.showHide(parent: self)
         
         let keys = keyWords.components(separatedBy: " ")
         let keysSequence = keys.joined(separator: "+")
         
         SearchServices.shared.getRepositories(keysSequence: keysSequence) { res in
             DispatchQueue.main.async {
-                self.showHideSpinner(spinner: child, false)
+                spinner.showHide(parent: self, false)
                 switch res {
                 case .success(let gitRep):
                     if gitRep.total_count == 0 {

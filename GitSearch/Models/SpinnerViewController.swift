@@ -24,3 +24,20 @@ class SpinnerViewController: UIViewController {
             ])
     }
 }
+
+extension SpinnerViewController {
+    
+    func showHide(parent: UIViewController, _ show: Bool = true) {
+        if show {
+            parent.addChild(self)
+            self.view.frame = parent.view.frame
+            parent.view.addSubview(self.view)
+            self.didMove(toParent: parent)
+        } else {
+            self.willMove(toParent: parent)
+            self.view.removeFromSuperview()
+            self.removeFromParent()
+        }
+    }
+
+}
