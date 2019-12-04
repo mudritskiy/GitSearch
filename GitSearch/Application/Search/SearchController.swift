@@ -6,6 +6,7 @@
 //  Copyright © 2019 mudritskiy. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class SearchController: UIViewController, UITextFieldDelegate {
@@ -93,7 +94,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
         guard let keyWords = childView.inputText.text else { return }
         
         if keyWords.isEmpty {
-            postAlert(title: "No keyword", message: "Please, enter some keyword")
+            postAlert(title: SearchUserAlerts.noKeyword.title, message: SearchUserAlerts.noKeyword.message)
             return
         }
         
@@ -102,16 +103,20 @@ class SearchController: UIViewController, UITextFieldDelegate {
         
         let keys = keyWords.components(separatedBy: " ")
         let keysSequence = keys.joined(separator: "+")
-
-        let urlQuery = "https://api.github.com/search/repositories?q="+keysSequence+"&sort=stars&order=desc"
-        fetchRepositoriesHeader(from: urlQuery) { gitRep in
+        
+        SearchServices.shared.getRepositories(keysSequence: keysSequence) { res in
             DispatchQueue.main.async {
                 self.showHideSpinner(spinner: child, false)
-                if gitRep.total_count == 0 {
-                    self.postAlert(title: "No data found", message: "Please, try another  keyword")
-                } else {
-                    let newVC = SearchResultViewController(data: gitRep)
-                    self.navigationController?.pushViewController(newVC, animated: true)
+                switch res {
+                case .success(let gitRep):
+                    if gitRep.total_count == 0 {
+                        self.postAlert(title: SearchUserAlerts.noDataFound.title, message: SearchUserAlerts.noDataFound.message)
+                    } else {
+                        let newVC = SearchResultViewController(data: gitRep)
+                        self.navigationController?.pushViewController(newVC, animated: true)
+                    }
+                case .failure(let err):
+                    self.postAlert(title: SearchUserAlerts.errorFound.title, message: err.localizedDescription)
                 }
             }
         }
@@ -119,8 +124,3 @@ class SearchController: UIViewController, UITextFieldDelegate {
     }
     
 }
-
-
-
-
-

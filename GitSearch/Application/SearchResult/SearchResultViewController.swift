@@ -17,7 +17,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = "Search results"
+        navigationItem.title = NSLocalizedString("result-list.search-results", tableName: nil, bundle: Bundle.main, value: "Search results", comment: "Title for search result screen")
 
         collectionView?.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
         collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: "cellId")
