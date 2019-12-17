@@ -10,51 +10,42 @@ import UIKit
 
 class RepoInfoViewController: UITableViewController {
     
-    private let cellId = "common"
+    private let cellDefault = "default"
     private let cellDescription = "description"
-    private var repInfo = [String: String]()
-    private var props = [String]()
+    private var repInfo: SearchItem
 
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: cellDefault)
         tableView.register(RepoInfoDescriptionCell.self, forCellReuseIdentifier: cellDescription)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
-        navigationItem.title = repInfo["name"]
-
-        if let indexName = props.firstIndex(of: "name") {
-            props.remove(at: indexName)
-        }
-        
+        navigationItem.title = repInfo.name
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return props.count
+        return SearchItem.maxPropertiesToDisplay + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let key = props[indexPath.row]
-        if key == cellDescription {
+        let cellInfo = repInfo[indexPath.row]
+        if indexPath.row == SearchItem.maxPropertiesToDisplay {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellDescription, for: indexPath) as! RepoInfoDescriptionCell
-            cell.propertyValue.text = repInfo[key]
+            cell.propertyValue.text = cellInfo.value
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
-            cell.title.text = key.replacingOccurrences(of: "_", with: " ")
-            cell.propertyValue.text = repInfo[key]
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellDefault, for: indexPath) as! RepoInfoCell
+            cell.title.text = cellInfo.name
+            cell.propertyValue.text = cellInfo.value
             return cell
         }
     }
     
-    init(properties: [String], item: Dictionary<String, String>) {
+    init(item: SearchItem) {
+        repInfo = item
         super.init(nibName: nil, bundle: nil)
-        props = properties
-        properties.forEach { prop in
-            repInfo[prop] = item[prop]
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -10,8 +10,8 @@ import UIKit
 
 class SearchResultViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
+    private let cellDefault = "default"
     private var gitRep: SearchInfo
-    private var props = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         navigationItem.title = NSLocalizedString("result-list.search-results", tableName: nil, bundle: Bundle.main, value: "Search results", comment: "Title for search result screen")
 
         collectionView?.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
-        collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: "cellId")
+        collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: cellDefault)
         
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: view.frame.size.width-32, height: 120)
@@ -37,7 +37,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! SearchResultCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDefault, for: indexPath) as! SearchResultCell
         if let item = getItemAtIndex(index: indexPath.row) {
             cell.fillInfo(item: item)
         }
@@ -46,21 +46,21 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let item = getItemAtIndex(index: indexPath.row) {
-            let newVC = RepoInfoViewController(properties: props, item: item)
+            let newVC = RepoInfoViewController(item: item)
             navigationController?.pushViewController(newVC, animated: true)
         }
     }
     
-    func getItemAtIndex(index: Int) -> Dictionary<String, String>! {
+    func getItemAtIndex(index: Int) -> SearchItem! {
         guard let gitItems = self.gitRep.items else {
             return nil
         }
-        return gitItems[index].ToArray(props: &props)
+        return gitItems[index]
     }
     
     init(data: SearchInfo) {
-        let layout = UICollectionViewFlowLayout()
         gitRep = data
+        let layout = UICollectionViewFlowLayout()
         super.init(collectionViewLayout: layout)
     }
     

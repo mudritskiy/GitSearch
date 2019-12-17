@@ -112,6 +112,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
                     if gitRep.total_count == 0 {
                         self.postAlert(title: SearchUserAlerts.noDataFound.title, message: SearchUserAlerts.noDataFound.message)
                     } else {
+                        // TODO: normalize date format
                         let newVC = SearchResultViewController(data: gitRep)
                         self.navigationController?.pushViewController(newVC, animated: true)
                     }

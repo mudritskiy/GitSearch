@@ -50,13 +50,14 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
         viewToRound.layer.maskedCorners = cornerMask
     }
     
-    func fillInfo(item: [String:String]) {
-        self.title.text = item["name"]!
+    func fillInfo(item: SearchItem) {
+        // TODO: redesign cell information
+        self.title.text = item.name
         self.subTitle.text = """
-        owner: \(item["owner"]!)
-        language: \(item["language"]!)
-        created: \(item["created_at"]!)
-        description: \(item["description"]!)
+        owner: \(item.owner?.login ?? "")
+        language: \(item.language ?? "")
+        created: \(item.created_at ?? "")
+        description: \(item.description ?? "")
         """
     }
 

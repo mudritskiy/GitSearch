@@ -18,51 +18,40 @@ class SearchItem: Decodable {
     let language: String?
     let html_url: String?
     let description: String?
-
-    func ToArray(props: inout [String]) -> Dictionary<String, String> {
-        var result = [String: String]()
-        var childValue: String?
-        let propsFilled = props.count != 0
-        
-        let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd,yyyy"
-        
-        let mirror = Mirror(reflecting: self)
-        for child in mirror.children  {
-            let childKey = child.label!
-            if childKey != "owner" {
-                if let value = child.value as? Int {
-                    childValue = String(value)
-                }
-                else if let value = child.value as? Double {
-                    childValue = String(value)
-                }
-                else if let value = child.value as? String {
-                    if let date: Date = dateFormatterGet.date(from: value) {
-                        childValue = dateFormatter.string(from: date)
-                    } else {
-                        childValue = value
-                    }
-                }
-                else {childValue = ""}
-            } else {
-                childValue = (child.value as! Owners).login!
-            }
-            if !propsFilled {
-                props.append(childKey)
-            }
-            result[childKey] = childValue
-        }
-        return result
-    }
-    
 }
 
 struct Owners: Decodable {
     let login: String?
     let id: Int
     let html_url: String?
+}
+
+extension SearchItem {
+    
+    static let maxPropertiesToDisplay: Int = 7 // last one is description
+    
+    subscript(index: Int) -> (name: String, value: String) {
+        switch index {
+        case 0:
+            return (NSLocalizedString("search-item.name", tableName: nil, bundle: .main, value: "name", comment: "repo's name"), self.name ?? "")
+        case 1:
+            return (NSLocalizedString("search-item.score", tableName: nil, bundle: .main, value: "score", comment: "repo's score"), String(self.score))
+        case 2:
+            guard let login = self.owner?.login else {
+                return (NSLocalizedString("search-item.owner", tableName: nil, bundle: .main, value: "owner", comment: "repo's owner"),
+                        NSLocalizedString("search-item.undefined-user-warning", tableName: nil, bundle: .main, value: "undefined user", comment: "repo's user is nil") + " (id:\(self.id))")
+            }
+            return (NSLocalizedString("search-item.owner", tableName: nil, bundle: .main, value: "owner", comment: "repo's owner"), login + " (id:\(self.id))")
+        case 3:
+            return (NSLocalizedString("search-item.created", tableName: nil, bundle: .main, value: "created", comment: "repo's created at"), self.created_at ?? "")
+        case 4:
+            return (NSLocalizedString("search-item.updated", tableName: nil, bundle: .main, value: "updated", comment: "repo's updated at"), self.updated_at ?? "")
+        case 5:
+            return (NSLocalizedString("search-item.language", tableName: nil, bundle: .main, value: "language", comment: "repo's language"), self.language ?? "")
+        case 6:
+            return (NSLocalizedString("search-item.url", tableName: nil, bundle: .main, value: "url", comment: "repo's html url"), self.html_url ?? "")
+        default:
+            return (NSLocalizedString("search-item.description", tableName: nil, bundle: .main, value: "description", comment: "repo's description"), self.description ?? "")
+        }
+    }
 }
