@@ -30,9 +30,9 @@ struct SearchServices{
                     let result = HTTPNetworkResponse.handleNetworkResponse(for: response)
                     switch result {
                     case .success:
-                        let result = try? JSONDecoder().decode(SearchInfo.self, from: data)
+                        let decoder = JSONDecoder()
+                        let result = try? decoder.decode(SearchInfo.self, from: data)
                         completion(Result.success(result!))
-                        
                     case .failure(let err):
                         completion(Result.failure(err))
                     }

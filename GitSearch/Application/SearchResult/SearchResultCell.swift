@@ -56,7 +56,7 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
         self.subTitle.text = """
         owner: \(item.owner?.login ?? "")
         language: \(item.language ?? "")
-        created: \(item.created_at ?? "")
+        created: \(DateFormatter.MonthDayYear.string(from: item.created.value))
         description: \(item.description ?? "")
         """
     }

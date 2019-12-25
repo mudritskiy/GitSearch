@@ -13,17 +13,28 @@ class SearchItem: Decodable {
     let name: String?
     let score: Double
     let owner: Owners?
-    let created_at: String?
-    let updated_at: String?
+    let created: CustomDateJSON<RFC5322Date>
+    let updated: CustomDateJSON<RFC5322Date>
     let language: String?
-    let html_url: String?
+    let url: String?
     let description: String?
-}
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, score, owner, language, description
+        case created = "created_at"
+        case updated = "updated_at"
+        case url = "html_url"
+    }
 
-struct Owners: Decodable {
-    let login: String?
-    let id: Int
-    let html_url: String?
+    struct Owners: Decodable {
+        let login: String?
+        let id: Int
+        let url: String?
+        
+        enum CodingKeys: String, CodingKey {
+            case login, id, url = "html_url"
+        }
+    }
 }
 
 extension SearchItem {
@@ -43,13 +54,14 @@ extension SearchItem {
             }
             return (NSLocalizedString("search-item.owner", tableName: nil, bundle: .main, value: "owner", comment: "repo's owner"), login + " (id:\(self.id))")
         case 3:
-            return (NSLocalizedString("search-item.created", tableName: nil, bundle: .main, value: "created", comment: "repo's created at"), self.created_at ?? "")
+            return (NSLocalizedString("search-item.created", tableName: nil, bundle: .main, value: "created", comment: "repo's created at"), DateFormatter.MonthDayYear.string(from: self.created.value))
         case 4:
-            return (NSLocalizedString("search-item.updated", tableName: nil, bundle: .main, value: "updated", comment: "repo's updated at"), self.updated_at ?? "")
+            return (NSLocalizedString("search-item.updated", tableName: nil, bundle: .main, value: "updated", comment: "repo's updated at"), DateFormatter.MonthDayYear.string(from: self.updated.value))
+            
         case 5:
             return (NSLocalizedString("search-item.language", tableName: nil, bundle: .main, value: "language", comment: "repo's language"), self.language ?? "")
         case 6:
-            return (NSLocalizedString("search-item.url", tableName: nil, bundle: .main, value: "url", comment: "repo's html url"), self.html_url ?? "")
+            return (NSLocalizedString("search-item.url", tableName: nil, bundle: .main, value: "url", comment: "repo's html url"), self.url ?? "")
         default:
             return (NSLocalizedString("search-item.description", tableName: nil, bundle: .main, value: "description", comment: "repo's description"), self.description ?? "")
         }
