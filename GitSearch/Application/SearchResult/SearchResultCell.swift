@@ -10,97 +10,18 @@ import UIKit
 
 class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
     
-    let title: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.textColor = UIColor.black
-        return label
-    }()
+    var title: UILabel!
+    var author: UILabel!
+    var subTitle: UILabel!
+    var cellBackground: UIView!
+    var cellLeftMark: UIView!
     
-    let subTitle: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 10)
-        label.textColor = #colorLiteral(red: 0.2588235294, green: 0.3333333333, blue: 0.3882352941, alpha: 1)
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    let cellBackground: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        view.layer.shadowRadius = 2
-        view.layer.shadowOffset = CGSize(width: 0, height: 1)
-        view.layer.shadowColor = #colorLiteral(red: 0.7058823529, green: 0.7058823529, blue: 0.7058823529, alpha: 1).cgColor
-        view.layer.shadowOpacity = 0.5
-        return view
-    }()
-    
-    let cellLeftMark: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = #colorLiteral(red: 0.5764705882, green: 0.2039215686, blue: 0.4117647059, alpha: 1)
-        return view
-    }()
+    private var lastCell: Bool = false
+    private let borderSize: CGFloat = 10
 
-    func roundCorners(viewToRound: UIView, cornerRadius: Double, cornerMask: CACornerMask) {
-        viewToRound.layer.cornerRadius = CGFloat(cornerRadius)
-        viewToRound.layer.maskedCorners = cornerMask
-    }
-    
-    func fillInfo(item: SearchItem) {
-        // TODO: redesign cell information
-        self.title.text = item.name
-        self.subTitle.text = """
-        owner: \(item.owner?.login ?? "")
-        language: \(item.language ?? "")
-        created: \(DateFormatter.MonthDayYear.string(from: item.created.value))
-        description: \(item.description ?? "")
-        """
-    }
-
-    fileprivate func setupSubviews() {
-        contentView.addSubview(cellLeftMark)
-        contentView.addSubview(cellBackground)
-        contentView.addSubview(title)
-        contentView.addSubview(subTitle)
-
-        let viewBorderSize: CGFloat = 10
-        let backgroundBorderSize: CGFloat = 5
-        
-        roundCorners(viewToRound: cellBackground, cornerRadius: Double(backgroundBorderSize), cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
-        roundCorners(viewToRound: cellLeftMark, cornerRadius: Double(backgroundBorderSize), cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
-
-        let constraints = [
-            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: viewBorderSize*2),
-            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: viewBorderSize),
-            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -viewBorderSize),
-            title.heightAnchor.constraint(equalToConstant: 18),
-            
-            subTitle.topAnchor.constraint(equalTo: title.bottomAnchor),
-            subTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: viewBorderSize),
-            subTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -viewBorderSize),
-            subTitle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
-            cellBackground.topAnchor.constraint(equalTo: title.topAnchor, constant: -backgroundBorderSize),
-            cellBackground.leadingAnchor.constraint(equalTo: subTitle.leadingAnchor, constant: -backgroundBorderSize),
-            cellBackground.trailingAnchor.constraint(equalTo: subTitle.trailingAnchor, constant: backgroundBorderSize),
-            cellBackground.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: backgroundBorderSize),
-
-            cellLeftMark.topAnchor.constraint(equalTo: title.topAnchor, constant: -backgroundBorderSize),
-            cellLeftMark.leadingAnchor.constraint(equalTo: cellBackground.leadingAnchor, constant: -backgroundBorderSize),
-            cellLeftMark.trailingAnchor.constraint(equalTo: cellBackground.leadingAnchor),
-            cellLeftMark.bottomAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: backgroundBorderSize)
-        ]
-        NSLayoutConstraint.activate(constraints)
-        
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupSubviews()
+    override func updateConstraints() {
+        setupLayout()
+        super.updateConstraints()
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -113,7 +34,93 @@ class SearchResultCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout
         return layoutAttributes
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension SearchResultCell {
+
+    func fillInfo(for item: SearchItem, isLast: Bool) {
+        self.lastCell = isLast
+        self.title.text = item.name
+        self.author.text = "by \(item.owner?.login ?? "")"
+        self.subTitle.text = """
+        \(item.description ?? "")
+        """
+    }
+}
+
+private extension SearchResultCell {
+    
+    func setupUI() {
+        let arrangedSubviews = setupSubviews()
+        arrangedSubviews.forEach{contentView.addSubview($0)}
+        contentView.setNeedsUpdateConstraints()
+    }
+    
+    func setupSubviews() -> [UIView] {
+        title = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.font = UIFont.init(name: "Avenir-Black", size: 20)
+            label.textColor = UIColor.black
+            return label
+        }()
+        
+        author = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.font = UIFont.init(name: "AvenirNext-UltraLight", size: 12)
+            label.textColor = UIColor.black
+            return label
+        }()
+        
+        subTitle = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.font = UIFont.init(name: "AvenirNext-Regular", size: 14)
+            label.textColor = #colorLiteral(red: 0.2588235294, green: 0.3333333333, blue: 0.3882352941, alpha: 1)
+            label.numberOfLines = 0
+            return label
+        }()
+        
+        cellBackground = {
+            let view = CellTile(.white)
+            view.roundCorners(cornerRadius: Double(borderSize*3), cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
+            return view
+        }()
+        
+        cellLeftMark = {
+            let view = CellTile(.mainTitle)
+            view.roundCorners(cornerRadius: 2, cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
+            return view
+        }()
+        
+        return [cellBackground, cellLeftMark, title, author, subTitle]
+    }
+    
+    func setupLayout() {
+
+        title.anchor(top: contentView.topAnchor, leading: contentView.leadingAnchor, bottom: nil, trailing: contentView.trailingAnchor,
+                     padding: .init(top: borderSize*2, left: borderSize*3, bottom: 0, right: -borderSize*3),
+                     size: .init(width: 0, height: title.font.pointSize + borderSize))
+        
+        author.anchor(top: title.bottomAnchor, leading: title.leadingAnchor, bottom: nil, trailing: title.trailingAnchor,
+                      padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                      size: .init(width: 0, height: author.font.pointSize + 0))
+        
+        subTitle.anchor(top: author.bottomAnchor, leading: title.leadingAnchor, bottom: contentView.bottomAnchor, trailing: title.trailingAnchor,
+                        padding: .init(top: borderSize*2, left: 0, bottom: -borderSize*2, right: 0))
+        
+        cellBackground.anchor(top: title.topAnchor, leading: contentView.leadingAnchor, bottom: contentView.bottomAnchor, trailing: contentView.trailingAnchor,
+                              padding: .init(top: -borderSize, left: borderSize, bottom: 0, right: 0))
+        cellLeftMark.anchor(top: cellBackground.topAnchor, leading: cellBackground.leadingAnchor, bottom: contentView.bottomAnchor, trailing: cellBackground.leadingAnchor,
+                            padding: .init(top: 0, left: -borderSize, bottom: 0, right: 0))
     }
 }
