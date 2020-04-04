@@ -8,7 +8,7 @@ Quick access to repo search by main characteristics (basically name). Viewing br
 Allows using a mobile phone to use the search for repo on github, in an easy and convenient way.
 * Having all the features of github search you can find needed repo on a walk.
 * No need to login on github or use browser.
-* Minimalistic design only for breif search. Leave details for later.
+* Minimalistic design only for brief search. Leave details for later.
 
 ## How to use?
 * Just type repo name, push Search button and have short list of related best rated repos.
