@@ -85,15 +85,15 @@ class SearchController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        let spinner = SpinnerViewController()
-        spinner.showHide(parent: self)
+        let spinner = SpinnerViewController(for: self)
+        spinner.toggle()
         
         let keys = keyWords.components(separatedBy: " ")
         let keysSequence = keys.joined(separator: "+")
         
         SearchServices.shared.getRepositories(keysSequence: keysSequence) { res in
             DispatchQueue.main.async {
-                spinner.showHide(parent: self, false)
+                spinner.toggle()
                 switch res {
                 case .success(let gitRep):
                     if gitRep.total_count == 0 {
