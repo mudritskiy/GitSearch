@@ -10,15 +10,15 @@ import UIKit
 
 class RepoInfoViewController: UITableViewController {
     
-    private let cellDefault = "default"
-    private let cellDescription = "description"
+    private let defaultReuseId = "default"
+    private let descriptionReuseId = "description"
     private var repInfo: SearchItem
 
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: cellDefault)
-        tableView.register(RepoInfoDescriptionCell.self, forCellReuseIdentifier: cellDescription)
+        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: defaultReuseId)
+        tableView.register(RepoInfoDescriptionCell.self, forCellReuseIdentifier: descriptionReuseId)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
@@ -32,11 +32,11 @@ class RepoInfoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellInfo = repInfo[indexPath.row]
         if indexPath.row == SearchItem.maxPropertiesToDisplay {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellDescription, for: indexPath) as! RepoInfoDescriptionCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: descriptionReuseId, for: indexPath) as! RepoInfoDescriptionCell
             cell.propertyValue.text = cellInfo.value
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellDefault, for: indexPath) as! RepoInfoCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: defaultReuseId, for: indexPath) as! RepoInfoCell
             cell.title.text = cellInfo.name
             cell.propertyValue.text = cellInfo.value
             return cell

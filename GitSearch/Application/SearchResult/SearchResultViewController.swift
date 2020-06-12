@@ -10,7 +10,7 @@ import UIKit
 
 class SearchResultViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    private let cellDefault = "default"
+    private let defaultReuseId = "default"
     private var items: Array<SearchItem> = []
     
     override func viewDidLoad() {
@@ -20,7 +20,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         navigationItem.title = NSLocalizedString("result-list.search-results", tableName: nil, bundle: Bundle.main, value: "Search results", comment: "Title for search result screen")
         
         collectionView?.backgroundColor = .secondaryTint // #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
-        collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: cellDefault)
+        collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: defaultReuseId)
         
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: view.frame.size.width - 30, height: 120)
@@ -40,11 +40,9 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDefault, for: indexPath) as! SearchResultCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: defaultReuseId, for: indexPath) as! SearchResultCell
         let item = items[indexPath.row]
         cell.fillInfo(for: item, isLast: items.count == indexPath.row)
-//cell.layer.borderWidth = 1
-//cell.layer.borderColor = UIColor.black.cgColor
         return cell
     }
     
@@ -55,9 +53,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
     }
     
     init(data: SearchInfo) {
-        if let dataItems = data.items {
-            items = dataItems
-        }
+        items = data.items ?? []
         let layout = UICollectionViewFlowLayout()
         super.init(collectionViewLayout: layout)
     }

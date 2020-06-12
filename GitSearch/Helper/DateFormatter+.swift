@@ -14,10 +14,11 @@ extension DateFormatter {
 
     static let MonthDayYear: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: DateFormatter.localeFormat)
-        formatter.dateFormat = "MMMM d, yyyy"
+        formatter.calendar = Calendar.current
+        formatter.timeZone = TimeZone.current
+        formatter.locale = NSLocale.current
+        //formatter.dateFormat =  "MMMM d, yyyy"
+        formatter.dateStyle = DateFormatter.Style.long
         return formatter
     }()
     
