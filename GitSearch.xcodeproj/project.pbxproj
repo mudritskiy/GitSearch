@@ -175,6 +175,7 @@
 				6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */,
 				6FAEBC7822F4F1E100B2414D /* SearchItem.swift */,
 				6FAEBC7A22F4F33800B2414D /* SpinnerViewController.swift */,
+				6FBC7A862568EFB100FA1597 /* TabBarController.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -183,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				6F9C6B5D22A70BBC001D9A83 /* AppDelegate.swift */,
-				6FBC7A862568EFB100FA1597 /* TabBarController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";

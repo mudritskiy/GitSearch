@@ -39,8 +39,8 @@ class SearchController: UIViewController, UITextFieldDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
+//        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+   }
     
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
@@ -113,6 +113,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
                         self.postAlert(title: SearchUserAlerts.noDataFound.title, message: SearchUserAlerts.noDataFound.message)
                     } else {
                         let newVC = SearchResultViewController(data: gitRep)
+                        self.navigationController?.setNavigationBarHidden(false, animated: true)
                         self.navigationController?.pushViewController(newVC, animated: true)
                     }
                 case .failure(let err):

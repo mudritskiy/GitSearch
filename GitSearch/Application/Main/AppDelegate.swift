@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        let layout = UICollectionViewFlowLayout()
 //        let controllerInstance = HomeController(collectionViewLayout: layout)
-        let controllerInstance = SearchController()
+//        let controllerInstance = SearchController()
+        let controllerInstance = TabBarController()
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.rootViewController = UINavigationController(rootViewController: controllerInstance)
