@@ -11,7 +11,7 @@ import UIKit
 class SearchResultViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let defaultReuseId = "default"
-    private var items: Array<SearchItem> = []
+    private var items = [SearchItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +19,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = NSLocalizedString("result-list.search-results", tableName: nil, bundle: Bundle.main, value: "Search results", comment: "Title for search result screen")
         
-        collectionView?.backgroundColor = .secondaryTint // #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
+        collectionView?.backgroundColor = .secondaryTint
         collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: defaultReuseId)
         
         let layout = UICollectionViewFlowLayout()

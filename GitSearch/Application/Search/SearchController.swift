@@ -6,7 +6,6 @@
 //  Copyright © 2019 mudritskiy. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class SearchController: UIViewController, UITextFieldDelegate {
@@ -49,31 +48,6 @@ class SearchController: UIViewController, UITextFieldDelegate {
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         childView.setNeedsUpdateConstraints()
-    }
-    
-    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
-        
-        guard let urlGit = URL(string: urlString) else { return }
-        
-        let task = URLSession.shared.dataTask(with: urlGit) { data, response, error in
-            if error != nil { return }
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { return }
-            guard let mime = httpResponse.mimeType, mime == "application/json" else { return }
-            guard let data = data else { return }
-            do {
-                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
-                completion(gitRep)
-            } catch let errorLbl {
-                print(errorLbl)
-            }
-        }
-        task.resume()
-    }
-    
-    func postAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {alert.dismiss(animated: true, completion: nil)})
     }
     
     func showHideSpinner(spinner child: SpinnerViewController, _ show: Bool = true) {
@@ -123,5 +97,32 @@ class SearchController: UIViewController, UITextFieldDelegate {
         }
 
     }
-    
+}
+
+private extension SearchController {
+
+    func postAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {alert.dismiss(animated: true, completion: nil)})
+    }
+
+    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
+
+        guard let urlGit = URL(string: urlString) else { return }
+
+        let task = URLSession.shared.dataTask(with: urlGit) { data, response, error in
+            if error != nil { return }
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { return }
+            guard let mime = httpResponse.mimeType, mime == "application/json" else { return }
+            guard let data = data else { return }
+            do {
+                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
+                completion(gitRep)
+            } catch let errorLbl {
+                print(errorLbl)
+            }
+        }
+        task.resume()
+    }
 }
