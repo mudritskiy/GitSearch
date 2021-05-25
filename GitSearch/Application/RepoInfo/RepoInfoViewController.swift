@@ -10,54 +10,75 @@ import UIKit
 
 class RepoInfoViewController: UITableViewController {
     
-    private let cellId = "common"
-    private let cellDescription = "description"
-    private var repInfo = [String: String]()
-    private var props = [String]()
+    private let defaultReuseId = "default"
+    private let descriptionReuseId = "description"
+    private var repInfo: SearchItem
+
+    let filesNames = [
+        NSLocalizedString("search-item.name", tableName: nil, bundle: .main, value: "name", comment: "repo's name"),
+        NSLocalizedString("search-item.score", tableName: nil, bundle: .main, value: "score", comment: "repo's score"),
+        NSLocalizedString("search-item.owner", tableName: nil, bundle: .main, value: "owner", comment: "repo's owner"),
+        NSLocalizedString("search-item.created", tableName: nil, bundle: .main, value: "created", comment: "repo's created at"),
+        NSLocalizedString("search-item.updated", tableName: nil, bundle: .main, value: "updated", comment: "repo's updated at"),
+        NSLocalizedString("search-item.language", tableName: nil, bundle: .main, value: "language", comment: "repo's language"),
+        NSLocalizedString("search-item.url", tableName: nil, bundle: .main, value: "url", comment: "repo's html url"),
+        NSLocalizedString("search-item.description", tableName: nil, bundle: .main, value: "description", comment: "repo's description")
+    ]
+    
+    typealias ResultClosure<T> = (T) -> String
+
+    let valuesList: Array<ResultClosure<SearchItem>> = [
+        {$0.name ?? ""},
+        {String($0.score)},
+        { item in if let login = item.owner?.login { return login } else { return
+            NSLocalizedString("search-item.undefined-user-warning", tableName: nil, bundle: .main, value: "undefined user", comment: "repo's user is nil") + " (id:\(item.id))" }
+            },
+        {DateFormatter.MonthDayYear.string(from: $0.created.value)},
+        {DateFormatter.MonthDayYear.string(from: $0.updated.value)},
+        {$0.language ?? ""},
+        {$0.url ?? ""},
+        {$0.description ?? ""}
+    ]
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: cellId)
-        tableView.register(RepoInfoDescriptionCell.self, forCellReuseIdentifier: cellDescription)
+        tableView.register(RepoInfoCell.self, forCellReuseIdentifier: defaultReuseId)
+        tableView.register(RepoInfoDescriptionCell.self, forCellReuseIdentifier: descriptionReuseId)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
-        navigationItem.title = repInfo["name"]
-
-        if let indexName = props.firstIndex(of: "name") {
-            props.remove(at: indexName)
-        }
-        
+        navigationItem.title = repInfo.name
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return props.count
+        return SearchItem.maxPropertiesToDisplay + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let key = props[indexPath.row]
-        if key == cellDescription {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellDescription, for: indexPath) as! RepoInfoDescriptionCell
-            cell.propertyValue.text = repInfo[key]
+   
+        let propertyValueClousure = valuesList[indexPath.row]
+        
+        if indexPath.row == SearchItem.maxPropertiesToDisplay {
+            let cell = tableView.dequeueReusableCell(withIdentifier: descriptionReuseId, for: indexPath) as! RepoInfoDescriptionCell
+            cell.propertyValue.text = propertyValueClousure(repInfo)
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! RepoInfoCell
-            cell.title.text = key.replacingOccurrences(of: "_", with: " ")
-            cell.propertyValue.text = repInfo[key]
+            let cell = tableView.dequeueReusableCell(withIdentifier: defaultReuseId, for: indexPath) as! RepoInfoCell
+            cell.title.text = filesNames[indexPath.row]
+            cell.propertyValue.text = propertyValueClousure(repInfo)
             return cell
         }
     }
     
-    init(properties: [String], item: Dictionary<String, String>) {
+    init(item: SearchItem) {
+        repInfo = item
         super.init(nibName: nil, bundle: nil)
-        props = properties
-        properties.forEach { prop in
-            repInfo[prop] = item[prop]
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

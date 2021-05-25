@@ -6,7 +6,6 @@
 //  Copyright © 2019 mudritskiy. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class SearchController: UIViewController, UITextFieldDelegate {
@@ -52,31 +51,19 @@ class SearchController: UIViewController, UITextFieldDelegate {
         childView.setNeedsUpdateConstraints()
     }
     
-    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
-        
-        guard let urlGit = URL(string: urlString) else { return }
-        
-        let task = URLSession.shared.dataTask(with: urlGit) { data, response, error in
-            if error != nil { return }
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { return }
-            guard let mime = httpResponse.mimeType, mime == "application/json" else { return }
-            guard let data = data else { return }
-            do {
-                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
-                completion(gitRep)
-            } catch let errorLbl {
-                print(errorLbl)
-            }
+    func showHideSpinner(spinner child: SpinnerViewController, _ show: Bool = true) {
+        if show {
+            addChild(child)
+            child.view.frame = view.frame
+            view.addSubview(child.view)
+            child.didMove(toParent: self)
+        } else {
+            child.willMove(toParent: self)
+            child.view.removeFromSuperview()
+            child.removeFromParent()
         }
-        task.resume()
-    }
-    
-    func postAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {alert.dismiss(animated: true, completion: nil)})
-    }
-    
+	}
+   
     @objc func buttonAction(_ sender: UIButton!) {
         
         guard let keyWords = childView.inputText.text else { return }
@@ -102,6 +89,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
                     if gitRep.total_count == 0 {
                         self.postAlert(title: SearchUserAlerts.noDataFound.title, message: SearchUserAlerts.noDataFound.message)
                     } else {
+                        // TODO: normalize date format
                         let newVC = SearchResultViewController(data: gitRep)
                         self.navigationController?.pushViewController(newVC, animated: true)
                     }
@@ -112,5 +100,32 @@ class SearchController: UIViewController, UITextFieldDelegate {
         }
 
     }
-    
+}
+
+private extension SearchController {
+
+    func postAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {alert.dismiss(animated: true, completion: nil)})
+    }
+
+    func fetchRepositoriesHeader(from urlString: String, completion: @escaping (SearchInfo) -> ()) {
+
+        guard let urlGit = URL(string: urlString) else { return }
+
+        let task = URLSession.shared.dataTask(with: urlGit) { data, response, error in
+            if error != nil { return }
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { return }
+            guard let mime = httpResponse.mimeType, mime == "application/json" else { return }
+            guard let data = data else { return }
+            do {
+                let gitRep = try JSONDecoder().decode(SearchInfo.self, from: data)
+                completion(gitRep)
+            } catch let errorLbl {
+                print(errorLbl)
+            }
+        }
+        task.resume()
+    }
 }

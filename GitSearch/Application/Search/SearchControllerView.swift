@@ -41,23 +41,25 @@ private extension SearchControllerView {
     
     func setupSubviews() -> [UIView] {
         
-        labelGit = PaddedLabel("GIT", font: .boldSystemFont(ofSize: 34), aligment: .right, backgroundColor: .mainTitle, cornerRadius: Double(Constants.commonHalfHeight), cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
-        labelSearch = PaddedLabel("SEARCH", font: .boldSystemFont(ofSize: 34), backgroundColor: .secondaryTitle, cornerRadius: Double(Constants.commonHalfHeight), cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
-        
-        labelAbout = PaddedLabel("Search information about any repository in github by keyword", font: .systemFont(ofSize: 13), color: .secondaryTitle)
-        inputText = PaddedText("Enter keyword")
+        labelGit = PaddedLabel(
+            NSLocalizedString("main.title-git", tableName: nil, bundle: .main, value: "GIT", comment: "Application title's left part. Don't need to be translate!"), font: .boldSystemFont(ofSize: 34), aligment: .right, backgroundColor: .mainTitle, cornerRadius: Double(Constants.commonHalfHeight), cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
+        labelSearch = PaddedLabel(
+            NSLocalizedString("main.title-search", tableName: nil, bundle: .main, value: "SEARCH", comment: "Application title's right part. Don't need to be translate!"), font: .boldSystemFont(ofSize: 34), backgroundColor: .secondaryTitle, cornerRadius: Double(Constants.commonHalfHeight), cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
+        labelAbout = PaddedLabel(
+            NSLocalizedString("main.about", tableName: nil, bundle: .main, value: "Search information about any repository in github by keyword", comment: "About this application "), font: .systemFont(ofSize: 13), color: .secondaryTitle)
+        inputText = PaddedText(
+            NSLocalizedString("main.enter-keyword", tableName: nil, bundle: .main, value: "Enter keyword", comment: "Enter keyword for search repositories"))
         
         actionButton = {
             let button = UIButton(type: UIButton.ButtonType.custom)
             button.backgroundColor = UIColor.mainTitle
             button.layer.cornerRadius = 20
-            button.setTitle("Search", for: .normal)
+            button.setTitle(NSLocalizedString("main.search-button-title", tableName: nil, bundle: .main, value: "Search", comment: "Start repositories search "), for: .normal)
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
             return button
         }()
         
         return [labelGit, labelSearch, labelAbout, inputText, actionButton]
-        
     }
     
     func setupLayout() {
