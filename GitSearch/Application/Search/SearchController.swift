@@ -11,7 +11,7 @@ import UIKit
 class SearchController: UIViewController, UITextFieldDelegate {
     
     var childView: SearchControllerView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.mainTint
@@ -24,6 +24,7 @@ class SearchController: UIViewController, UITextFieldDelegate {
 
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.prefersLargeTitles = true
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -61,8 +62,8 @@ class SearchController: UIViewController, UITextFieldDelegate {
             child.view.removeFromSuperview()
             child.removeFromParent()
         }
-    }
-    
+	}
+   
     @objc func buttonAction(_ sender: UIButton!) {
         
         guard let keyWords = childView.inputText.text else { return }
@@ -72,15 +73,17 @@ class SearchController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        let child = SpinnerViewController()
-        showHideSpinner(spinner: child)
+//        let spinner = SpinnerViewController(for: self)
+//        spinner.toggle()
+        self.addSpinner()
         
         let keys = keyWords.components(separatedBy: " ")
         let keysSequence = keys.joined(separator: "+")
         
         SearchServices.shared.getRepositories(keysSequence: keysSequence) { res in
             DispatchQueue.main.async {
-                self.showHideSpinner(spinner: child, false)
+                //spinner.toggle()
+                self.removeSpinner()
                 switch res {
                 case .success(let gitRep):
                     if gitRep.total_count == 0 {

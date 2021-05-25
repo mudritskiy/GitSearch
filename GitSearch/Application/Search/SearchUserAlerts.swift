@@ -14,9 +14,9 @@ public enum SearchUserAlerts: String {
     case errorFound
 }
 
-extension SearchUserAlerts {
+public extension SearchUserAlerts {
     
-    public var title: String {
+    var title: String {
         switch self {
         case .noKeyword:
             return NSLocalizedString("alert.no-keyword", value: "No keyword", comment: "No keyword was entered (title)")
@@ -27,7 +27,7 @@ extension SearchUserAlerts {
         }
     }
     
-    public var message: String {
+    var message: String {
         switch self {
         case .noKeyword:
             return NSLocalizedString("alert.no-keyword-message", value: "Please, enter some keyword", comment: "No keyword was entered (message)")
