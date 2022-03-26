@@ -15,7 +15,15 @@ class PaddedLabel: UILabel {
         super.drawText(in: rect.inset(by: insets))
     }
     
-    init(_ text: String, font: UIFont, aligment: NSTextAlignment = NSTextAlignment.left , color: UIColor = UIColor.white , backgroundColor: UIColor? = nil, cornerRadius: Double? = nil, cornerMask: CACornerMask? = nil) {
+    init(
+        _ text: String,
+        font: UIFont,
+        aligment: NSTextAlignment = NSTextAlignment.left ,
+        color: UIColor = UIColor.white ,
+        backgroundColor: UIColor? = nil,
+        cornerRadius: Double? = nil,
+        cornerMask: CACornerMask? = nil
+    ) {
         super.init(frame: .zero)
         
         self.text = text
@@ -37,5 +45,4 @@ class PaddedLabel: UILabel {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

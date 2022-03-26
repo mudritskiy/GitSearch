@@ -8,86 +8,129 @@
 
 import UIKit
 
-class SearchControllerView: UIView, UITextFieldDelegate {
+protocol SearchControllerViewDelegate: AnyObject {
+    func processInputKeywords(keysSequence: String?)
+}
+
+final class SearchControllerView: UIView, UITextFieldDelegate {
+
+    weak var delegate: SearchControllerViewDelegate?
     
-    var labelGit: PaddedLabel!
-    var labelSearch: PaddedLabel!
-    var labelAbout: PaddedLabel!
-    var inputText: PaddedText!
-    var actionButton: UIButton!
-    
+    private let _labelGit = PaddedLabel(
+        StringsLocalized.MainScreen.labelGit,
+        font: .boldSystemFont(ofSize: 34),
+        aligment: .right,
+        backgroundColor: .mainTitle,
+        cornerRadius: Double(Constants.commonHalfHeight),
+        cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner]
+    )
+
+    private let _labelSearch = PaddedLabel(
+        StringsLocalized.MainScreen.labelSearch,
+        font: .boldSystemFont(ofSize: 34),
+        backgroundColor: .secondaryTitle,
+        cornerRadius: Double(Constants.commonHalfHeight),
+        cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner]
+    )
+
+    private let _labelAbout = PaddedLabel(
+        StringsLocalized.MainScreen.labelAbout,
+        font: .systemFont(ofSize: 13),
+        color: .secondaryTitle
+    )
+
+    private let _inputText = PaddedText(StringsLocalized.MainScreen.inputText)
+
+    private lazy var _actionButton: UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.custom)
+        button.backgroundColor = UIColor.mainTitle
+        button.layer.cornerRadius = 20
+        button.setTitle(StringsLocalized.MainScreen.actionButtonTitle, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        return button
+    }()
+
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        _setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupUI()
+        _setupUI()
     }
-    
+
+    // MARK: - Views AutoLayout
     override func updateConstraints() {
-        setupLayout()
+        _setupLayout()
         super.updateConstraints()
     }
-}
 
-private extension SearchControllerView {
-    
-    func setupUI() {
-        let arrangedSubviews = setupSubviews()
-        arrangedSubviews.forEach{self.addSubview($0)}
+    private func _setupUI() {
+        let arrangedSubviews = [_labelGit, _labelSearch, _labelAbout, _inputText, _actionButton]
+        arrangedSubviews.forEach { self.addSubview($0) }
+        _actionButton.addTarget(self, action: #selector(_buttonAction(_:)), for: .touchUpInside)
+        _inputText.delegate = self as UITextFieldDelegate
+
     }
     
-    func setupSubviews() -> [UIView] {
-        
-        labelGit = PaddedLabel(
-            NSLocalizedString("main.title-git", tableName: nil, bundle: .main, value: "GIT", comment: "Application title's left part. Don't need to be translate!"), font: .boldSystemFont(ofSize: 34), aligment: .right, backgroundColor: .mainTitle, cornerRadius: Double(Constants.commonHalfHeight), cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner])
-        labelSearch = PaddedLabel(
-            NSLocalizedString("main.title-search", tableName: nil, bundle: .main, value: "SEARCH", comment: "Application title's right part. Don't need to be translate!"), font: .boldSystemFont(ofSize: 34), backgroundColor: .secondaryTitle, cornerRadius: Double(Constants.commonHalfHeight), cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner])
-        labelAbout = PaddedLabel(
-            NSLocalizedString("main.about", tableName: nil, bundle: .main, value: "Search information about any repository in github by keyword", comment: "About this application "), font: .systemFont(ofSize: 13), color: .secondaryTitle)
-        inputText = PaddedText(
-            NSLocalizedString("main.enter-keyword", tableName: nil, bundle: .main, value: "Enter keyword", comment: "Enter keyword for search repositories"))
-        
-        actionButton = {
-            let button = UIButton(type: UIButton.ButtonType.custom)
-            button.backgroundColor = UIColor.mainTitle
-            button.layer.cornerRadius = 20
-            button.setTitle(NSLocalizedString("main.search-button-title", tableName: nil, bundle: .main, value: "Search", comment: "Start repositories search "), for: .normal)
-            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-            return button
-        }()
-        
-        return [labelGit, labelSearch, labelAbout, inputText, actionButton]
-    }
-    
-    func setupLayout() {
-        
+    private func _setupLayout() {
         guard let superview = superview else { return }
-        anchor(to: superview.safeAreaLayoutGuide)
+        self.anchor(to: superview.safeAreaLayoutGuide)
         
         let commonSize: CGSize = .init(width: 0, height: Constants.commonHeight)
+
+        _labelGit.widthAnchor.constraint(equalTo: superview.widthAnchor, multiplier: 0.3).isActive = true
+        _labelGit.anchor(
+            top: safeAreaLayoutGuide.topAnchor,
+            leading: safeAreaLayoutGuide.leadingAnchor,
+            padding: .init(top: 50, left: Constants.commonHeight, bottom: 0, right: 0),
+            size: commonSize
+        )
         
-        labelGit.widthAnchor.constraint(equalTo: superview.widthAnchor, multiplier: 0.3).isActive = true
-        labelGit.anchor(top: safeAreaLayoutGuide.topAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil,
-                        padding: .init(top: 50, left: Constants.commonHeight, bottom: 0, right: 0),
-                        size: commonSize)
+        _labelSearch.anchor(
+            top: _labelGit.topAnchor,
+            leading: _labelGit.trailingAnchor,
+            trailing: safeAreaLayoutGuide.trailingAnchor,
+            padding: .init(top: 0, left: 1, bottom: 0, right: -Constants.commonHeight),
+            size: commonSize
+        )
         
-        labelSearch.anchor(top: labelGit.topAnchor, leading: labelGit.trailingAnchor, bottom: nil, trailing: safeAreaLayoutGuide.trailingAnchor,
-                           padding: .init(top: 0, left: 1, bottom: 0, right: -Constants.commonHeight),
-                           size: commonSize)
+        _labelAbout.anchor(
+            top: _labelGit.bottomAnchor,
+            leading: safeAreaLayoutGuide.leadingAnchor,
+            trailing: safeAreaLayoutGuide.trailingAnchor,
+            padding: .init(top: Constants.commonHeight, left: Constants.commonHeight, bottom: 0, right: -Constants.commonHeight)
+        )
         
-        labelAbout.anchor(top: labelGit.bottomAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: safeAreaLayoutGuide.trailingAnchor,
-                          padding: .init(top: Constants.commonHeight, left: Constants.commonHeight, bottom: 0, right: -Constants.commonHeight))
+        _inputText.anchor(
+            top: _labelAbout.bottomAnchor,
+            leading: safeAreaLayoutGuide.leadingAnchor,
+            trailing: safeAreaLayoutGuide.trailingAnchor,
+            padding: .init(top: Constants.commonHeight, left: Constants.commonHeight, bottom: 0, right: -Constants.commonHeight),
+            size: commonSize
+        )
         
-        inputText.anchor(top: labelAbout.bottomAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: safeAreaLayoutGuide.trailingAnchor,
-                         padding: .init(top: Constants.commonHeight, left: Constants.commonHeight, bottom: 0, right: -Constants.commonHeight),
-                         size: commonSize)
-        
-        actionButton.anchor(top: inputText.bottomAnchor, leading: inputText.leadingAnchor, bottom: nil, trailing: inputText.trailingAnchor,
-                            padding: .init(top: 20, left: 0, bottom: 0, right: 0),
-                            size: commonSize)
+        _actionButton.anchor(
+            top: _inputText.bottomAnchor,
+            leading: _inputText.leadingAnchor,
+            trailing: _inputText.trailingAnchor,
+            padding: .init(top: 20, left: 0, bottom: 0, right: 0),
+            size: commonSize
+        )
     }
-    
+
+    @objc
+    private func _buttonAction(_ sender: UIButton!) {
+        let keysSequence = _keysSequence(from: _inputText.text)
+        delegate?.processInputKeywords(keysSequence: keysSequence)
+    }
+
+    private func _keysSequence(from keyWords: String?) -> String? {
+        guard let keyWords = keyWords, !keyWords.isEmpty else { return nil }
+        let keys = keyWords.components(separatedBy: " ")
+        let keysSequence = keys.joined(separator: "+")
+        return keysSequence
+    }
 }

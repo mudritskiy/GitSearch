@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchResultViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+final class SearchResultViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let defaultReuseId = "default"
     private var items = [SearchItem]()
@@ -17,7 +17,7 @@ class SearchResultViewController: UICollectionViewController, UICollectionViewDe
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = NSLocalizedString("result-list.search-results", tableName: nil, bundle: Bundle.main, value: "Search results", comment: "Title for search result screen")
+        navigationItem.title = StringsLocalized.SearchResult.title
         
         collectionView?.backgroundColor = .secondaryTint
         collectionView?.register(SearchResultCell.self, forCellWithReuseIdentifier: defaultReuseId)

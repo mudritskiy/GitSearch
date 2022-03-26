@@ -10,7 +10,10 @@ import Foundation
 
 public struct URLEncoder {
     
-    static func encodeParameters(for urlRequest: inout URLRequest, with parameters: HTTPParameters?) throws {
+    static func encodeParameters(
+        for urlRequest: inout URLRequest,
+        with parameters: HTTPParameters?
+    ) throws {
         guard let url = urlRequest.url else { throw HTTPNetworkError.missingURL }
         guard
             var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
@@ -29,7 +32,10 @@ public struct URLEncoder {
         urlRequest.url = urlComponents.url
     }
     
-    static func setHeaders(for urlRequest: inout URLRequest, with headers: HTTPHeaders?) throws {
+    static func setHeaders(
+        for urlRequest: inout URLRequest,
+        with headers: HTTPHeaders?
+    ) throws {
         guard let headers = headers else { return }
         headers.forEach { (key, value) in
             urlRequest.setValue(value as? String, forHTTPHeaderField: key)
