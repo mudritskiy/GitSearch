@@ -26,23 +26,32 @@ class RepoInfoCell: UITableViewCell {
         return label
         }()
     
-    let separator: UIView = {
+    private let _separator: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = #colorLiteral(red: 0.8823529412, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
         return view
         }()
     
-    func setupSubviews() {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        _setupSubviews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func _setupSubviews() {
         contentView.addSubview(title)
         contentView.addSubview(propertyValue)
-        contentView.addSubview(separator)
-        
+        contentView.addSubview(_separator)
+
         let borderSize: CGFloat = 25
         let borderSizeShift: CGFloat = 5
         let separatorHeight: CGFloat = 1
 
-        let constraints = [
+        NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize + borderSizeShift),
             title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize*2),
@@ -50,23 +59,12 @@ class RepoInfoCell: UITableViewCell {
             propertyValue.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
             propertyValue.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize),
             propertyValue.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize*2),
-            propertyValue.bottomAnchor.constraint(equalTo: separator.topAnchor),
+            propertyValue.bottomAnchor.constraint(equalTo: _separator.topAnchor),
 
-            separator.heightAnchor.constraint(equalToConstant: separatorHeight),
-            separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize - borderSizeShift),
-            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize*2),
-            separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
-        ]
-        
-        NSLayoutConstraint.activate(constraints)
+            _separator.heightAnchor.constraint(equalToConstant: separatorHeight),
+            _separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize - borderSizeShift),
+            _separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize*2),
+            _separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+        ])
     }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupSubviews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
+ }

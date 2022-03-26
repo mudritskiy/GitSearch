@@ -20,7 +20,13 @@ struct HTTPNetworkRequest {
         return url
     }()
     
-    static func configureHTTPRequest(from route: HTTPNetworkRoute, with parameters: HTTPParameters?, includes headers: HTTPHeaders?, contains body: Data?, and method: HTTPMethod) throws -> URLRequest {
+    static func configureHTTPRequest(
+        from route: HTTPNetworkRoute,
+        with parameters: HTTPParameters?,
+        includes headers: HTTPHeaders?,
+        contains body: Data?,
+        and method: HTTPMethod
+    ) throws -> URLRequest {
         
         urlComponents.path = route.rawValue
         guard let url = urlComponents.url else {
@@ -35,7 +41,11 @@ struct HTTPNetworkRequest {
         return request
     }
     
-    static func configureParametersAndHeaders(parameters: HTTPParameters?, headers: HTTPHeaders?, request: inout URLRequest) throws {
+    static func configureParametersAndHeaders(
+        parameters: HTTPParameters?,
+        headers: HTTPHeaders?,
+        request: inout URLRequest
+    ) throws {
         do {
             if let headers = headers {
                 try URLEncoder.setHeaders(for: &request, with: headers)

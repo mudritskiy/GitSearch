@@ -10,14 +10,22 @@ import UIKit
 
 extension UIView {
 
-    func roundCorners(cornerRadius: Double, cornerMask: CACornerMask) {
+    func roundCorners(
+        cornerRadius: Double,
+        cornerMask: CACornerMask
+    ) {
         self.layer.cornerRadius = CGFloat(cornerRadius)
         self.layer.maskedCorners = cornerMask
     }
     
-    func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?,
-                padding: UIEdgeInsets = UIEdgeInsets.zero,
-                size: CGSize = CGSize.zero) {
+    func anchor(
+        top: NSLayoutYAxisAnchor? = nil,
+        leading: NSLayoutXAxisAnchor? = nil,
+        bottom: NSLayoutYAxisAnchor? = nil,
+        trailing: NSLayoutXAxisAnchor? = nil,
+        padding: UIEdgeInsets = UIEdgeInsets.zero,
+        size: CGSize = CGSize.zero
+    ) {
         
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -55,7 +63,6 @@ extension UIView {
             topAnchor.constraint(equalTo: layoutGuide.topAnchor),
             trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
             bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
-            ])
+        ])
     }
-
 }

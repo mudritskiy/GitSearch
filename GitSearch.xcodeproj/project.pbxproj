@@ -16,7 +16,7 @@
 		6F57E0ED2313E5D0002A6E3D /* URLEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F57E0EC2313E5D0002A6E3D /* URLEncoder.swift */; };
 		6F5969BF23B37B7B0077F900 /* CustomDateJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5969BE23B37B7B0077F900 /* CustomDateJSON.swift */; };
 		6F6B9A63233F63B6009A7E3C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F6B9A65233F63B6009A7E3C /* Localizable.strings */; };
-		6F6B9A71233F6AF7009A7E3C /* SearchUserAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6B9A70233F6AF7009A7E3C /* SearchUserAlerts.swift */; };
+		6F6B9A71233F6AF7009A7E3C /* AlertControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6B9A70233F6AF7009A7E3C /* AlertControllerFactory.swift */; };
 		6F777FEB24262FC5008540CD /* CellTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F777FEA24262FC5008540CD /* CellTile.swift */; };
 		6F80282E23B277BD002F13A5 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F80282D23B277BD002F13A5 /* DateFormatter+.swift */; };
 		6F954CD1230DD67C0034E110 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F954CD0230DD67C0034E110 /* Constants.swift */; };
@@ -25,7 +25,6 @@
 		6F9C6B6522A70BC1001D9A83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F9C6B6422A70BC1001D9A83 /* Assets.xcassets */; };
 		6FAEBC7722F4F1AB00B2414D /* SearchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */; };
 		6FAEBC7922F4F1E100B2414D /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAEBC7822F4F1E100B2414D /* SearchItem.swift */; };
-		6FAEBC7B22F4F33800B2414D /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAEBC7A22F4F33800B2414D /* SpinnerViewController.swift */; };
 		6FAEBC7F22F4F46100B2414D /* PaddedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAEBC7E22F4F46100B2414D /* PaddedText.swift */; };
 		6FAEBC8222F4F55600B2414D /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAEBC8122F4F55600B2414D /* SearchResultCell.swift */; };
 		6FAEBC8522F4F64F00B2414D /* RepoInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAEBC8422F4F64F00B2414D /* RepoInfoCell.swift */; };
@@ -38,6 +37,7 @@
 		6FD498F2235AF0DA0004816C /* UIView+Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD498F1235AF0DA0004816C /* UIView+Misc.swift */; };
 		6FF7724E2309533100D71AA0 /* RepoInfoDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7724D2309533100D71AA0 /* RepoInfoDescriptionCell.swift */; };
 		6FF77250230988D900D71AA0 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7724F230988D900D71AA0 /* PaddedLabel.swift */; };
+		FEFD787B27EF0844008C9829 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFD787A27EF0844008C9829 /* Strings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,7 +50,7 @@
 		6F57E0EC2313E5D0002A6E3D /* URLEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLEncoder.swift; sourceTree = "<group>"; };
 		6F5969BE23B37B7B0077F900 /* CustomDateJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateJSON.swift; sourceTree = "<group>"; };
 		6F6B9A64233F63B6009A7E3C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6F6B9A70233F6AF7009A7E3C /* SearchUserAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserAlerts.swift; sourceTree = "<group>"; };
+		6F6B9A70233F6AF7009A7E3C /* AlertControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerFactory.swift; sourceTree = "<group>"; };
 		6F777FEA24262FC5008540CD /* CellTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellTile.swift; sourceTree = "<group>"; };
 		6F80282D23B277BD002F13A5 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
 		6F954CD0230DD67C0034E110 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -61,7 +61,6 @@
 		6F9C6B6922A70BC1001D9A83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInfo.swift; sourceTree = "<group>"; };
 		6FAEBC7822F4F1E100B2414D /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
-		6FAEBC7A22F4F33800B2414D /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpinnerViewController.swift; path = ../../Models/SpinnerViewController.swift; sourceTree = "<group>"; };
 		6FAEBC7E22F4F46100B2414D /* PaddedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PaddedText.swift; path = ../Models/PaddedText.swift; sourceTree = "<group>"; };
 		6FAEBC8122F4F55600B2414D /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		6FAEBC8422F4F64F00B2414D /* RepoInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoInfoCell.swift; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		6FD498F1235AF0DA0004816C /* UIView+Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Misc.swift"; sourceTree = "<group>"; };
 		6FF7724D2309533100D71AA0 /* RepoInfoDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoInfoDescriptionCell.swift; sourceTree = "<group>"; };
 		6FF7724F230988D900D71AA0 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PaddedLabel.swift; path = ../Models/PaddedLabel.swift; sourceTree = "<group>"; };
+		FEFD787A27EF0844008C9829 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				6F9C6B5D22A70BBC001D9A83 /* AppDelegate.swift */,
+				6F6B9A70233F6AF7009A7E3C /* AlertControllerFactory.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -197,8 +198,6 @@
 			children = (
 				6F121EBC22CDA95C001E24CD /* SearchController.swift */,
 				6FCF091523409F43009314F1 /* SearchControllerView.swift */,
-				6F6B9A70233F6AF7009A7E3C /* SearchUserAlerts.swift */,
-				6FAEBC7A22F4F33800B2414D /* SpinnerViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -234,6 +233,7 @@
 				6FAEBC7E22F4F46100B2414D /* PaddedText.swift */,
 				6FF7724F230988D900D71AA0 /* PaddedLabel.swift */,
 				6F777FEA24262FC5008540CD /* CellTile.swift */,
+				FEFD787A27EF0844008C9829 /* Strings.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -329,9 +329,9 @@
 				6FD2B0532315838C00E850C6 /* HTTPMethod.swift in Sources */,
 				6F5969BF23B37B7B0077F900 /* CustomDateJSON.swift in Sources */,
 				6FAEBC7922F4F1E100B2414D /* SearchItem.swift in Sources */,
-				6FAEBC7B22F4F33800B2414D /* SpinnerViewController.swift in Sources */,
 				6FC367CC249818B8005A9F62 /* UIViewController+.swift in Sources */,
-				6F6B9A71233F6AF7009A7E3C /* SearchUserAlerts.swift in Sources */,
+				6F6B9A71233F6AF7009A7E3C /* AlertControllerFactory.swift in Sources */,
+				FEFD787B27EF0844008C9829 /* Strings.swift in Sources */,
 				6F121EBD22CDA95C001E24CD /* SearchController.swift in Sources */,
 				6FF77250230988D900D71AA0 /* PaddedLabel.swift in Sources */,
 				6FD498F2235AF0DA0004816C /* UIView+Misc.swift in Sources */,
@@ -401,6 +401,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
