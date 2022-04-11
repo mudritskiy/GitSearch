@@ -13,7 +13,7 @@ extension UIViewController {
     var spinnerTag: Int { return 999 }
     
     func addSpinner(
-        style: UIActivityIndicatorView.Style = .gray,
+        style: UIActivityIndicatorView.Style = .medium,
         location: CGPoint? = nil
     ) {
         

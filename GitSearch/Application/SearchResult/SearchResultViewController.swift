@@ -42,7 +42,7 @@ final class SearchResultViewController: UICollectionViewController, UICollection
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: defaultReuseId, for: indexPath) as! SearchResultCell
         let item = items[indexPath.row]
-        cell.fillInfo(for: item, isLast: items.count == indexPath.row)
+        cell.setup(with: item)
         return cell
     }
     
