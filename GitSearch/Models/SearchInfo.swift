@@ -9,7 +9,8 @@
 import Foundation
 
 class SearchInfo: Decodable {
-    let total_count: Int
-    let incomplete_results: Bool
     let items: Array<SearchItem>?
+    let incomplete_results: Bool
+
+    var isEmpty: Bool { items?.isEmpty ?? true }
 }

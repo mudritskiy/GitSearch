@@ -128,6 +128,13 @@ public enum StringsLocalized {
             value: "updated",
             comment: "repo's updated at"
         )
+        public static let pushed = NSLocalizedString(
+            "search-item.pushed",
+            tableName: nil,
+            bundle: .main,
+            value: "pushed",
+            comment: "repo's pushed at"
+        )
         public static let language = NSLocalizedString(
             "search-item.language",
             tableName: nil,

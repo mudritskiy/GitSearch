@@ -10,7 +10,7 @@ import UIKit
 
 class RepoInfoDescriptionCell: UITableViewCell {
     
-    let propertyValue: UILabel = {
+    private let _propertyValue: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 13)
@@ -26,7 +26,8 @@ class RepoInfoDescriptionCell: UITableViewCell {
         view.layer.cornerRadius = 5
         return view
     }()
-    
+
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         _setupSubviews()
@@ -36,18 +37,19 @@ class RepoInfoDescriptionCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Views Configuration
     private func _setupSubviews() {
         contentView.addSubview(_cellBackground)
-        contentView.addSubview(propertyValue)
+        contentView.addSubview(_propertyValue)
 
         let borderSize: CGFloat = 25
         let backgroundSize: CGFloat = 10
 
         NSLayoutConstraint.activate([
-            propertyValue.topAnchor.constraint(equalTo: contentView.topAnchor, constant: borderSize),
-            propertyValue.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize),
-            propertyValue.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize),
-            propertyValue.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -backgroundSize),
+            _propertyValue.topAnchor.constraint(equalTo: contentView.topAnchor, constant: borderSize),
+            _propertyValue.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize),
+            _propertyValue.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize),
+            _propertyValue.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -backgroundSize),
 
             _cellBackground.topAnchor.constraint(equalTo: contentView.topAnchor, constant: borderSize-backgroundSize),
             _cellBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize-backgroundSize),
@@ -56,4 +58,8 @@ class RepoInfoDescriptionCell: UITableViewCell {
         ])
     }
 
+    // MARK: - Setup
+    func setup(with item: RepoField) {
+        _propertyValue.text = item.value
+    }
 }

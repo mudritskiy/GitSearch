@@ -8,48 +8,60 @@
 
 import Foundation
 
+enum QuerySortItem: String {
+    case stars
+    case forks
+    case updated
+    case helpWantedIssues = "help-wanted-issues"
+    case `default` = ""
+}
+
+enum QueryOrder: String {
+    case desc
+    case asc
+}
+
 struct SearchServices{
+    typealias RequestResultHandler = (Result<SearchInfo, HTTPNetworkError>) -> ()
     
     static let shared = SearchServices()
     
-    let searchSession = URLSession(configuration: .default)
+    private let searchSession = URLSession(configuration: .default)
     
     func getRepositories(
         keysSequence: String,
-        _ completion: @escaping (Result<SearchInfo, HTTPNetworkError>) -> ()
+        _ completion: @escaping RequestResultHandler
     ) {
-
-        let parameters = [
-            "q": keysSequence,
-            "sort": "stars",
-            "order": "desc"
-        ]
+        let requestData = RepositoriesRequest(
+            keyWords: keysSequence,
+            sort: .stars
+        )
 
         do {
             let request = try HTTPNetworkRequest.configureHTTPRequest(
-                from: .searchRepositories,
-                with: parameters,
-                includes: nil,
-                contains: nil,
-                and: .get
+                from: requestData.path,
+                with: requestData.queryItems(),
+                and: requestData.method
             )
             let task = searchSession.dataTask(with: request) { (data, res, err) in
-                if let response = res as? HTTPURLResponse, let data = data {
-                    let result = HTTPNetworkResponse.handleNetworkResponse(for: response)
-                    switch result {
-                        case .success:
-                            let decoder = JSONDecoder()
-                            let result = try? decoder.decode(SearchInfo.self, from: data)
-                            completion(Result.success(result!))
-                        case .failure(let err):
-                            completion(Result.failure(err))
-                    }
+                guard let response = res as? HTTPURLResponse, let data = data else {
+                    completion(.failure(.badRequest))
+                    return
+                }
+                let result = HTTPNetworkResponse.handleNetworkResponse(for: response)
+                switch result {
+                    case .success:
+                        let decoder = JSONDecoder()
+                        let result = try? decoder.decode(SearchInfo.self, from: data)
+                        completion(.success(result!))
+                    case .failure(let err):
+                        completion(.failure(err))
                 }
             }
             task.resume()
             
         } catch {
-            completion(Result.failure(HTTPNetworkError.badRequest))
+            completion(.failure(.badRequest))
         }
     }
 }

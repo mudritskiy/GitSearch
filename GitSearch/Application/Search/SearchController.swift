@@ -64,7 +64,7 @@ final class SearchController: UIViewController, UITextFieldDelegate, SearchContr
     }
 
     // MARK: - SearchControllerViewDelegate
-    func processInputKeywords(keysSequence: String?) {
+    public func processInputKeywords(keysSequence: String?) {
         guard let keysSequence = keysSequence else {
             _presentAlert(alert: .noKeyword)
             return
@@ -77,7 +77,7 @@ final class SearchController: UIViewController, UITextFieldDelegate, SearchContr
                 self.removeSpinner()
                 switch res {
                     case let .success(gitRep):
-                        guard gitRep.total_count != 0 else {
+                        guard !gitRep.isEmpty else {
                             self._presentAlert(alert: .noDataFound)
                             return
                         }

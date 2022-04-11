@@ -21,7 +21,7 @@ final class SearchControllerView: UIView, UITextFieldDelegate {
         font: .boldSystemFont(ofSize: 34),
         aligment: .right,
         backgroundColor: .mainTitle,
-        cornerRadius: Double(Constants.commonHalfHeight),
+        cornerRadius: Double(Constants.Size.commonHalfHeight),
         cornerMask: [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMinXMaxYCorner]
     )
 
@@ -29,7 +29,7 @@ final class SearchControllerView: UIView, UITextFieldDelegate {
         StringsLocalized.MainScreen.labelSearch,
         font: .boldSystemFont(ofSize: 34),
         backgroundColor: .secondaryTitle,
-        cornerRadius: Double(Constants.commonHalfHeight),
+        cornerRadius: Double(Constants.Size.commonHalfHeight),
         cornerMask: [CACornerMask.layerMaxXMinYCorner, CACornerMask.layerMaxXMaxYCorner]
     )
 
@@ -79,13 +79,18 @@ final class SearchControllerView: UIView, UITextFieldDelegate {
         guard let superview = superview else { return }
         self.anchor(to: superview.safeAreaLayoutGuide)
         
-        let commonSize: CGSize = .init(width: 0, height: Constants.commonHeight)
+        let commonSize: CGSize = .init(width: 0, height: Constants.Size.commonHeight)
 
         _labelGit.widthAnchor.constraint(equalTo: superview.widthAnchor, multiplier: 0.3).isActive = true
         _labelGit.anchor(
             top: safeAreaLayoutGuide.topAnchor,
             leading: safeAreaLayoutGuide.leadingAnchor,
-            padding: .init(top: 50, left: Constants.commonHeight, bottom: 0, right: 0),
+            padding: .init(
+                top: 50,
+                left: Constants.Size.commonHeight,
+                bottom: 0,
+                right: 0
+            ),
             size: commonSize
         )
         
@@ -93,7 +98,12 @@ final class SearchControllerView: UIView, UITextFieldDelegate {
             top: _labelGit.topAnchor,
             leading: _labelGit.trailingAnchor,
             trailing: safeAreaLayoutGuide.trailingAnchor,
-            padding: .init(top: 0, left: 1, bottom: 0, right: -Constants.commonHeight),
+            padding: .init(
+                top: 0,
+                left: 1,
+                bottom: 0,
+                right: -Constants.Size.commonHeight
+            ),
             size: commonSize
         )
         
@@ -101,14 +111,24 @@ final class SearchControllerView: UIView, UITextFieldDelegate {
             top: _labelGit.bottomAnchor,
             leading: safeAreaLayoutGuide.leadingAnchor,
             trailing: safeAreaLayoutGuide.trailingAnchor,
-            padding: .init(top: Constants.commonHeight, left: Constants.commonHeight, bottom: 0, right: -Constants.commonHeight)
+            padding: .init(
+                top: Constants.Size.commonHeight,
+                left: Constants.Size.commonHeight,
+                bottom: 0,
+                right: -Constants.Size.commonHeight
+            )
         )
         
         _inputText.anchor(
             top: _labelAbout.bottomAnchor,
             leading: safeAreaLayoutGuide.leadingAnchor,
             trailing: safeAreaLayoutGuide.trailingAnchor,
-            padding: .init(top: Constants.commonHeight, left: Constants.commonHeight, bottom: 0, right: -Constants.commonHeight),
+            padding: .init(
+                top: Constants.Size.commonHeight,
+                left: Constants.Size.commonHeight,
+                bottom: 0,
+                right: -Constants.Size.commonHeight
+            ),
             size: commonSize
         )
         

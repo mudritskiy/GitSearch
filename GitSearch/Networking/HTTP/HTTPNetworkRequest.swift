@@ -23,8 +23,8 @@ struct HTTPNetworkRequest {
     static func configureHTTPRequest(
         from route: HTTPNetworkRoute,
         with parameters: HTTPParameters?,
-        includes headers: HTTPHeaders?,
-        contains body: Data?,
+        includes headers: HTTPHeaders? = nil,
+        contains body: Data? = nil,
         and method: HTTPMethod
     ) throws -> URLRequest {
         

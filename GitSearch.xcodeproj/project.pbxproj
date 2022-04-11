@@ -37,6 +37,8 @@
 		6FD498F2235AF0DA0004816C /* UIView+Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD498F1235AF0DA0004816C /* UIView+Misc.swift */; };
 		6FF7724E2309533100D71AA0 /* RepoInfoDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7724D2309533100D71AA0 /* RepoInfoDescriptionCell.swift */; };
 		6FF77250230988D900D71AA0 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7724F230988D900D71AA0 /* PaddedLabel.swift */; };
+		FE26ABA42801856A008E5E52 /* RepositoriesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE26ABA32801856A008E5E52 /* RepositoriesRequest.swift */; };
+		FE26ABAC28041535008E5E52 /* RepoField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE26ABAB28041535008E5E52 /* RepoField.swift */; };
 		FEFD787B27EF0844008C9829 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFD787A27EF0844008C9829 /* Strings.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,7 +63,7 @@
 		6F9C6B6922A70BC1001D9A83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInfo.swift; sourceTree = "<group>"; };
 		6FAEBC7822F4F1E100B2414D /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
-		6FAEBC7E22F4F46100B2414D /* PaddedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PaddedText.swift; path = ../Models/PaddedText.swift; sourceTree = "<group>"; };
+		6FAEBC7E22F4F46100B2414D /* PaddedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedText.swift; sourceTree = "<group>"; };
 		6FAEBC8122F4F55600B2414D /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		6FAEBC8422F4F64F00B2414D /* RepoInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoInfoCell.swift; sourceTree = "<group>"; };
 		6FC367CB249818B8005A9F62 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -72,7 +74,9 @@
 		6FD2B0522315838C00E850C6 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		6FD498F1235AF0DA0004816C /* UIView+Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Misc.swift"; sourceTree = "<group>"; };
 		6FF7724D2309533100D71AA0 /* RepoInfoDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoInfoDescriptionCell.swift; sourceTree = "<group>"; };
-		6FF7724F230988D900D71AA0 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PaddedLabel.swift; path = ../Models/PaddedLabel.swift; sourceTree = "<group>"; };
+		6FF7724F230988D900D71AA0 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
+		FE26ABA32801856A008E5E52 /* RepositoriesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoriesRequest.swift; sourceTree = "<group>"; };
+		FE26ABAB28041535008E5E52 /* RepoField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoField.swift; sourceTree = "<group>"; };
 		FEFD787A27EF0844008C9829 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +97,7 @@
 				6F57E0EB2313E5A5002A6E3D /* Encoding */,
 				6F57E0E52313C072002A6E3D /* HTTP */,
 				6F57E0E82313E454002A6E3D /* Service */,
+				FE26ABA228018528008E5E52 /* Requests */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			children = (
 				6F57E0E42313BE47002A6E3D /* Networking */,
 				6FD498F0235AF0A10004816C /* Helper */,
+				FE26ABA72802A817008E5E52 /* Design */,
 				6FAEBC7522F4F14500B2414D /* Models */,
 				6FAEBC7422F4F13200B2414D /* Application */,
 				6F6B9A60233F60A2009A7E3C /* Localization */,
@@ -180,6 +186,7 @@
 			children = (
 				6FAEBC7622F4F1AB00B2414D /* SearchInfo.swift */,
 				6FAEBC7822F4F1E100B2414D /* SearchItem.swift */,
+				FE26ABAB28041535008E5E52 /* RepoField.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -196,6 +203,7 @@
 		6FAEBC7D22F4F41000B2414D /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				FE26ABA62802A7E3008E5E52 /* Element */,
 				6F121EBC22CDA95C001E24CD /* SearchController.swift */,
 				6FCF091523409F43009314F1 /* SearchControllerView.swift */,
 			);
@@ -205,6 +213,7 @@
 		6FAEBC8022F4F4F700B2414D /* SearchResult */ = {
 			isa = PBXGroup;
 			children = (
+				FE26ABA52802A7D1008E5E52 /* Element */,
 				6F9C6B5F22A70BBC001D9A83 /* SearchResultViewController.swift */,
 				6FAEBC8122F4F55600B2414D /* SearchResultCell.swift */,
 			);
@@ -226,16 +235,45 @@
 			children = (
 				6FD498F1235AF0DA0004816C /* UIView+Misc.swift */,
 				6FC367CB249818B8005A9F62 /* UIViewController+.swift */,
-				6F954CD0230DD67C0034E110 /* Constants.swift */,
-				6F51DF592326E1D600D6605A /* ColorScheme.swift */,
 				6F80282D23B277BD002F13A5 /* DateFormatter+.swift */,
 				6F5969BE23B37B7B0077F900 /* CustomDateJSON.swift */,
-				6FAEBC7E22F4F46100B2414D /* PaddedText.swift */,
-				6FF7724F230988D900D71AA0 /* PaddedLabel.swift */,
-				6F777FEA24262FC5008540CD /* CellTile.swift */,
 				FEFD787A27EF0844008C9829 /* Strings.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		FE26ABA228018528008E5E52 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				FE26ABA32801856A008E5E52 /* RepositoriesRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		FE26ABA52802A7D1008E5E52 /* Element */ = {
+			isa = PBXGroup;
+			children = (
+				6F777FEA24262FC5008540CD /* CellTile.swift */,
+			);
+			path = Element;
+			sourceTree = "<group>";
+		};
+		FE26ABA62802A7E3008E5E52 /* Element */ = {
+			isa = PBXGroup;
+			children = (
+				6FAEBC7E22F4F46100B2414D /* PaddedText.swift */,
+				6FF7724F230988D900D71AA0 /* PaddedLabel.swift */,
+			);
+			path = Element;
+			sourceTree = "<group>";
+		};
+		FE26ABA72802A817008E5E52 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				6F954CD0230DD67C0034E110 /* Constants.swift */,
+				6F51DF592326E1D600D6605A /* ColorScheme.swift */,
+			);
+			path = Design;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,6 +354,7 @@
 				6F51DF5A2326E1D600D6605A /* ColorScheme.swift in Sources */,
 				6FF7724E2309533100D71AA0 /* RepoInfoDescriptionCell.swift in Sources */,
 				6F777FEB24262FC5008540CD /* CellTile.swift in Sources */,
+				FE26ABAC28041535008E5E52 /* RepoField.swift in Sources */,
 				6F9C6B6022A70BBC001D9A83 /* SearchResultViewController.swift in Sources */,
 				6F121EBB22CD0BCC001E24CD /* RepoInfoViewController.swift in Sources */,
 				6FD2B04B23157DF700E850C6 /* HTTPNetworkResponse.swift in Sources */,
@@ -337,6 +376,7 @@
 				6FD498F2235AF0DA0004816C /* UIView+Misc.swift in Sources */,
 				6FAEBC8222F4F55600B2414D /* SearchResultCell.swift in Sources */,
 				6F954CD1230DD67C0034E110 /* Constants.swift in Sources */,
+				FE26ABA42801856A008E5E52 /* RepositoriesRequest.swift in Sources */,
 				6FCF091623409F43009314F1 /* SearchControllerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,6 +531,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T7TFFKRN7V;
 				INFOPLIST_FILE = GitSearch/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -509,6 +550,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T7TFFKRN7V;
 				INFOPLIST_FILE = GitSearch/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

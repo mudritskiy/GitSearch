@@ -9,8 +9,16 @@
 import UIKit
 
 class RepoInfoCell: UITableViewCell {
-    
-    let title: UILabel = {
+
+    private let _contentStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 5
+        return stack
+    }()
+
+    private let _title: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 13)
@@ -18,7 +26,7 @@ class RepoInfoCell: UITableViewCell {
         return label
     }()
     
-    let propertyValue: UILabel = {
+    private let _propertyValue: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
@@ -32,7 +40,8 @@ class RepoInfoCell: UITableViewCell {
         view.backgroundColor = #colorLiteral(red: 0.8823529412, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
         return view
         }()
-    
+
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         _setupSubviews()
@@ -42,29 +51,26 @@ class RepoInfoCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - View Configuration
     private func _setupSubviews() {
-        contentView.addSubview(title)
-        contentView.addSubview(propertyValue)
-        contentView.addSubview(_separator)
+        self.addSubview(_contentStackView)
+        _contentStackView.addArrangedSubview(_title)
+        _contentStackView.addArrangedSubview(_propertyValue)
+        _contentStackView.addArrangedSubview(_separator)
 
-        let borderSize: CGFloat = 25
-        let borderSizeShift: CGFloat = 5
-        let separatorHeight: CGFloat = 1
-
-        NSLayoutConstraint.activate([
-            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize + borderSizeShift),
-            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize*2),
-
-            propertyValue.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
-            propertyValue.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize),
-            propertyValue.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize*2),
-            propertyValue.bottomAnchor.constraint(equalTo: _separator.topAnchor),
-
-            _separator.heightAnchor.constraint(equalToConstant: separatorHeight),
-            _separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: borderSize - borderSizeShift),
-            _separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -borderSize*2),
-            _separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
-        ])
+        _contentStackView.anchor(
+            top: self.topAnchor,
+            leading: self.leadingAnchor,
+            bottom: self.bottomAnchor,
+            trailing: self.trailingAnchor,
+            padding: .init(top: 15, left: 25, bottom: -10, right: -25)
+        )
+        _separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
- }
+
+    // MARK: - Setup Cell
+    func setup(with item: RepoField) {
+        _title.text = item.name.localized
+        _propertyValue.text = item.value
+    }
+}
